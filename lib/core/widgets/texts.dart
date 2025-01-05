@@ -107,6 +107,7 @@ class OnboardingSubtitleText extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class GlobalText extends StatelessWidget {
   final String text;
   final TextStyle? style;

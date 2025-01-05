@@ -11,7 +11,7 @@ class GlobalErrorHandler {
   static handleError(Object error) {
     String errorMessage =  'An unknown error occurred.';
 
-    if (error is DioError) {
+    if (error is DioException) {
       // Handling Dio errors
       switch (error.type) {
         case DioExceptionType.connectionTimeout:

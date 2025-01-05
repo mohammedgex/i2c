@@ -8,13 +8,13 @@ class CustomRatingBar extends StatelessWidget {
   final double iconSize; // Size of the stars/icons
 
   const CustomRatingBar({
-    Key? key,
+    super.key,
     required this.rating,
     this.maxRating = 5,
     this.filledColor = Colors.amber,
     this.unfilledColor = Colors.grey,
     this.iconSize = 24.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

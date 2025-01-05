@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/features/home/view/home_screen.dart';
 import '../../../core/colors/app_colors.dart';
 import '../controller/bottom_nav_bar_controller.dart';

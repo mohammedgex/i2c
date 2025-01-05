@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
+import 'package:skill_grow/features/search/view/search_detals.dart';
+import 'package:skill_grow/features/search/view/search_view.dart';
 
-import 'package:skill_grow/features/onboarding/view/onboarding_screen.dart';
 
 void main() {
    FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
   };
-  
+
   runApp(const MyApp());
 }
 
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home:  PersistentBottomNavBar(),
+          home:  SearchDetalsView(),
         );
       },
     );

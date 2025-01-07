@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
@@ -45,44 +46,84 @@ class SearchDetalsView extends StatelessWidget {
                     color: AppColors.nuralItemBackgroundColor,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(5.sp),
+                    padding: EdgeInsets.all(3.sp),
                     child: Row(
                       children: [
                         Container(
-                          height: 100.sp,
-                          width: 150.sp,
+                          height: 80.sp,
+                          width: 103.sp,
                           decoration: BoxDecoration(),
-                          child: Image.asset(AppImage.image1),
+                          child: Image.asset(
+                            AppImage.image1,
+                            // fit: BoxFit.cover,
+                          ),
                         ),
                         horizontalGap(10.sp),
                         SizedBox(
+                          width: 235.w,
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               GlobalText(
                                 text:
                                     'Master Laravel 11 & PHP: From Beginner to Advanced',
                                 style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w600,
                                     color: AppColors.titleTextColor),
                                 softWrap: true,
-                                overflow: TextOverflow.ellipsis,
                               ),
-                              verticalGap(5.sp),
+                              verticalGap(3.sp),
                               GlobalText(
-                                text:
-                                    'Master Laravel 11 & PHP: From Beginner to Advanced',
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.titleTextColor),
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
+                                  text: 'Web Solution Us | 1000+ Students',
+                                  style: TextStyle(
+                                      fontSize: 10.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.titleTextColor),
+                                  softWrap: true),
+                              verticalGap(2.sp),
+                              Row(
+                                children: [
+                                  CustomRatingBar(
+                                    rating: 3.5,
+                                    maxRating: 5,
+                                    iconSize: 15.sp,
+                                    filledColor: AppColors.activeIconColor,
+                                    unfilledColor: AppColors.activeIconColor,
+                                  ),
+                                  Spacer(),
+                                  Row(
+                                    children: [
+                                      GlobalText(
+                                        text: '100',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.titleTextColor),
+                                        softWrap: true,
+                                      ),
+                                      horizontalGap(3.sp),
+                                      GlobalText(
+                                        text: r'$50',
+                                        style: TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.titleTextColor),
+                                        softWrap: true,
+                                      ),
+                                      horizontalGap(5.sp),
+                                    ],
+                                  )
+                                ],
                               ),
-                              verticalGap(5.sp),
                             ],
                           ),
-                        )
+                        ),
                       ],
                     ),
                   )),

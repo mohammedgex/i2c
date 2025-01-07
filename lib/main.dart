@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skill_grow/features/course/view/course_details.dart';
 import 'package:skill_grow/features/search/view/search_detals.dart';
 import 'package:skill_grow/features/search/view/search_view.dart';
 
-
 void main() {
-   FlutterError.onError = (FlutterErrorDetails details) {
+  FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
   };
 
@@ -29,10 +29,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home:  SearchDetalsView(),
+          home: CourseDetailsView(),
         );
       },
     );
   }
 }
-

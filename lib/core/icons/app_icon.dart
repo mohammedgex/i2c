@@ -24,4 +24,11 @@ class AppIcon {
   static String uiIcon = "assets/icons/ui.svg";
   static String uxIcon = "assets/icons/ux.svg";
   static String photographyIcon = "assets/icons/photography.svg";
+
+  static String certificate = "assets/icons/certificate.svg";
+  static String date = "assets/icons/date.svg";
+  static String duration = "assets/icons/duration.svg";
+  static String language = "assets/icons/language.svg";
+  static String lecture = "assets/icons/lecture.svg";
+  static String quiz = "assets/icons/quiz.svg";
 }

@@ -1,39 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:skill_grow/core/constant/constant.dart';
-import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 
 class OverviewItem extends StatelessWidget {
-  const OverviewItem({super.key});
+  final String title;
+  final String value;
+  final String icon;
+  const OverviewItem({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-            height: 13.sp, width: 13.sp, child: SvgPicture.asset(AppIcon.date)),
-        horizontalGap(5.sp),
-        GlobalText(
-          softWrap: true,
-          text: "Last updated",
-          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-        ),
-        horizontalGap(3.sp),
-        GlobalText(
-          text: ":",
-          softWrap: true,
-          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-        ),
-        horizontalGap(3.sp),
-        GlobalText(
-          text: "11/2024",
-          softWrap: true,
-          style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
-        ),
-        horizontalGap(3.sp),
-      ],
+    return Container(
+      padding: EdgeInsets.all(8.sp),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8.sp),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 5.sp,
+            spreadRadius: 1.sp,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: 24.sp,
+            width: 24.sp,
+            child: SvgPicture.asset(icon),
+          ),
+          SizedBox(height: 5.sp),
+          GlobalText(
+            text: title,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 12.sp,
+              
+            ),
+            softWrap: true,
+          ),
+          SizedBox(height: 2.sp),
+          GlobalText(
+            text: value,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12.sp,
+              color: Colors.blueAccent,
+            ), softWrap: true,
+          ),
+        ],
+      ),
     );
   }
 }

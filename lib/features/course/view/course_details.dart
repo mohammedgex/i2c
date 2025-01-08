@@ -1,115 +1,233 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
+import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
-import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
-import 'package:skill_grow/features/course/widget/overview_item.dart';
+import 'package:skill_grow/features/course/widget/toggle_widget.dart';
 
 class CourseDetailsView extends StatelessWidget {
   const CourseDetailsView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> overviewItems = [
+      {"title": "Last Update", "value": "11/2024", "icon": AppIcon.date},
+      {"title": "Duration", "value": "1h 30m", "icon": AppIcon.duration},
+      {"title": "Certificate", "value": "Yes", "icon": AppIcon.certificate},
+      {"title": "Total Lectures", "value": "200", "icon": AppIcon.lecture},
+      {"title": "Quizzes", "value": "20", "icon": AppIcon.quiz},
+      {"title": "Language", "value": "English", "icon": AppIcon.language},
+    ];
+
     return Scaffold(
       body: ColorfulSafeArea(
         color: Colors.transparent,
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.sp),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyCustomAppBar(
-                horizontalPadding: 0,
-                verticalPadding: 0,
-                isShowbackButton: true,
-              ),
-              verticalGap(10.sp),
-              Container(
-                width: double.infinity,
-                height: 200.sp,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
-                  borderRadius: BorderRadius.circular(10.sp),
+          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyCustomAppBar(
+                  horizontalPadding: 0,
+                  verticalPadding: 0,
+                  isShowbackButton: true,
                 ),
-              ),
-              verticalGap(10.sp),
-              GlobalText(
-                text: "Master Laravel 11 & PHP: From Beginner to Advanced",
-                softWrap: true,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
-              ),
-              verticalGap(5.sp),
-              RichText(
-                text: TextSpan(
-                  text: "Created by ",
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.smallTextColor,
+                verticalGap(10.sp),
+                Container(
+                  width: double.infinity,
+                  height: 200.sp,
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(10.sp),
                   ),
+                ),
+                verticalGap(10.sp),
+                GlobalText(
+                  text: "Master Laravel 11 & PHP: From Beginner to Advanced",
+                  softWrap: true,
+                  style:
+                      TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+                ),
+                verticalGap(5.sp),
+                RichText(
+                  text: TextSpan(
+                    text: "Created by ",
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.smallTextColor,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: "Web Solution US",
+                        style: TextStyle(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                verticalGap(7.sp),
+                Row(
                   children: [
-                    TextSpan(
-                      text: "Web Solution US",
+                    CustomRatingBar(
+                      rating: 2.5,
+                      maxRating: 5,
+                      iconSize: 15.sp,
+                      filledColor: AppColors.primaryColor,
+                      unfilledColor: AppColors.activeIconColor,
+                    ),
+                    horizontalGap(3.sp),
+                    GlobalText(
+                      text: "(500) | 200 Students",
                       style: TextStyle(
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.primaryColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.smallTextColor,
+                      ),
+                      softWrap: true,
+                    ),
+                  ],
+                ),
+                verticalGap(10.sp),
+                // Container(
+                //   width: double.infinity,
+                //   height: 220.sp, // Adjust as needed
+                //   decoration: BoxDecoration(
+                //     color: AppColors.primaryColor,
+                //     borderRadius: BorderRadius.circular(10.sp),
+                //   ),
+                //   child: GridView.builder(
+                //     itemCount: overviewItems.length,
+                //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //       crossAxisCount: ScreenUtil().screenWidth > 600 ? 4 : 3,
+                //       crossAxisSpacing: 10.sp,
+                //       mainAxisSpacing: 10.sp,
+                //       childAspectRatio: 1.1,
+                //     ),
+                //     padding: EdgeInsets.all(10.sp),
+                //     physics: NeverScrollableScrollPhysics(),
+                //     itemBuilder: (context, index) {
+                //       final item = overviewItems[index];
+                //       return OverviewItem(
+                //         title: item['title']!,
+                //         value: item['value']!,
+                //         icon: item['icon']!,
+                //       );
+                //     },
+                //   ),
+                // ),
+                // verticalGap(10.sp),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 80.sp,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.sp),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GlobalText(
+                              text: "Price:",
+                              softWrap: true,
+                              style: TextStyle(
+                                  fontSize: 13.sp, fontWeight: FontWeight.w500),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                GlobalText(
+                                  text: r"$50",
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    fontSize: 25.sp,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                                horizontalGap(5.sp),
+                                GlobalText(
+                                  text: r"$100",
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w400,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    horizontalGap(10.sp),
+                    Expanded(
+                      child: Bounceable(
+                        onTap: () {},
+                        child: Container(
+                          height: 40.sp,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColors.primaryColor, width: 1.5.sp),
+                            borderRadius: BorderRadius.circular(5.sp),
+                          ),
+                          child: Center(
+                            child: GlobalText(
+                                text: "Add to Cart",
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: AppColors.primaryColor,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+                    horizontalGap(10.sp),
+                    Expanded(
+                      child: Bounceable(
+                        onTap: () {},
+                        child: Container(
+                          height: 40.sp,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(5.sp),
+                          ),
+                          child: Center(
+                            child: GlobalText(
+                                text: "Buy Now",
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                )),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              verticalGap(7.sp),
-              Row(
-                children: [
-                  CustomRatingBar(
-                    rating: 2.5,
-                    maxRating: 5,
-                    iconSize: 15.sp,
-                    filledColor: AppColors.primaryColor,
-                    unfilledColor: AppColors.activeIconColor,
-                  ),
-                  horizontalGap(3.sp),
-                  GlobalText(
-                    text: "(500) | 200 Students",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.smallTextColor,
-                    ),
-                    softWrap: true,
-                  ),
-                ],
-              ),
-              verticalGap(5.sp),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OverviewItem(),
-                  OverviewItem(),
-                ],
-              ),
-              verticalGap(10.sp),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OverviewItem(),
-                  OverviewItem(),
-                ],
-              ),
-              verticalGap(10.sp),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OverviewItem(),
-                  OverviewItem(),
-                ],
-              ),
-            ],
+                ToggleWidget(),
+              ],
+            ),
           ),
         ),
       ),

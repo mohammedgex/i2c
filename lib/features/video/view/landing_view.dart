@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
-import 'package:skill_grow/features/video/controller/resourse_toggle_controller.dart';
+import 'package:skill_grow/features/video/controller/state_controller.dart';
+import 'package:skill_grow/features/video/view/QNA_view.dart';
 import 'package:skill_grow/features/video/view/curriculum_view.dart';
 
 import '../../../core/constant/constant.dart';
@@ -178,7 +179,7 @@ class LandingViewForVideo extends StatelessWidget {
                       child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
+                      // color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(10.sp),
                     ),
                     child: CurriculumView(),
@@ -188,9 +189,9 @@ class LandingViewForVideo extends StatelessWidget {
                       child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: AppColors.textFieldBorderColor,
                       borderRadius: BorderRadius.circular(10.sp),
                     ),
+                    child: QNAView(),
                   ));
                 } else {
                   return Expanded(

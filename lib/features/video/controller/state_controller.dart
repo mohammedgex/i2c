@@ -8,3 +8,4 @@ class ResourseToggleController extends GetxController {
     selectedIndex(index);
   }
 }
+

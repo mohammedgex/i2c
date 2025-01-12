@@ -7,12 +7,16 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final TextInputType inputType;
+  final int minLines;
+  final int maxLines;
 
   const CustomTextField(
       {super.key,
       required this.controller,
       required this.hint,
-      required this.inputType});
+      required this.inputType,
+      this.minLines = 1,
+      this.maxLines = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,8 @@ class CustomTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.sp),
       ),
       child: TextField(
+        minLines: minLines,
+        maxLines: maxLines,
         decoration: InputDecoration(
           hintText: translatedText,
           hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),

@@ -6,7 +6,6 @@ import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import '../../../core/colors/app_colors.dart';
 import '../../../core/images/app_image.dart';
-import '../../../core/widgets/custom_rating_bar.dart';
 
 class LearingView extends StatelessWidget {
   const LearingView({super.key});
@@ -82,9 +81,14 @@ class LearingView extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width: 170.w,
-                                    child: LinearProgressIndicator(
-                                      minHeight: 10.sp,
-                                      value: 0.2,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(5.sp),
+                                      child: LinearProgressIndicator(
+                                        minHeight: 10.sp,
+                                        value: 0.7,
+                                        color: AppColors.primaryColor,
+                                        backgroundColor: Colors.grey.shade200,
+                                      ),
                                     ),
                                   ),
                                   horizontalGap(10.sp),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skill_grow/features/cart/view/cart_view.dart';
 import 'package:skill_grow/features/learining/view/learing_view.dart';
+import 'package:skill_grow/features/video/view/landing_view.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: LearingView(),
+          home: LandingViewForVideo(),
         );
       },
     );

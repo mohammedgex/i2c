@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class OverviewItem extends StatelessWidget {
   final String title;
@@ -15,7 +18,7 @@ class OverviewItem extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     return Container(
       padding: EdgeInsets.all(8.sp),
       decoration: BoxDecoration(
@@ -31,6 +34,9 @@ class OverviewItem extends StatelessWidget {
         ],
       ),
       child: Column(
+        textDirection: multiLangualDataController.isLTR.value
+            ? TextDirection.ltr
+            : TextDirection.rtl,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
@@ -44,7 +50,6 @@ class OverviewItem extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 12.sp,
-              
             ),
             softWrap: true,
           ),
@@ -55,7 +60,8 @@ class OverviewItem extends StatelessWidget {
               fontWeight: FontWeight.w600,
               fontSize: 12.sp,
               color: Colors.blueAccent,
-            ), softWrap: true,
+            ),
+            softWrap: true,
           ),
         ],
       ),

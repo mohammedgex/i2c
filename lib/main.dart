@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skill_grow/features/video/view/landing_view.dart';
+import 'package:get/get.dart';
+import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -21,13 +22,13 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
+        return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: LandingViewForVideo(),
+          home: CustomPersistentBottomNavBar(),
         );
       },
     );

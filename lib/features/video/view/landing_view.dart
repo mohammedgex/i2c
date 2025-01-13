@@ -9,14 +9,18 @@ import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/video/controller/state_controller.dart';
 import 'package:skill_grow/features/video/view/QNA_view.dart';
 import 'package:skill_grow/features/video/view/curriculum_view.dart';
+import 'package:skill_grow/features/video/view/more_view.dart';
 
 import '../../../core/constant/constant.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class LandingViewForVideo extends StatelessWidget {
   const LandingViewForVideo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     final ResourseToggleController controller =
         Get.put(ResourseToggleController());
 
@@ -27,6 +31,9 @@ class LandingViewForVideo extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.0.sp),
           child: Column(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -69,6 +76,9 @@ class LandingViewForVideo extends StatelessWidget {
                       borderRadius: BorderRadius.circular(7.sp),
                     ),
                     child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
                       children: [
                         Expanded(
                           child: Bounceable(
@@ -194,14 +204,7 @@ class LandingViewForVideo extends StatelessWidget {
                     child: QNAView(),
                   ));
                 } else {
-                  return Expanded(
-                      child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.mainRedColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                  ));
+                  return MoreView();
                 }
               })
             ],

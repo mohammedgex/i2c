@@ -10,6 +10,7 @@ import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/home/controller/fresh_course_item_controller.dart';
 
 import '../../../core/widgets/texts.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class FreshCrourseSection extends StatelessWidget {
   FreshCrourseSection({super.key});
@@ -19,6 +20,8 @@ class FreshCrourseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Padding(
       padding: EdgeInsets.only(left: 15.sp),
       child: Obx(() {
@@ -36,6 +39,9 @@ class FreshCrourseSection extends StatelessWidget {
                     return Container(
                       margin: EdgeInsets.only(right: 10.sp),
                       child: Column(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -75,25 +81,32 @@ class FreshCrourseSection extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            Row(children: [
-                              Container(
-                                height: 20.sp,
-                                width: 100.sp,
-                                decoration: BoxDecoration(
-                                  color: AppColors.nuralItemBackgroundColor,
-                                  borderRadius: BorderRadius.circular(10.sp),
-                                ),
-                              ),
-                              horizontalGap(5.sp),
-                              Container(
-                                height: 20.sp,
-                                width: 50.sp,
-                                decoration: BoxDecoration(
-                                  color: AppColors.nuralItemBackgroundColor,
-                                  borderRadius: BorderRadius.circular(10.sp),
-                                ),
-                              ),
-                            ])
+                            Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                children: [
+                                  Container(
+                                    height: 20.sp,
+                                    width: 100.sp,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.nuralItemBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                  ),
+                                  horizontalGap(5.sp),
+                                  Container(
+                                    height: 20.sp,
+                                    width: 50.sp,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.nuralItemBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                  ),
+                                ])
                           ]),
                     );
                   }),
@@ -101,7 +114,7 @@ class FreshCrourseSection extends StatelessWidget {
           );
         } else {
           return SizedBox(
-              height: 175.sp,
+              height: 200.sp,
               child: ListView.builder(
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
@@ -109,7 +122,7 @@ class FreshCrourseSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Container(
                       height: 171.sp,
-                      width: 180.sp,
+                      width: 200.sp,
                       margin: EdgeInsets.only(right: 15.sp),
                       padding: EdgeInsets.all(5.sp),
                       decoration: BoxDecoration(
@@ -117,6 +130,9 @@ class FreshCrourseSection extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10.sp),
                       ),
                       child: Column(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -151,6 +167,10 @@ class FreshCrourseSection extends StatelessWidget {
                           ),
                           verticalGap(5.sp),
                           Row(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
                             children: [
                               GlobalText(
                                 text: freshCourseController.freshCourses[index]
@@ -200,6 +220,10 @@ class FreshCrourseSection extends StatelessWidget {
                           ),
                           verticalGap(5.sp),
                           Row(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
                             children: [
                               CustomRatingBar(
                                 rating: 4.5,

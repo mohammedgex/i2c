@@ -4,6 +4,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
@@ -12,12 +13,14 @@ import '../../../core/constant/constant.dart';
 import '../../../core/images/app_image.dart';
 import '../../../core/widgets/custom_rating_bar.dart';
 import '../../../core/widgets/texts.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
 
   @override
   Widget build(BuildContext context) {
+      MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     return Scaffold(
       body: SafeArea(
           child: ColorfulSafeArea(
@@ -25,6 +28,9 @@ class CartView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: Column(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -67,6 +73,9 @@ class CartView extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(3.sp),
                       child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
                         children: [
                           Container(
                             height: 80.sp,
@@ -81,6 +90,10 @@ class CartView extends StatelessWidget {
                           SizedBox(
                             width: 235.w,
                             child: Column(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -103,6 +116,10 @@ class CartView extends StatelessWidget {
                                     softWrap: true),
                                 verticalGap(2.sp),
                                 Row(
+                                  textDirection:
+                                      multiLangualDataController.isLTR.value
+                                          ? TextDirection.ltr
+                                          : TextDirection.rtl,
                                   children: [
                                     CustomRatingBar(
                                       rating: 3.5,
@@ -113,6 +130,10 @@ class CartView extends StatelessWidget {
                                     ),
                                     Spacer(),
                                     Row(
+                                      textDirection:
+                                          multiLangualDataController.isLTR.value
+                                              ? TextDirection.ltr
+                                              : TextDirection.rtl,
                                       children: [
                                         GlobalText(
                                           text: '100',
@@ -161,6 +182,9 @@ class CartView extends StatelessWidget {
         ),
         child: Center(
           child: Row(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GlobalText(
@@ -183,6 +207,9 @@ class CartView extends StatelessWidget {
                   ),
                   child: Center(
                     child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

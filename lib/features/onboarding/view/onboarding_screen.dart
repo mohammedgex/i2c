@@ -5,13 +5,14 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/features/onboarding/controller/onboarding_controller.dart';
 
-import '../../../core/constant/constant.dart'; // Import the controller
+import '../../../core/constant/constant.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart'; // Import the controller
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     // Initialize the GetX controller
     final OnboardingController onboardingController =
         Get.put(OnboardingController());
@@ -27,6 +28,9 @@ class OnboardingScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(25.0.sp),
               child: Column(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -44,6 +48,9 @@ class OnboardingScreen extends StatelessWidget {
 
                   // Page Indicators (dots) to show the current page
                   Row(
+                    textDirection: multiLangualDataController.isLTR.value
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 8.sp,
@@ -67,14 +74,14 @@ class OnboardingScreen extends StatelessWidget {
 
                   // Display title and subtitle for current page
                   Text(
-                     currentPageData["title"] ?? "Default Title",
+                    currentPageData["title"] ?? "Default Title",
                     style: TextStyle(
                         fontSize: 24.sp,
                         color: Colors.black), // Adjust as necessary
                   ),
                   verticalGap(20.sp),
                   Text(
-                     currentPageData["subtitle"] ?? "Default Subtitle",
+                    currentPageData["subtitle"] ?? "Default Subtitle",
                     style: TextStyle(
                         fontSize: 16.sp,
                         color: Colors.black), // Adjust as necessary

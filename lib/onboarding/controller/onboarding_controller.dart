@@ -35,7 +35,7 @@ class OnboardingController extends GetxController {
       currentPageIndex.value++;
     } else {
       // Navigate to HomeScreen
-      Get.off(() => PersistentBottomNavBar());
+      Get.off(() => CustomPersistentBottomNavBar());
     }
   }
 }

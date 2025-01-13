@@ -8,9 +8,9 @@ class AppIcon {
   static String cartIcon = "assets/icons/cart.svg";
   static String cartImageIcon = "assets/icons/cart.png";
   static String crossIcon = "assets/icons/cross.svg";
-  static String homeIcon = "assets/icons/home.svg";
+  static String homeIcon = "assets/icons/home_icon.svg";
   static String lockIcon = "assets/icons/lock.svg";
-  static String searchIcon = "assets/icons/search.svg";
+  static String searchIcon = "assets/icons/search_icon.svg";
   static String userIcon = "assets/icons/user.svg";
   static String playIcon = "assets/icons/play_video.svg";
 
@@ -31,4 +31,9 @@ class AppIcon {
   static String language = "assets/icons/language.svg";
   static String lecture = "assets/icons/lecture.svg";
   static String quiz = "assets/icons/quiz.svg";
+
+  static String courseCertificate = "assets/icons/course_certificate.svg";
+  static String more = "assets/icons/more.svg";
+  static String share = "assets/icons/share.svg";
+  static String announcements = "assets/icons/announcements.svg";
 }

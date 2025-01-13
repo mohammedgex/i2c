@@ -1,6 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
@@ -8,18 +9,22 @@ import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class SearchDetalsView extends StatelessWidget {
   const SearchDetalsView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     return Scaffold(
       body: ColorfulSafeArea(
         color: Colors.white,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.sp),
           child: Column(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -48,6 +53,9 @@ class SearchDetalsView extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(3.sp),
                     child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
                       children: [
                         Container(
                           height: 80.sp,
@@ -62,6 +70,10 @@ class SearchDetalsView extends StatelessWidget {
                         SizedBox(
                           width: 235.w,
                           child: Column(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -84,6 +96,10 @@ class SearchDetalsView extends StatelessWidget {
                                   softWrap: true),
                               verticalGap(2.sp),
                               Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
                                 children: [
                                   CustomRatingBar(
                                     rating: 3.5,
@@ -94,6 +110,10 @@ class SearchDetalsView extends StatelessWidget {
                                   ),
                                   Spacer(),
                                   Row(
+                                    textDirection:
+                                        multiLangualDataController.isLTR.value
+                                            ? TextDirection.ltr
+                                            : TextDirection.rtl,
                                     children: [
                                       GlobalText(
                                         text: '100',

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 
+import '../../features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../colors/app_colors.dart';
 import '../icons/app_icon.dart';
 import '../images/app_image.dart';
@@ -13,11 +15,12 @@ class MyCustomAppBar extends StatelessWidget {
   final double? horizontalPadding;
   final double? verticalPadding;
   final bool isShowbackButton;
-  const MyCustomAppBar(
+   MyCustomAppBar(
       {super.key,
       this.horizontalPadding,
       this.verticalPadding,
       this.isShowbackButton = false});
+        MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,9 @@ class MyCustomAppBar extends StatelessWidget {
           horizontal: horizontalPadding ?? 25.sp,
           vertical: verticalPadding ?? 10.sp),
       child: Row(
+        textDirection: multiLangualDataController.isLTR.value
+            ? TextDirection.ltr
+            : TextDirection.rtl,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

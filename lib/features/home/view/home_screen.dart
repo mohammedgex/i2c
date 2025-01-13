@@ -3,6 +3,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
@@ -12,18 +13,23 @@ import 'package:skill_grow/features/home/widget/category_section.dart';
 import 'package:skill_grow/features/home/widget/fresh_crourse_section.dart';
 import 'package:skill_grow/features/home/widget/popular_courses_section.dart';
 import 'package:skill_grow/features/home/widget/welcome_sction.dart';
+
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-   
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     return ColorfulSafeArea(
       color: AppColors.scaffoldBackgroundColor,
       child: Scaffold(
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             children: [
               MyCustomAppBar(),
               WelcomeSction(),
@@ -31,6 +37,9 @@ class HomeScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.sp),
                 child: Row(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     GlobalText(
                       text: "Categories",
@@ -89,6 +98,9 @@ class HomeScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.sp),
                 child: Row(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     GlobalText(
                       text: "Popular Courses",
@@ -121,6 +133,9 @@ class HomeScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.sp),
                 child: Row(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     GlobalText(
                       text: "Fresh Courses",

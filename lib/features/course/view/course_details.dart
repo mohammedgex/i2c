@@ -4,6 +4,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
@@ -11,6 +12,8 @@ import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/course/widget/toggle_widget.dart';
+
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class CourseDetailsView extends StatelessWidget {
   const CourseDetailsView({super.key});
@@ -24,7 +27,7 @@ class CourseDetailsView extends StatelessWidget {
       {"title": "Total Lectures", "value": "200", "icon": AppIcon.lecture},
       {"title": "Quizzes", "value": "20", "icon": AppIcon.quiz},
       {"title": "Language", "value": "English", "icon": AppIcon.language},
-    ];
+    ];  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -33,6 +36,9 @@ class CourseDetailsView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10.sp),
           child: SingleChildScrollView(
             child: Column(
+              textDirection: multiLangualDataController.isLTR.value
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MyCustomAppBar(
@@ -79,6 +85,9 @@ class CourseDetailsView extends StatelessWidget {
                 ),
                 verticalGap(7.sp),
                 Row(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     CustomRatingBar(
                       rating: 2.5,
@@ -129,6 +138,9 @@ class CourseDetailsView extends StatelessWidget {
                 // ),
                 // verticalGap(10.sp),
                 Row(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     Expanded(
                       child: Container(
@@ -138,6 +150,9 @@ class CourseDetailsView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5.sp),
                         ),
                         child: Column(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -148,6 +163,10 @@ class CourseDetailsView extends StatelessWidget {
                                   fontSize: 13.sp, fontWeight: FontWeight.w500),
                             ),
                             Row(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 GlobalText(

@@ -1,25 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/video/widget/view/add_qna_modal.dart';
 
 import '../../../core/constant/constant.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class QNAView extends StatelessWidget {
   const QNAView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     return Column(
+      textDirection: multiLangualDataController.isLTR.value
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       children: [
         Bounceable(
           onTap: () {
             showDialog(
                 context: context,
-                
                 builder: (BuildContext context) {
                   return AddQnaModal();
                 });
@@ -32,6 +36,9 @@ class QNAView extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7.sp)),
             child: Center(
               child: Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
                 children: [
                   Spacer(),
                   Icon(
@@ -59,9 +66,15 @@ class QNAView extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.sp),
             ),
             child: Column(
+              textDirection: multiLangualDataController.isLTR.value
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     CircleAvatar(
                       radius: 25.sp,
@@ -69,6 +82,9 @@ class QNAView extends StatelessWidget {
                     ),
                     horizontalGap(15.sp),
                     Column(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         GlobalText(

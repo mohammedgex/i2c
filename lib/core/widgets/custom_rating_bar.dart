@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class CustomRatingBar extends StatelessWidget {
   final double rating; // The current rating value (e.g., 4.5)
@@ -7,7 +10,7 @@ class CustomRatingBar extends StatelessWidget {
   final Color unfilledColor; // Color for unfilled stars
   final double iconSize; // Size of the stars/icons
 
-  const CustomRatingBar({
+   CustomRatingBar({
     super.key,
     required this.rating,
     this.maxRating = 5,
@@ -15,10 +18,13 @@ class CustomRatingBar extends StatelessWidget {
     this.unfilledColor = Colors.grey,
     this.iconSize = 24.0,
   });
-
+  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
   @override
   Widget build(BuildContext context) {
     return Row(
+      textDirection: multiLangualDataController.isLTR.value
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       mainAxisSize: MainAxisSize.min,
       children: List.generate(maxRating, (index) {
         // Determine the star type (filled, half-filled, or unfilled)

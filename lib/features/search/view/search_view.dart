@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/widgets/dropdown_input.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
@@ -10,21 +11,28 @@ import '../../../core/constant/constant.dart';
 import '../../../core/icons/app_icon.dart';
 import '../../../core/images/app_image.dart';
 import '../../../core/widgets/texts.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
           child: Column(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [

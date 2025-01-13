@@ -28,6 +28,9 @@ class CategoryAllItemView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
           child: Column(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -58,6 +61,10 @@ class CategoryAllItemView extends StatelessWidget {
                         child: Bounceable(
                             onTap: () {},
                             child: Column(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
                               children: [
                                 Container(
                                   height: 44.sp,
@@ -92,6 +99,10 @@ class CategoryAllItemView extends StatelessWidget {
                       return Bounceable(
                           onTap: () {},
                           child: Column(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
                             children: [
                               Container(
                                 height: 44.sp,

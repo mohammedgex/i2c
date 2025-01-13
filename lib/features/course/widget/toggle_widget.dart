@@ -12,14 +12,18 @@ import 'package:skill_grow/features/course/controller/toggle_controller.dart';
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class ToggleWidget extends StatelessWidget {
   const ToggleWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
     ToggleController toggleController = ToggleController();
     return Column(
+      textDirection: multiLangualDataController.isLTR.value
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       children: [
         Container(
           width: double.infinity,
@@ -31,6 +35,9 @@ class ToggleWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.sp, vertical: 5.sp),
             child: Row(
+              textDirection: multiLangualDataController.isLTR.value
+                  ? TextDirection.ltr
+                  : TextDirection.rtl,
               children: [
                 Expanded(
                   child: Bounceable(
@@ -138,6 +145,9 @@ class ToggleWidget extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: 10.sp, vertical: 15.sp),
                 child: Column(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -189,6 +199,9 @@ class ToggleWidget extends StatelessWidget {
                             fontSize: 13.sp, color: AppColors.titleTextColor),
                       ),
                       content: Column(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -239,6 +252,9 @@ class ToggleWidget extends StatelessWidget {
               // height: 100.sp,
               decoration: BoxDecoration(color: Colors.white),
               child: Column(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
                 children: [
                   Container(
                     width: double.infinity,
@@ -249,6 +265,9 @@ class ToggleWidget extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(15.sp),
                       child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
                         children: [
                           CircleAvatar(
                               radius: 30.r,
@@ -257,6 +276,10 @@ class ToggleWidget extends StatelessWidget {
                           horizontalGap(10.sp),
                           Flexible(
                             child: Column(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

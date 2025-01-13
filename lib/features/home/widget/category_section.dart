@@ -11,12 +11,16 @@ import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
 import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
 
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+
 class CategorySection extends StatelessWidget {
   CategorySection({super.key});
   CategoryItemController categoryItmeController =
       Get.put(CategoryItemController());
   @override
   Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.5.sp),
       child: Obx(() {
@@ -31,6 +35,9 @@ class CategorySection extends StatelessWidget {
                 child: Bounceable(
                     onTap: () {},
                     child: Column(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
                       children: [
                         Container(
                           height: 44.sp,
@@ -67,6 +74,9 @@ class CategorySection extends StatelessWidget {
               return Bounceable(
                   onTap: () {},
                   child: Column(
+                    textDirection: multiLangualDataController.isLTR.value
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
                     children: [
                       Container(
                         height: 44.sp,

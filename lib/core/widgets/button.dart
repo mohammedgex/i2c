@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
+import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class GlobalButton extends StatelessWidget {
   final double height;
@@ -19,6 +21,10 @@ class GlobalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
+    String translatedText =
+        multiLangualDataController.multiLangualData?[text] ?? text;
     return Bounceable(
       onTap: onTap,
       child: Container(
@@ -30,10 +36,10 @@ class GlobalButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            text,
+            translatedText,
             style: TextStyle(
               color: AppColors.globalButtonTextColor,
-              fontSize: 12.sp,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w600,
               height: 14.52.sp / 12.sp,
             ),

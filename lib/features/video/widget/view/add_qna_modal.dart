@@ -42,6 +42,7 @@ class AddQnaModal extends StatelessWidget {
             CustomTextField(
               controller: TextEditingController(),
               hint: "Question",
+              keyName: "Question",
               inputType: TextInputType.text,
             ),
             verticalGap(10.sp),
@@ -57,13 +58,14 @@ class AddQnaModal extends StatelessWidget {
             CustomTextField(
               controller: TextEditingController(),
               hint: "Description",
+              keyName: "Description",
               inputType: TextInputType.text,
               minLines: 2,
               maxLines: 2,
             ),
             verticalGap(10.sp),
             Row(
-            textDirection: multiLangualDataController.isLTR.value
+              textDirection: multiLangualDataController.isLTR.value
                   ? TextDirection.ltr
                   : TextDirection.rtl,
               children: [

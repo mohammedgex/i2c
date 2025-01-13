@@ -11,7 +11,7 @@ class AppIcon {
   static String homeIcon = "assets/icons/home_icon.svg";
   static String lockIcon = "assets/icons/lock.svg";
   static String searchIcon = "assets/icons/search_icon.svg";
-  static String userIcon = "assets/icons/user.svg";
+  static String userIcon = "assets/icons/user_icon.svg";
   static String playIcon = "assets/icons/play_video.svg";
 
   static String developmentIcon = "assets/icons/development.svg";

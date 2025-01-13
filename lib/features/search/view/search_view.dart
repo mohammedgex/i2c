@@ -17,7 +17,9 @@ class SearchView extends StatelessWidget {
   const SearchView({super.key});
 
   @override
-  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -62,6 +64,7 @@ class SearchView extends StatelessWidget {
               CustomTextField(
                 controller: TextEditingController(),
                 hint: "Search Courses",
+                keyName: "Search Courses",
                 inputType: TextInputType.text,
               ),
               verticalGap(10.sp),

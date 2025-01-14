@@ -68,6 +68,7 @@ class RegistrationView extends StatelessWidget {
                       controller: registrationController.passwordController,
                       hint: "Password",
                       keyName: "Password",
+                      obscureText: true,
                       inputType: TextInputType.visiblePassword,
                       validator: (value) =>
                           registrationController.validatePassword(value),
@@ -79,6 +80,7 @@ class RegistrationView extends StatelessWidget {
                       hint: "Confirm Password",
                       keyName: "Confirm Password",
                       inputType: TextInputType.visiblePassword,
+                      obscureText: true,
                       validator: registrationController.validateConfirmPassword,
                     ),
                     verticalGap(10.sp),

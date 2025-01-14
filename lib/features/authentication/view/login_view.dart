@@ -1,5 +1,6 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
@@ -8,6 +9,7 @@ import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/authentication/controller/login_controller.dart';
+import 'package:skill_grow/features/authentication/view/forget_password_view.dart';
 import 'package:skill_grow/features/authentication/view/registration_view.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -59,6 +61,19 @@ class LoginView extends StatelessWidget {
                       inputType: TextInputType.visiblePassword,
                       validator: loginController.validatePassword,
                     ),
+                    verticalGap(10.sp),
+                    Align(
+                        alignment: Alignment.centerRight,
+                        child: Bounceable(
+                          onTap: () {
+                            Get.to(() => const ForgetPasswordView());
+                          },
+                          child: GlobalText(
+                            text: "Forgot Password?",
+                            softWrap: true,
+                            style: TextStyle(color: AppColors.primaryColor),
+                          ),
+                        )),
                     verticalGap(10.sp),
                     Obx(() {
                       if (loginController.isLoading.value) {

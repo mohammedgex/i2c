@@ -24,7 +24,7 @@ class GlobalButton extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     String translatedText =
-        multiLangualDataController.multiLangualData?[text] ?? text;
+        multiLangualDataController.multiLangualData[text] ?? text;
     return Bounceable(
       onTap: onTap,
       child: Container(

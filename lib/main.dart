@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:skill_grow/features/authentication/view/login_view.dart';
-import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
+import 'package:skill_grow/splash_screen.dart';
 
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: LoginView(),
+          home: SplashScreen(),
         );
       },
     );

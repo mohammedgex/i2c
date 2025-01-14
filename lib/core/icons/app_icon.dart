@@ -36,4 +36,8 @@ class AppIcon {
   static String more = "assets/icons/more.svg";
   static String share = "assets/icons/share.svg";
   static String announcements = "assets/icons/announcements.svg";
+
+  static String failedIcon = "assets/icons/failed_icon.svg";
+  static String successIcon = "assets/icons/success_icon.svg";
+  static String infoIcon = "assets/icons/info_icon.svg";
 }

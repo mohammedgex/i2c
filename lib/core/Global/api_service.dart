@@ -10,16 +10,16 @@ class ApiService {
           BaseOptions(
             connectTimeout: const Duration(seconds: 10),
             receiveTimeout: const Duration(seconds: 10),
+            responseType: ResponseType.json,
           ),
         );
 
   // Generic API call method
-  Future<Response> request({
+  Future<Response?> request({
     required String url,
     required String method,
     Map<String, dynamic>? data,
-    Map<String, dynamic>? queryParameters,
-    bool requiresAuth = true, // Optional authorization
+    bool requiresAuth = true,
   }) async {
     try {
       // Add Authorization header only when required
@@ -30,32 +30,52 @@ class ApiService {
       }
 
       // Make the request based on the method
+      Response response;
       switch (method.toUpperCase()) {
         case 'GET':
-          return await _dio.get(url, queryParameters: queryParameters);
+          response = await _dio.get(url, options: Options(contentType: "application/json"));
+          break;
         case 'POST':
-          return await _dio.post(url, data: data);
+          response = await _dio.post(url, data: data);
+          break;
         case 'PUT':
-          return await _dio.put(url, data: data);
+          response = await _dio.put(url, data: data);
+          break;
         case 'DELETE':
-          return await _dio.delete(url);
+          response = await _dio.delete(url, data: data);
+          break;
         default:
-          throw UnsupportedError('HTTP method not supported');
+          throw UnsupportedError('HTTP method not supported: $method');
+      }
+
+      // Handle successful response
+      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+        return response;
+      } else {
+        // Handle non-successful status codes
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          type: DioExceptionType.badResponse,
+        );
       }
     } on DioException catch (e) {
       // Handle Dio exceptions
-      throw GlobalErrorHandler.handleError(e);
-    } on SocketException{
+      GlobalErrorHandler.handleError(e);
+    } on SocketException {
       // Handle network issues
-      throw GlobalErrorHandler.handleError('No internet connection');
+      GlobalErrorHandler.handleError('No internet connection. Please try again.');
     } catch (e) {
       // Handle any other exceptions
-      throw GlobalErrorHandler.handleError(e);
+      GlobalErrorHandler.handleError(e);
     }
+
+    // Return null or throw an exception based on how you want to handle this
+    return null;
   }
 
   // Example: GET API
-  Future<Response> getData({
+  Future<Response?> getData({
     required String url,
     Map<String, dynamic>? queryParameters,
     bool requiresAuth = true,
@@ -63,13 +83,12 @@ class ApiService {
     return await request(
       url: url,
       method: 'GET',
-      queryParameters: queryParameters,
       requiresAuth: requiresAuth,
     );
   }
 
   // Example: POST API
-  Future<Response> postData({
+  Future<Response?> postData({
     required String url,
     Map<String, dynamic>? data,
     bool requiresAuth = true,

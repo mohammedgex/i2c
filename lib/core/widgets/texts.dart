@@ -139,7 +139,7 @@ class GlobalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Ensure multiLangualData is a Map and the key exists
-    String translatedText = multiLangualDataController.multiLangualData?[text] ?? text;
+    String translatedText = multiLangualDataController.multiLangualData[text] ?? text;
 
     return Text(
       translatedText,

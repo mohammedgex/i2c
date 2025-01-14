@@ -7,13 +7,14 @@ class TextfieldController extends GetxController {
   void toggle(String key) {
     // Toggle visibility for the specific key (TextField)
     if (textFieldVisibility.containsKey(key)) {
-      textFieldVisibility[key]?.value = !(textFieldVisibility[key]?.value ?? false);
+      textFieldVisibility[key]?.value =
+          !(textFieldVisibility[key]?.value ?? false);
     } else {
       textFieldVisibility[key] = true.obs;
     }
   }
 
   bool getVisibility(String key) {
-    return textFieldVisibility[key]?.value ?? false;
+    return textFieldVisibility[key]?.value ?? true;
   }
 }

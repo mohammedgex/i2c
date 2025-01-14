@@ -30,58 +30,63 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MultiLangualDataController multiLangualDataController =
+    // Get controllers for multi-language and visibility
+    final MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
+    final TextfieldController textfieldController =
+        Get.put(TextfieldController());
 
-    TextfieldController textfieldController = Get.put(TextfieldController());
+    // Translated text for multi-language support
     String translatedText =
-        multiLangualDataController.multiLangualData?[hint] ?? hint;
+        multiLangualDataController.multiLangualData[hint] ?? hint;
 
     return Obx(() {
       bool isObscure = textfieldController
-          .getVisibility(keyName); // Get the specific visibility state
-      return TextFormField(
-        // Use TextFormField for validation
+          .getVisibility(keyName); // Get visibility state for this field
+
+      return Directionality(
         textDirection: multiLangualDataController.isLTR.value
             ? TextDirection.ltr
             : TextDirection.rtl,
-        obscureText: isObscure,
-        minLines: minLines,
-        maxLines: maxLines,
-        validator: validator, // Use the validator
-        decoration: InputDecoration(
-          suffixIcon: obscureText == false
-              ? null
-              : IconButton(
-                  icon: Icon(
-                    isObscure
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
-                  ),
-                  onPressed: () {
-                    // Toggle visibility for the specific TextField
-                    textfieldController.toggle(keyName);
-                  },
-                ),
-
-          hintTextDirection: multiLangualDataController.isLTR.value
+        child: TextFormField(
+          textDirection: multiLangualDataController.isLTR.value
               ? TextDirection.ltr
               : TextDirection.rtl,
-          hintText: translatedText,
-          hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
-          fillColor: AppColors
-              .primaryColor, // Optional: If you want a background color
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: AppColors
-                    .primaryColor), // Set border color to primary color
-            borderRadius: BorderRadius.circular(12.sp),
+          obscureText: obscureText == false ? false : isObscure,
+          minLines: minLines,
+          maxLines: maxLines,
+          validator: validator, // Use validator if provided
+          decoration: InputDecoration(
+            suffixIcon: obscureText == false
+                ? null
+                : IconButton(
+                    icon: Icon(
+                      isObscure
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
+                    onPressed: () {
+                      // Toggle visibility for this specific TextField
+                      textfieldController.toggle(keyName);
+                    },
+                  ),
+            hintTextDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            hintText: translatedText,
+            hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
+            fillColor: AppColors.primaryColor, // Optional: Background color
+            border: OutlineInputBorder(
+              borderSide:
+                  BorderSide(color: AppColors.primaryColor), // Border color
+              borderRadius: BorderRadius.circular(12.sp),
+            ),
+            contentPadding:
+                EdgeInsets.symmetric(vertical: 15.sp, horizontal: 15.sp),
           ),
-          contentPadding:
-              EdgeInsets.symmetric(vertical: 15.sp, horizontal: 15.sp),
+          controller: controller,
+          keyboardType: inputType,
         ),
-        controller: controller,
-        keyboardType: inputType,
       );
     });
   }

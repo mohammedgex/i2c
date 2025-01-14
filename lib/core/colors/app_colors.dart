@@ -17,6 +17,15 @@ class AppColors {
   static Color hintTextColor = Color(0xFF8F9098);
   static Color nuralItemBackgroundColor = Color(0xFFF8F9FE);
 
-  
-  static Color shimmerBackgroundColor = const Color.fromARGB(255, 219, 224, 226);
+  static Color infoSnackBackgroundColor = Color(0xFFEAF2FF);
+  static Color infoSnackIconBackgroundColor = Color(0xFF006FFD);
+  static Color successSnackIconBackgroundColor = Color(0xFF3AC0A0);
+  static Color successSnackBackgroundColor = Color(0xFFE7F4E8);
+  static Color warningSnackBackgroundColor = Color(0xFFFFF4E4);
+  static Color warningSnackIconBackgroundColor = Color(0xFFFFB37C);
+  static Color failedSnackBackgroundColor = Color(0xFFFFE2E5);
+  static Color failedSnackIconBackgroundColor = Color(0xFFFF616D);
+
+  static Color shimmerBackgroundColor =
+      const Color.fromARGB(255, 219, 224, 226);
 }

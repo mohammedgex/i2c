@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/features/authentication/model/reset_password_model.dart';
 import 'package:skill_grow/features/authentication/service/reset_password_service.dart';
+import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../../core/widgets/snackbar.dart';
 
@@ -89,6 +90,11 @@ class ResetPasswordController extends GetxController {
       forgetPasswordTokenController.clear();
       passwordController.clear();
       confirmPasswordController.clear();
+       Navigator.pushAndRemoveUntil(
+          Get.context!,
+          MaterialPageRoute(
+              builder: (context) =>
+                  LoginView()), (route) => false); // Get.toNamed('/resetPassword', route)
     } catch (e) {
       log(e.toString());
     } finally {

@@ -95,7 +95,7 @@ class ResetPasswordView extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   child: GlobalText(
-                    text: "Back To Login",
+                    text: "Back",
                     softWrap: true,
                     style: TextStyle(color: AppColors.primaryColor),
                   ),

@@ -63,8 +63,8 @@ class ForgetPasswordView extends StatelessWidget {
                 }),
                 TextButton(
                   onPressed: () {
-                    // Navigator.pop(context);
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordView()));
+                    Navigator.pop(context);
+                    //  Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordView()));
                   },
                   child: GlobalText(
                     text: "Back To Login",

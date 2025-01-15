@@ -1,15 +1,14 @@
 // ignore_for_file: non_constant_identifier_names
 
 class ApiEndpoint {
-
   static const String baseUrl = 'https://360softbd.com/skillgro/api';
   static const String imageUrl = "https://360softbd.com/skillgro/";
 
   // Authentication URLs
   static const String loginUrl = '$baseUrl/login';
   static const String registerUrl = '$baseUrl/register';
-  static const String forgetPasswordUrl = '$baseUrl/patient/forget-password';
-  static const String resetPasswordUrl = '$baseUrl/patient/reset-password';
+  static const String forgetPasswordUrl = '$baseUrl/forget-password';
+  static const String resetPasswordUrl = '$baseUrl/reset-password';
   static const String logoutUrl = '$baseUrl/logout';
   static const String logoutFromAllDevicesUrl = '$baseUrl/logout/all-app';
 
@@ -18,9 +17,10 @@ class ApiEndpoint {
   static const String countriesUrl = '$baseUrl/countries';
   static const String languageListUrl = '$baseUrl/language-list';
   static const String currencyListUrl = '$baseUrl/currency-list';
-  static  String multiLangualDataUrl(String code){
+  static String multiLangualDataUrl(String code) {
     return '$baseUrl/static-language/$code';
   }
+
   static const String courseLanguagesUrl = '$baseUrl/course-languages';
 
   static String courseMainCategoriesUrl(String languageCode) {
@@ -245,19 +245,19 @@ class ApiEndpoint {
 
   // Dashboard Profile URLs
   static const String dashboardProfileUrl = "$baseUrl/profile";
-  static const String dashboardProfilePictureUpdateUrl = "$baseUrl/update-profile-picture";
+  static const String dashboardProfilePictureUpdateUrl =
+      "$baseUrl/update-profile-picture";
   static const String dashboardProfileUpdateUrl = "$baseUrl/update-profile";
   static const String dashboardProfileUpdateBioUrl = "$baseUrl/update-bio";
-  static const String dashboardProfileUpdatePasswordUrl = "$baseUrl/update-password";
-  static const String dashboardProfileUpdateAddressUrl = "$baseUrl/update-address";
-  static const String dashboardProfileUpdateSocialLinksUrl = "$baseUrl/update-social-links";
+  static const String dashboardProfileUpdatePasswordUrl =
+      "$baseUrl/update-password";
+  static const String dashboardProfileUpdateAddressUrl =
+      "$baseUrl/update-address";
+  static const String dashboardProfileUpdateSocialLinksUrl =
+      "$baseUrl/update-social-links";
 
   // Extra URLs
   static const String socialLinksUrl = "$baseUrl/social-links";
   static const String contactUsUrl = "$baseUrl/contact-us";
   static const String subscribeUsUrl = "$baseUrl/subscribe-us";
-  
 }
-
-
-

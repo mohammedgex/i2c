@@ -22,22 +22,3 @@ class RegistrationRequestModel {
   }
 }
 
-
-class RegistrationResponseModel {
-  final String status;
-  final String message;
-
-  RegistrationResponseModel({
-    required this.status,
-    required this.message,
-
-  });
-
-  // Factory method to create an instance from JSON
-  factory RegistrationResponseModel.fromJson(Map<String, dynamic> json) {
-    return RegistrationResponseModel(
-      status: json['status'] ?? '',
-      message: json['message'] ?? '',
-    );
-  }
-}

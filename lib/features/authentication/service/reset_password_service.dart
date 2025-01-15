@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/response_model.dart';
-import 'package:skill_grow/features/authentication/model/forget_password_model.dart';
+import 'package:skill_grow/features/authentication/model/reset_password_model.dart';
 import '../../../core/Global/api_service.dart';
 
-class ForgetPasswordService {
+class ResetPasswordService {
   final ApiService _apiService = ApiService();
 
   // Function to handle login
-  Future<GlobalResponseModel> forgetPassword(ForgetPasswordRequestModel requestModel) async {
+  Future<GlobalResponseModel> resetPassword(ResetPasswordRequestModel requestModel) async {
     try {
-      const String url = ApiEndpoint.forgetPasswordUrl;
+      const String url = ApiEndpoint.resetPasswordUrl;
 
       Response? response = await _apiService.postData(
         url: url,

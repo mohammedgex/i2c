@@ -74,8 +74,9 @@ class ApiEndpoint {
   static String coursesUrl({
     required String slug,
     required String currency,
+    String? userId
   }) {
-    return '$baseUrl/course/:$slug?currency=$slug';
+    return '$baseUrl/course/$slug?currency=$slug&user_id=$userId';
   }
 
   static String freeLessonInfoUrl({required String lesson_id}) {

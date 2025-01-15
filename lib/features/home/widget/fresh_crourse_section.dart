@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
-import 'package:skill_grow/features/home/controller/fresh_course_item_controller.dart';
+import 'package:skill_grow/features/course/controller/fresh_course_conroller.dart';
 
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -15,8 +16,7 @@ import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 class FreshCrourseSection extends StatelessWidget {
   FreshCrourseSection({super.key});
 
-  FreshCourseItemController freshCourseController =
-      Get.put(FreshCourseItemController());
+  FreshCourseConroller freshCourseController = Get.put(FreshCourseConroller());
 
   @override
   Widget build(BuildContext context) {
@@ -114,14 +114,15 @@ class FreshCrourseSection extends StatelessWidget {
           );
         } else {
           return SizedBox(
-              height: 200.sp,
+              height: 220.sp,
               child: ListView.builder(
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: freshCourseController.freshCourses.length,
+                  itemCount: freshCourseController.courses.length >= 4
+                      ? 4
+                      : freshCourseController.courses.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      height: 171.sp,
                       width: 200.sp,
                       margin: EdgeInsets.only(right: 15.sp),
                       padding: EdgeInsets.all(5.sp),
@@ -137,7 +138,7 @@ class FreshCrourseSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 101.sp,
+                            // height: 101.sp,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               // color: AppColors.primaryColor,
@@ -145,17 +146,18 @@ class FreshCrourseSection extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.sp),
-                              child: Image.asset(
-                                freshCourseController.freshCourses[index]
-                                    ["image"],
+                              child: Image.network(
+                                ApiEndpoint.imageUrl +
+                                    freshCourseController
+                                        .courses[index].thumbnail,
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           verticalGap(3.sp),
                           GlobalText(
-                            text: freshCourseController.freshCourses[index]
-                                ["title"],
+                            text: freshCourseController.courses[index].title
+                                .toString(),
                             style: TextStyle(
                               color: AppColors.titleTextColor,
                               fontSize: 14.sp,
@@ -173,8 +175,9 @@ class FreshCrourseSection extends StatelessWidget {
                                     : TextDirection.rtl,
                             children: [
                               GlobalText(
-                                text: freshCourseController.freshCourses[index]
-                                    ["author"],
+                                text: freshCourseController
+                                    .courses[index].instructor.name
+                                    .toString(),
                                 style: TextStyle(
                                   color: AppColors.smallTextColor,
                                   fontSize: 11.sp,
@@ -196,8 +199,9 @@ class FreshCrourseSection extends StatelessWidget {
                               ),
                               horizontalGap(2.sp),
                               GlobalText(
-                                text: freshCourseController.freshCourses[index]
-                                    ["totalStudents"],
+                                text: freshCourseController
+                                    .courses[index].students
+                                    .toString(),
                                 style: TextStyle(
                                   color: AppColors.smallTextColor,
                                   fontSize: 11.sp,
@@ -219,40 +223,56 @@ class FreshCrourseSection extends StatelessWidget {
                             ],
                           ),
                           verticalGap(5.sp),
-                          Row(
+                          Wrap(
+                            spacing: 10.sp,
+                            runSpacing: 1.sp,
                             textDirection:
                                 multiLangualDataController.isLTR.value
                                     ? TextDirection.ltr
                                     : TextDirection.rtl,
                             children: [
                               CustomRatingBar(
-                                rating: 4.5,
+                                rating: freshCourseController
+                                    .courses[index].averageRating,
                                 iconSize: 15.sp,
+                                maxRating: 5,
+                                filledColor: AppColors.activeIconColor,
+                                unfilledColor: AppColors.activeIconColor,
                               ),
                               Spacer(),
-                              GlobalText(
-                                text: freshCourseController.freshCourses[index]
-                                    ["previousPrice"],
-                                style: TextStyle(
-                                    color: AppColors.smallTextColor,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w400,
-                                    height: 11.sp / 9.sp,
-                                    decoration: TextDecoration.lineThrough),
-                                softWrap: false,
-                              ),
-                              GlobalText(
-                                text: freshCourseController.freshCourses[index]
-                                    ["currentPrice"],
-                                style: TextStyle(
-                                  color: AppColors.smallTextColor,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w600,
-                                  height: 15.sp / 14.sp,
-                                  // decoration: TextDecoration.lineThrough
-                                ),
-                                softWrap: false,
-                              ),
+                              Row(
+                                  textDirection:
+                                      multiLangualDataController.isLTR.value
+                                          ? TextDirection.ltr
+                                          : TextDirection.rtl,
+                                  children: [
+                                    GlobalText(
+                                      text: freshCourseController
+                                          .courses[index].discount
+                                          .toString(),
+                                      style: TextStyle(
+                                          color: AppColors.smallTextColor,
+                                          fontSize: 11.sp,
+                                          fontWeight: FontWeight.w400,
+                                          height: 11.sp / 9.sp,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                      softWrap: false,
+                                    ),
+                                    GlobalText(
+                                      text: freshCourseController
+                                          .courses[index].price
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: AppColors.smallTextColor,
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        height: 15.sp / 14.sp,
+                                        // decoration: TextDecoration.lineThrough
+                                      ),
+                                      softWrap: false,
+                                    ),
+                                  ]),
                             ],
                           ),
                         ],

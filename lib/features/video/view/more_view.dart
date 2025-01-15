@@ -94,9 +94,7 @@ class MoreView extends StatelessWidget {
           ),
           Bounceable(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AnnouncementsView();
-              }));
+              Get.to(() => AnnouncementsView());
             },
             child: Row(
               textDirection: multiLangualDataController.isLTR.value

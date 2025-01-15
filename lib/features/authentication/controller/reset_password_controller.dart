@@ -90,11 +90,8 @@ class ResetPasswordController extends GetxController {
       forgetPasswordTokenController.clear();
       passwordController.clear();
       confirmPasswordController.clear();
-       Navigator.pushAndRemoveUntil(
-          Get.context!,
-          MaterialPageRoute(
-              builder: (context) =>
-                  LoginView()), (route) => false); // Get.toNamed('/resetPassword', route)
+      Get.off(()=> LoginView());
+      
     } catch (e) {
       log(e.toString());
     } finally {

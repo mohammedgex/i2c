@@ -38,7 +38,7 @@ class MyCustomAppBar extends StatelessWidget {
           if (isShowbackButton)
             Bounceable(
               onTap: () {
-                Navigator.pop(context);
+                Get.back();
               },
               child: SizedBox(
                 // color: Colors.red,

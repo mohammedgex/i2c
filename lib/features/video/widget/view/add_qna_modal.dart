@@ -76,7 +76,7 @@ class AddQnaModal extends StatelessWidget {
                     color: AppColors.mainRedColor,
                     text: "Cancel",
                     onTap: () {
-                      Navigator.pop(context);
+                      Get.back();
                     },
                   ),
                 ),

@@ -52,11 +52,8 @@ class ForgetPasswordController extends GetxController {
             type: CustomSnackbarType.success);
       }
       emailController.clear();
-      Navigator.push(
-          Get.context!,
-          MaterialPageRoute(
-              builder: (context) =>
-                  ResetPasswordView())); // Get.toNamed('/resetPassword', route)
+      Get.to(()=> ResetPasswordView());
+     
     } catch (e) {
       log(e.toString());
     } finally {

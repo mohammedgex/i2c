@@ -9,6 +9,8 @@ import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/categories/views/category_all_item_view.dart';
+import 'package:skill_grow/features/course/view/all_fresh_course_listView.dart';
+import 'package:skill_grow/features/course/view/all_popular_course_listView.dart';
 import 'package:skill_grow/features/home/widget/category_section.dart';
 import 'package:skill_grow/features/home/widget/fresh_crourse_section.dart';
 import 'package:skill_grow/features/home/widget/popular_courses_section.dart';
@@ -20,7 +22,9 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return ColorfulSafeArea(
       color: AppColors.scaffoldBackgroundColor,
       child: Scaffold(
@@ -53,31 +57,9 @@ class HomeScreen extends StatelessWidget {
                     Spacer(),
                     Bounceable(
                       onTap: () {
-                        // bottomNavBarController.updateIndex(0);
-                        // Use Navigator.push to navigate with a custom transition
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            transitionDuration: Duration(
-                                milliseconds: 900), // Transition duration
-                            reverseTransitionDuration: Duration(
-                                milliseconds: 900), // Reverse transition
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return CategoryAllItemView(); // Target screen
-                            },
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              // Hero animation and SharedAxisTransition for the transition
-                              return SharedAxisTransition(
-                                animation: animation,
-                                secondaryAnimation: secondaryAnimation,
-                                transitionType:
-                                    SharedAxisTransitionType.horizontal,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                        
+                        
+                        Get.to(() => CategoryAllItemView());
                       },
                       child: GlobalText(
                         text: "See all",
@@ -113,7 +95,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Spacer(),
                     Bounceable(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => AllPopularCourseListview());
+                      },
                       child: GlobalText(
                         text: "See all",
                         style: TextStyle(
@@ -148,7 +132,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Spacer(),
                     Bounceable(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => AllFreshCourseListview());
+                      },
                       child: GlobalText(
                         text: "See all",
                         style: TextStyle(
@@ -163,7 +149,8 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               verticalGap(10.sp),
-              FreshCrourseSection()
+              FreshCrourseSection(),
+              verticalGap(10.sp),
             ],
           ),
         ),

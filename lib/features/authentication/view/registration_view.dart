@@ -132,7 +132,7 @@ class RegistrationView extends StatelessWidget {
                                 Colors.transparent),
                           ),
                           onPressed: () {
-                            Navigator.pop(context); // Go back to login screen
+                           Get.back();
                           },
                           child: GlobalText(
                             text: "Login",

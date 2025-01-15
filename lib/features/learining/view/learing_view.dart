@@ -43,8 +43,7 @@ class LearingView extends StatelessWidget {
               ),
               Bounceable(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => LandingViewForVideo()));
+                 Get.to(()=> LandingViewForVideo());
                 },
                 child: Container(
                     width: double.infinity,

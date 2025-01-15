@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +10,6 @@ import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
 import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
-
 import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 

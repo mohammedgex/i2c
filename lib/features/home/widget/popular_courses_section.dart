@@ -1,22 +1,21 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
-import 'package:skill_grow/features/home/controller/popular_course_item_controller.dart';
-
+import 'package:skill_grow/features/course/controller/popular_course_controller.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class PopularCoursesSection extends StatelessWidget {
   PopularCoursesSection({super.key});
 
-  PopularCourseItemController popularCourseItemController =
-      Get.put(PopularCourseItemController());
+  PopularCourseController popularCourseItemController =
+      Get.put(PopularCourseController());
 
   @override
   Widget build(BuildContext context) {
@@ -114,15 +113,17 @@ class PopularCoursesSection extends StatelessWidget {
           );
         } else {
           return SizedBox(
-              height: 200.sp,
+              height: 220.sp,
               child: ListView.builder(
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: popularCourseItemController.popularCourses.length,
+                  itemCount: popularCourseItemController.courses.length >= 4
+                      ? 4
+                      : popularCourseItemController.courses.length,
                   itemBuilder: (context, index) {
                     return Container(
                       width: 200.sp,
-                      height: 171.sp,
+                      height: 190.sp,
                       margin: EdgeInsets.only(right: 15.sp),
                       padding: EdgeInsets.all(5.sp),
                       decoration: BoxDecoration(
@@ -137,7 +138,7 @@ class PopularCoursesSection extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 101.sp,
+                            // height: 150.sp,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               // color: AppColors.primaryColor,
@@ -145,17 +146,19 @@ class PopularCoursesSection extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.sp),
-                              child: Image.asset(
-                                popularCourseItemController
-                                    .popularCourses[index]["image"],
-                                fit: BoxFit.fill,
+                              child: Image.network(
+                                ApiEndpoint.imageUrl +
+                                    popularCourseItemController
+                                        .courses[index].thumbnail,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           verticalGap(3.sp),
                           GlobalText(
                             text: popularCourseItemController
-                                .popularCourses[index]["title"],
+                                .courses[index].title
+                                .toString(),
                             style: TextStyle(
                               color: AppColors.titleTextColor,
                               fontSize: 14.sp,
@@ -173,7 +176,8 @@ class PopularCoursesSection extends StatelessWidget {
                             children: [
                               GlobalText(
                                 text: popularCourseItemController
-                                    .popularCourses[index]["author"],
+                                    .courses[index].instructor.name
+                                    .toString(),
                                 style: TextStyle(
                                   color: AppColors.smallTextColor,
                                   fontSize: 11.sp,
@@ -196,7 +200,8 @@ class PopularCoursesSection extends StatelessWidget {
                               horizontalGap(2.sp),
                               GlobalText(
                                 text: popularCourseItemController
-                                    .popularCourses[index]["totalStudents"],
+                                    .courses[index].students
+                                    .toString(),
                                 style: TextStyle(
                                   color: AppColors.smallTextColor,
                                   fontSize: 11.sp,
@@ -218,40 +223,57 @@ class PopularCoursesSection extends StatelessWidget {
                             ],
                           ),
                           verticalGap(5.sp),
-                          Row(
+                          Wrap(
+                            spacing: 10.sp,
+                            runSpacing: 1.sp,
                             textDirection:
                                 multiLangualDataController.isLTR.value
                                     ? TextDirection.ltr
                                     : TextDirection.rtl,
                             children: [
                               CustomRatingBar(
-                                rating: 4.5,
+                                rating: popularCourseItemController
+                                    .courses[index].averageRating
+                                    .toDouble(),
+                                maxRating: 5,
                                 iconSize: 15.sp,
+                                filledColor: AppColors.activeIconColor,
+                                unfilledColor: AppColors.activeIconColor,
                               ),
-                              Spacer(),
-                              GlobalText(
-                                text: popularCourseItemController
-                                    .popularCourses[index]["previousPrice"],
-                                style: TextStyle(
-                                    color: AppColors.smallTextColor,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w400,
-                                    height: 11.sp / 9.sp,
-                                    decoration: TextDecoration.lineThrough),
-                                softWrap: false,
-                              ),
-                              GlobalText(
-                                text: popularCourseItemController
-                                    .popularCourses[index]["currentPrice"],
-                                style: TextStyle(
-                                  color: AppColors.smallTextColor,
-                                  fontSize: 15.sp,
-                                  fontWeight: FontWeight.w600,
-                                  height: 15.sp / 14.sp,
-                                  // decoration: TextDecoration.lineThrough
-                                ),
-                                softWrap: false,
-                              ),
+                              Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                children: [
+                                  GlobalText(
+                                    text: popularCourseItemController
+                                        .courses[index].discount
+                                        .toString(),
+                                    style: TextStyle(
+                                        color: AppColors.smallTextColor,
+                                        fontSize: 11.sp,
+                                        fontWeight: FontWeight.w400,
+                                        height: 11.sp / 9.sp,
+                                        decoration: TextDecoration.lineThrough),
+                                    softWrap: false,
+                                  ),
+                                  horizontalGap(5.sp),
+                                  GlobalText(
+                                    text: popularCourseItemController
+                                        .courses[index].price
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: AppColors.smallTextColor,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      height: 15.sp / 14.sp,
+                                      // decoration: TextDecoration.lineThrough
+                                    ),
+                                    softWrap: false,
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ],

@@ -92,7 +92,7 @@ class ResetPasswordView extends StatelessWidget {
                 }),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Get.back();
                   },
                   child: GlobalText(
                     text: "Back",

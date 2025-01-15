@@ -5,7 +5,6 @@ import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/authentication/controller/forget_password_controller.dart';
-import 'package:skill_grow/features/authentication/view/reset_password_view.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
@@ -63,8 +62,8 @@ class ForgetPasswordView extends StatelessWidget {
                 }),
                 TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
-                    //  Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordView()));
+                    Get.back();
+                   
                   },
                   child: GlobalText(
                     text: "Back To Login",

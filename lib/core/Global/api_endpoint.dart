@@ -23,8 +23,8 @@ class ApiEndpoint {
 
   static const String courseLanguagesUrl = '$baseUrl/course-languages';
 
-  static String courseMainCategoriesUrl(String languageCode) {
-    return '$baseUrl/course-main-categories?language=$languageCode';
+  static String courseMainCategoriesUrl({required String languageCode,  int? limit}) {
+    return '$baseUrl/course-main-categories?language=$languageCode&limit=$limit';
   }
 
   static String courseSubCategoriesUrl({
@@ -35,7 +35,7 @@ class ApiEndpoint {
   }
 
   static String courseLevelsUrl({
-    required String limit,
+    required int limit,
     required String languageCode,
   }) {
     return '$baseUrl/course-levels?limit=$limit&language=$languageCode';
@@ -43,21 +43,21 @@ class ApiEndpoint {
 
   // Courses URLs
   static String popularCoursesUrl({
-    required String limit,
+    required int limit,
     required String currency,
   }) {
     return '$baseUrl/popular-courses?limit=$limit&currency=$currency';
   }
 
   static String freshCoursesUrl({
-    required String limit,
+    required int limit,
     required String currency,
   }) {
     return '$baseUrl/fresh-courses?limit=$limit&currency=$currency';
   }
 
   static String searchCoursesUrl({
-    required String limit,
+    required int limit,
     required String currency,
     required String search,
     required String main_category,
@@ -97,7 +97,7 @@ class ApiEndpoint {
 
   static String faqUrl({
     required String languageCode,
-    required String limit,
+    required int limit,
   }) {
     return '$baseUrl/faqs?language=$languageCode&limit=$limit';
   }
@@ -106,7 +106,7 @@ class ApiEndpoint {
 
   // Dashboard Order URLs
   static String dashboardOrderUrl({
-    required String limit,
+    required int limit,
     required String page,
   }) {
     return '$baseUrl/orders?limit=$limit&page=$page';
@@ -122,7 +122,7 @@ class ApiEndpoint {
 
   // Dashboard Review URLs
   static String dashboardReviewsUrl({
-    required String limit,
+    required int limit,
     required String page,
   }) {
     return "$baseUrl/reviews?limit=$limit&page=$page";
@@ -138,7 +138,7 @@ class ApiEndpoint {
 
   // Dashboard Quiz URLs
   static String dashboardQuizUrl({
-    required String limit,
+    required int limit,
     required String page,
   }) {
     return "$baseUrl/quiz-attempts?limit=$limit&page=$page";
@@ -150,14 +150,14 @@ class ApiEndpoint {
 
   // Dashboard Enrolled Course URLs
   static String dashboardEnrolledCourseUrl({
-    required String limit,
+    required int limit,
     required String page,
   }) {
     return "$baseUrl/enrolled-courses?limit=$limit&page=$page";
   }
 
   static String downloadCertificateUrl({
-    required String limit,
+    required int limit,
     required String page,
   }) {
     return "$baseUrl/download-certificate?limit=$limit&page=$page";
@@ -165,7 +165,7 @@ class ApiEndpoint {
 
   // Dashboard Wishlist URLs
   static String dashboardWishlistUrl({
-    required String limit,
+    required int limit,
     required String page,
   }) {
     return "$baseUrl/wishlist-courses?limit=$limit&page=$page";
@@ -192,7 +192,7 @@ class ApiEndpoint {
 
   // QNA URLs
   static String qnaUrl({
-    required String limit,
+    required int limit,
     required String course_slug,
     required String lesson_id,
     required String search,

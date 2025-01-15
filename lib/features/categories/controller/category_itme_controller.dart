@@ -1,71 +1,41 @@
 import 'package:get/get.dart';
-import '../../../core/icons/app_icon.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:skill_grow/core/Global/api_endpoint.dart';
+import '../../../core/Global/api_service.dart';
+import '../model/category_list_model.dart';
 
-class CategoryItemController extends GetxController {
-  // Loading state
-  RxBool isLoading = true.obs;
 
-  // Category list
-  RxList categoryList = [
-    {
-      "id": 1,
-      "name": "Development",
-      "image": AppIcon.developmentIcon,
-    },
-    {
-      "id": 2,
-      "name": "Game Dev",
-      "image": AppIcon.gameIcon,
-    },
-    {
-      "id": 3,
-      "name": "UX Design",
-      "image": AppIcon.uxIcon,
-    },
-    {
-      "id": 5,
-      "name": "Deployment",
-      "image": AppIcon.deploymentIcon,
-    },
-    {
-      "id": 6,
-      "name": "Customization",
-      "image": AppIcon.customizeIcon,
-    },
-    {
-      "id": 7,
-      "name": "UI Design",
-      "image": AppIcon.uiIcon,
-    },
-    {
-      "id": 8,
-      "name": "Music Dev",
-      "image": AppIcon.musicIcon,
-    },
-    {
-      "id": 9,
-      "name": "Communication",
-      "image": AppIcon.communicationIcon,
-    },
-    {
-      "id": 10,
-      "name": "Photography",
-      "image": AppIcon.photographyIcon,
-    },
-    {
-      "id": 11,
-      "name": "Film Making",
-      "image": AppIcon.filmMakingIcon,
-    },
-  ].obs;
+class MainCategoryController extends GetxController {
+  final ApiService _apiService = ApiService();
+
+  // Observables
+  var categories = <CategoryListResponseModel>[].obs;
+  var isLoading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
+    fetchCategories();
+  }
+  // Fetch Categories from API
+  Future<void> fetchCategories() async {
+    isLoading.value = true;
 
-    // Set isLoading to false after 5 seconds
-    Future.delayed(Duration(seconds: 3), () {
+    try {
+      final dio.Response? response = await _apiService.getData(
+        url: ApiEndpoint.courseMainCategoriesUrl(languageCode: "en" ),
+      );
+
+      if (response != null && response.statusCode == 200) {
+        final categoryModel = CategoryModel.fromJson(response.data);
+        categories.value = categoryModel.categories;
+      } else {
+        Get.snackbar('Error', 'Failed to load categories');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
       isLoading.value = false;
-    });
+    }
   }
 }

@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
@@ -15,8 +15,8 @@ import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class CategorySection extends StatelessWidget {
   CategorySection({super.key});
-  CategoryItemController categoryItmeController =
-      Get.put(CategoryItemController());
+  MainCategoryController categoryItmeController =
+      Get.put(MainCategoryController());
   @override
   Widget build(BuildContext context) {
     MultiLangualDataController multiLangualDataController =
@@ -63,13 +63,13 @@ class CategorySection extends StatelessWidget {
           );
         } else {
           return WrapWithMaxLines(
-            itemWidth: 44.sp,
+            itemWidth: 45.sp,
             maxLines: 2,
             spacing: 20.sp,
             runSpacing: 20.sp,
             children: List.generate(
-                categoryItmeController.categoryList.length < 10
-                    ? categoryItmeController.categoryList.length
+                categoryItmeController.categories.length < 10
+                    ? categoryItmeController.categories.length
                     : 10, (index) {
               return Bounceable(
                   onTap: () {},
@@ -79,21 +79,23 @@ class CategorySection extends StatelessWidget {
                         : TextDirection.rtl,
                     children: [
                       Container(
-                        height: 44.sp,
-                        width: 44.sp,
+                        height: 45.sp,
+                        width: 45.sp,
+                        padding: EdgeInsets.all(10.sp),
                         decoration: BoxDecoration(
                           color: AppColors.nuralItemBackgroundColor,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
-                          child: SvgPicture.asset(
-                            categoryItmeController.categoryList[index]["image"],
+                          child: Image.network(
+                            ApiEndpoint.imageUrl +
+                                categoryItmeController.categories[index].icon,
                           ),
                         ),
                       ),
                       verticalGap(3.sp),
                       Text(
-                        categoryItmeController.categoryList[index]["name"],
+                        categoryItmeController.categories[index].name,
                         style: TextStyle(
                           color: AppColors.smallTextColor,
                           fontSize: 11.sp,

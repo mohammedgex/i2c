@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class WrapWithMaxLines extends StatelessWidget {
   final List<Widget> children;
   final int maxLines;
   final double spacing;
   final double runSpacing;
-  final double itemWidth; // Accept item width as a parameter
+  final double itemWidth;
 
   const WrapWithMaxLines({
     super.key,
@@ -13,28 +15,39 @@ class WrapWithMaxLines extends StatelessWidget {
     required this.maxLines,
     required this.spacing,
     required this.runSpacing,
-    required this.itemWidth, // Add itemWidth to the constructor
+    required this.itemWidth,
   });
 
   @override
   Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return LayoutBuilder(
       builder: (context, constraints) {
         // Calculate the available width for the items
         double availableWidth = constraints.maxWidth;
 
-        // Calculate how many items can fit per row based on the available width
-        int maxItemsPerRow = (availableWidth / (itemWidth + spacing)).floor();
+        // Calculate the number of items that can fit per row
+        int itemsPerRow = (availableWidth / (itemWidth + spacing)).floor();
 
-        // Limit the number of items to fit within maxLines and maxItemsPerRow
-        int maxItems = maxLines * maxItemsPerRow;
+        // Recalculate spacing to ensure equal gaps between items
+        double adjustedSpacing =
+            (availableWidth - (itemsPerRow * itemWidth)) / (itemsPerRow - 1);
+
+        // Limit the number of items to fit within maxLines
+        int maxItems = maxLines * itemsPerRow;
 
         // Create a list of children limited to the maximum number of items
         List<Widget> limitedChildren = children.take(maxItems).toList();
 
         return Wrap(
-          spacing: spacing, // space between items
-          runSpacing: runSpacing, // space between rows
+          alignment: WrapAlignment.spaceEvenly,
+          runAlignment: WrapAlignment.start,
+          textDirection: multiLangualDataController.isLTR.value
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+          spacing: adjustedSpacing, // Adjusted spacing for equal gaps
+          runSpacing: runSpacing,
           children: limitedChildren,
         );
       },

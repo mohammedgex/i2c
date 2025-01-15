@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
 import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
 
 import '../../../core/constant/constant.dart';
@@ -19,7 +20,7 @@ class CategoryAllItemView extends StatelessWidget {
 
   MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
-  CategoryItemController controller = Get.put(CategoryItemController());
+  MainCategoryController controller = Get.put(MainCategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -89,13 +90,13 @@ class CategoryAllItemView extends StatelessWidget {
                     }),
                   );
                 } else {
-                  return Wrap(
-                    // itemWidth: 44.sp,
-                    // maxLines: 12,
+                  return WrapWithMaxLines(
+                    itemWidth: 45.sp,
+                    maxLines: 12,
                     spacing: 20.sp,
                     runSpacing: 20.sp,
                     children:
-                        List.generate(controller.categoryList.length, (index) {
+                        List.generate(controller.categories.length, (index) {
                       return Bounceable(
                           onTap: () {},
                           child: Column(
@@ -105,21 +106,22 @@ class CategoryAllItemView extends StatelessWidget {
                                     : TextDirection.rtl,
                             children: [
                               Container(
-                                height: 44.sp,
-                                width: 44.sp,
+                                height: 45.sp,
+                                width: 45.sp,
+                                padding: EdgeInsets.all(10.sp),
                                 decoration: BoxDecoration(
                                   color: AppColors.nuralItemBackgroundColor,
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
-                                  child: SvgPicture.asset(
-                                    controller.categoryList[index]["image"],
-                                  ),
-                                ),
+                                    child: Image.network(
+                                  ApiEndpoint.imageUrl +
+                                      controller.categories[index].icon,
+                                )),
                               ),
                               verticalGap(3.sp),
                               GlobalText(
-                                text: controller.categoryList[index]["name"],
+                                text: controller.categories[index].name,
                                 style: TextStyle(
                                   color: AppColors.smallTextColor,
                                   fontSize: 11.sp,

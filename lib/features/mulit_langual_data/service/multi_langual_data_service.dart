@@ -11,7 +11,7 @@ class MultiLangualDataService {
       String url = ApiEndpoint.multiLangualDataUrl("en");
 
       // Print the URL for debugging purposes
-      print('API URL: $url');
+      // print('API URL: $url');
 
       // Set up the headers to ensure the request is recognized as JSON
 
@@ -29,7 +29,7 @@ class MultiLangualDataService {
       }
 
       // Log the entire response to understand the structure
-      print('Response Data: ${response.data}');
+      // print('Response Data: ${response.data}');
 
       // Ensure the response is in the correct format before decoding
       if (response.data is Map<String, dynamic>) {

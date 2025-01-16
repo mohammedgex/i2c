@@ -5,46 +5,50 @@ import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:skill_grow/features/learining/model/enrolled_course_model.dart';
 
 class EnrolledCourseController extends GetxController {
-  // Observable state
-
-  var course = Rxn<EnrolledCourseResponseModel>();
-  var isLoading = false.obs;
+  var courses = <Course>[].obs; // Store courses
+  var isLoading = false.obs; // Tracks loading state
+  var currentPage = 1.obs;
+  var lastPage = 1.obs; // Keeps track of the last page
+  var isMoreDataAvailable = true.obs; // Controls pagination
 
   final ApiService _apiService = ApiService();
 
   @override
   void onInit() {
     super.onInit();
-    fetchData(1);
+    fetchData(currentPage.value);
   }
 
   // Fetch course data from API
-Future<void> fetchData(page) async {
-  isLoading.value = true;
+  Future<void> fetchData(int page) async {
+    if (!isMoreDataAvailable.value || isLoading.value) return; // Prevents duplicate requests
 
-  try {
-    dio.Response? response = await _apiService.getData(
-      requiresAuth: true,
-      url: ApiEndpoint.dashboardEnrolledCourseUrl(page: page),
-    );
+    isLoading.value = true;
 
-    if (response != null && response.data != null) { // ✅ Check for null first
-      print(response.data);
+    try {
+      dio.Response? response = await _apiService.getData(
+        requiresAuth: true,
+        url: ApiEndpoint.dashboardEnrolledCourseUrl(page: page),
+      );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        course.value = EnrolledCourseResponseModel.fromJson(response.data);
-      } else {
-        print("Error: Invalid status code ${response.statusCode}");
+      if (response != null && response.data != null) {
+        var fetchedData = EnrolledCourseResponseModel.fromJson(response.data);
+
+        // Append new courses to the list
+        if (fetchedData.data.isNotEmpty) {
+          courses.addAll(fetchedData.data);
+          currentPage.value++;
+
+          // Check if there are more pages to load
+          if (currentPage.value > fetchedData.pagination.lastPage) {
+            isMoreDataAvailable.value = false;
+          }
+        }
       }
-    } else {
-      print("Error: API response is null or empty");
+    } catch (e) {
+      print('Error fetching course data: $e');
+    } finally {
+      isLoading.value = false;
     }
-  } catch (e) {
-    print('Error fetching course data: $e');
-  } finally {
-    isLoading.value = false;
   }
-}
-
-
 }

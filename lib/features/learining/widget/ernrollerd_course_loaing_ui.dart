@@ -139,6 +139,6 @@ class ErnrollerdCourseLoaingUi extends StatelessWidget {
         ),
       ),
     );
-    ;
+    
   }
 }

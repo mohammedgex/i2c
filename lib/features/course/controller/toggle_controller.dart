@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 class ToggleController extends GetxController {
-  RxInt selectedIndex = 2.obs;
+  RxInt selectedIndex = 0.obs;
 
   toggole(index) {
     selectedIndex(index);

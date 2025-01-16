@@ -8,6 +8,7 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/features/course/controller/popular_course_controller.dart';
+import 'package:skill_grow/features/course/view/course_details.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/custom_rating_bar.dart';
@@ -149,7 +150,9 @@ class AllPopularCourseListview extends StatelessWidget {
                           itemCount: popularCourseController.courses.length,
                           itemBuilder: (context, index) {
                             return Bounceable(
-                              onTap: () {},
+                              onTap: () {
+                                 Get.to(() => CourseDetailsView(slug: popularCourseController.courses[index].slug,));
+                              },
                               child: Container(
                                   width: double.infinity,
                                   margin: EdgeInsets.only(bottom: 10.sp),

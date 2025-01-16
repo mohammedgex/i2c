@@ -150,7 +150,7 @@ class AllFreshCourseListview extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Bounceable(
                               onTap: () {
-                                Get.to(CourseDetailsView());
+                                Get.to(CourseDetailsView(slug: freshCourseConroller.courses[index].slug,));
                               },
                               child: Container(
                                   width: double.infinity,

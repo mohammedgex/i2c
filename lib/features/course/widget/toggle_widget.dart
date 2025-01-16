@@ -4,13 +4,12 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
-import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
 import 'package:skill_grow/features/course/controller/toggle_controller.dart';
-
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
@@ -26,8 +25,8 @@ class ToggleWidget extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     ToggleController toggleController = ToggleController();
-    CourseReviewController courseReviewController =
-        Get.put(CourseReviewController());
+    CourseReviewController courseReviewController = Get.put(
+        CourseReviewController(courseDetalisController.course.value!.slug));
     return Column(
       textDirection: multiLangualDataController.isLTR.value
           ? TextDirection.ltr
@@ -292,7 +291,91 @@ class ToggleWidget extends StatelessWidget {
               child: Obx(() {
                 if (courseReviewController.isLoading.value) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: Shimmer.fromColors(
+                        baseColor: AppColors.nuralItemBackgroundColor,
+                        highlightColor: AppColors.shimmerBackgroundColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            children: [
+                              Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                children: [
+                                  Container(
+                                    height: 50.sp,
+                                    width: 50.sp,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color:
+                                            AppColors.nuralItemBackgroundColor),
+                                  ),
+                                  horizontalGap(10.sp),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    textDirection:
+                                        multiLangualDataController.isLTR.value
+                                            ? TextDirection.ltr
+                                            : TextDirection.rtl,
+                                    children: [
+                                      Container(
+                                        height: 10.sp,
+                                        width: 100.sp,
+                                        decoration: BoxDecoration(
+                                            color: AppColors
+                                                .nuralItemBackgroundColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp)),
+                                      ),
+                                      verticalGap(10.sp),
+                                      CustomRatingBar(
+                                        rating: 5.0,
+                                        iconSize: 20.sp,
+                                      ),
+                                      verticalGap(10.sp),
+                                      Container(
+                                        height: 10.sp,
+                                        width: 250.sp,
+                                        decoration: BoxDecoration(
+                                            color: AppColors
+                                                .nuralItemBackgroundColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp)),
+                                      ),
+                                      verticalGap(5.sp),
+                                      Container(
+                                        height: 10.sp,
+                                        width: 200.sp,
+                                        decoration: BoxDecoration(
+                                            color: AppColors
+                                                .nuralItemBackgroundColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp)),
+                                      ),
+                                      verticalGap(5.sp),
+                                      Container(
+                                        height: 10.sp,
+                                        width: 250.sp,
+                                        decoration: BoxDecoration(
+                                            color: AppColors
+                                                .nuralItemBackgroundColor,
+                                            borderRadius:
+                                                BorderRadius.circular(10.sp)),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        )),
                   );
                 } else {
                   return Column(

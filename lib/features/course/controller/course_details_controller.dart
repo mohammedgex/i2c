@@ -5,6 +5,9 @@ import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:skill_grow/features/course/model/course_details_model.dart';
 
 class CourseDetalisController extends GetxController {
+final String slug;
+  CourseDetalisController(this.slug);
+
   // Observable state
   var course = Rxn<CourseDetailsResponseModel>();
   var isLoading = false.obs;
@@ -14,17 +17,17 @@ class CourseDetalisController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCourseData();
+    fetchCourseData(slug);
   }
 
   // Fetch course data from API
-  Future<void> fetchCourseData() async {
+  Future<void> fetchCourseData(String slug) async {
     isLoading.value = true;
 
     try {
       dio.Response? response = await _apiService.getData(
         url: ApiEndpoint.coursesUrl(
-            slug: "songwriting-basics-crafting-melodies", currency: "USD"),
+            slug: slug, currency: "USD"),
       );
 
       if (response!.data != null) {

@@ -6,6 +6,9 @@ import 'package:skill_grow/features/course/model/course_review_model.dart';
 
 class CourseReviewController extends GetxController {
   // Observable state
+  final slug;
+  CourseReviewController(this.slug);
+
   var course = Rxn<CourseReviewsResponse>();
   var isLoading = false.obs;
 
@@ -24,9 +27,7 @@ class CourseReviewController extends GetxController {
     try {
       dio.Response? response = await _apiService.getData(
         url: ApiEndpoint.courseReviewUrl(
-          course_slug: "songwriting-basics-crafting-melodies",
-          page: page
-        ),
+            course_slug: slug, page: page),
       );
       print(response!.data);
 

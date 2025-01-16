@@ -24,6 +24,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+      SharedPrefUtil.get('isLoggedin', false).then((value) => print(value));
+  SharedPrefUtil.get('token', "").then((value) => print(value));
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -35,9 +37,20 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: SharedPrefUtil.get('token', "") != ""
-              ? CustomPersistentBottomNavBar()
-              : LoginView(),
+          home: FutureBuilder<bool>(
+  future: SharedPrefUtil.get('isLoggedin', false).then((value) => value as bool), // Explicit cast
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator(); // Show a loading indicator
+    }
+    if (snapshot.hasData && snapshot.data == true) {
+      return CustomPersistentBottomNavBar();
+    } else {
+      return LoginView();
+    }
+  },
+),
+
         );
       },
     );

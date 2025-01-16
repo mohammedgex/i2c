@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:skill_grow/core/Global/error_handler.dart';
+import 'package:skill_grow/core/Global/sharedPref.dart';
 
 class ApiService {
   final Dio _dio;
@@ -22,9 +23,10 @@ class ApiService {
     bool requiresAuth = true,
   }) async {
     try {
-      // Add Authorization header only when required
+      // Set Authorization Header (Use await instead of then())
       if (requiresAuth) {
-        _dio.options.headers['Authorization'] = 'Bearer YOUR_TOKEN_HERE';
+        String token = await SharedPrefUtil.get("token", '');
+        _dio.options.headers['Authorization'] = 'Bearer $token'; // Ensure token format
       } else {
         _dio.options.headers.remove('Authorization');
       }
@@ -70,8 +72,7 @@ class ApiService {
       GlobalErrorHandler.handleError(e);
     }
 
-    // Return null or throw an exception based on how you want to handle this
-    return null;
+    return null; // Return null if an error occurs
   }
 
   // Example: GET API

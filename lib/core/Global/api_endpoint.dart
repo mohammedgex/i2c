@@ -151,8 +151,8 @@ class ApiEndpoint {
 
   // Dashboard Enrolled Course URLs
   static String dashboardEnrolledCourseUrl({
-    required int limit,
-    required String page,
+     int? limit,
+    required int page,
   }) {
     return "$baseUrl/enrolled-courses?limit=$limit&page=$page";
   }

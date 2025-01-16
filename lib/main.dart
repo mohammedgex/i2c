@@ -7,6 +7,7 @@ void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
   };
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
 }

@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:skill_grow/features/course/widget/overview_item.dart';
+import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+
+import '../../../core/icons/app_icon.dart';
+import '../controller/course_details_controller.dart';
+
+class CourseInfo extends StatelessWidget {
+ final CourseDetalisController courseDetalisController;
+  const CourseInfo({super.key, required this.courseDetalisController});
+
+  @override
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        // color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(10.sp),
+      ),
+      child: Wrap(
+        runAlignment: WrapAlignment.spaceBetween,
+        alignment: WrapAlignment.spaceBetween,
+        direction:
+            Axis.horizontal, // Ensures children are laid out horizontally
+
+        // spacing: 20.0, // Horizontal spacing between children
+        runSpacing: 10.0, // Vertical spacing between lines
+        textDirection: multiLangualDataController.isLTR.value
+            ? TextDirection.ltr
+            : TextDirection.rtl,
+        children: [
+          OverviewItem(
+            title: "Last Update",
+            value: courseDetalisController.course.value!.lastUpdated,
+            icon: AppIcon.date,
+          ),
+          OverviewItem(
+            title: "Duration",
+            value: courseDetalisController.course.value!.duration,
+            icon: AppIcon.duration,
+          ),
+          OverviewItem(
+            title: "Certificate",
+            value: courseDetalisController.course.value!.certificate
+                ? "Yes"
+                : "No",
+            icon: AppIcon.certificate,
+          ),
+          OverviewItem(
+            title: "Total Lectures",
+            value:
+                courseDetalisController.course.value!.lessonsCount.toString(),
+            icon: AppIcon.lecture,
+          ),
+          OverviewItem(
+            title: "Quizzes",
+            value:
+                courseDetalisController.course.value!.quizzesCount.toString(),
+            icon: AppIcon.quiz,
+          ),
+          OverviewItem(
+            title: "",
+            value: courseDetalisController.course.value!.languages.toString(),
+            icon: AppIcon.language,
+          ),
+        ],
+      ),
+    );
+  }
+}

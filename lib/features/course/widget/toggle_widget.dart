@@ -4,22 +4,30 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
+import 'package:skill_grow/features/course/controller/course_details_controller.dart';
 import 'package:skill_grow/features/course/controller/toggle_controller.dart';
 
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../controller/course_review_controller.dart';
 
 class ToggleWidget extends StatelessWidget {
-  const ToggleWidget({super.key});
+  final CourseDetalisController courseDetalisController;
+  const ToggleWidget({super.key, required this.courseDetalisController});
 
   @override
-  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     ToggleController toggleController = ToggleController();
+    CourseReviewController courseReviewController =
+        Get.put(CourseReviewController());
     return Column(
       textDirection: multiLangualDataController.isLTR.value
           ? TextDirection.ltr
@@ -32,109 +40,117 @@ class ToggleWidget extends StatelessWidget {
             color: AppColors.nuralItemBackgroundColor,
             borderRadius: BorderRadius.circular(3.sp),
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.sp, vertical: 5.sp),
-            child: Row(
-              textDirection: multiLangualDataController.isLTR.value
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              children: [
-                Expanded(
-                  child: Bounceable(
-                    onTap: () {
-                      toggleController.selectedIndex(0);
-                    },
-                    child: Obx(() {
-                      return Container(
+          child: Obx(() {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5.sp, vertical: 5.sp),
+              child: Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                children: [
+                  Expanded(
+                    child: Bounceable(
+                      onTap: () {
+                        toggleController.selectedIndex(0);
+                      },
+                      child: Container(
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          border: Border(
-                              right: BorderSide(
-                                  color: Colors.grey, width: 1.5.sp)),
-                          color: toggleController.selectedIndex.value == 0
-                              ? Colors.white
-                              : null,
-                        ),
+                            color: toggleController.selectedIndex.value == 0
+                                ? Colors.white
+                                : AppColors.nuralItemBackgroundColor,
+                            borderRadius: BorderRadius.circular(7.sp)),
                         child: Center(
                           child: GlobalText(
                             text: "Overview",
-                            softWrap: true,
+                            softWrap: false,
                             style: TextStyle(
-                                color: AppColors.smallTextColor,
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                                color: toggleController.selectedIndex.value == 0
+                                    ? AppColors.titleTextColor
+                                    : AppColors.inactiveIconColor),
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                   ),
-                ),
-                horizontalGap(5.sp),
-                Expanded(
-                  child: Bounceable(
-                    onTap: () {
-                      toggleController.selectedIndex(1);
-                    },
-                    child: Obx(() {
-                      return Container(
+                  horizontalGap(2.sp),
+                  VerticalDivider(
+                    thickness: 2.sp,
+                    width: 3.sp,
+                    endIndent: 15.sp,
+                    indent: 15.sp,
+                  ),
+                  horizontalGap(2.sp),
+                  Expanded(
+                    child: Bounceable(
+                      onTap: () {
+                        toggleController.selectedIndex(1);
+                      },
+                      child: Container(
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          border: Border(
-                            right:
-                                BorderSide(color: Colors.grey, width: 1.5.sp),
-                          ),
-                          color: toggleController.selectedIndex.value == 1
-                              ? Colors.white
-                              : null,
-                        ),
+                            color: toggleController.selectedIndex.value == 1
+                                ? Colors.white
+                                : AppColors.nuralItemBackgroundColor,
+                            borderRadius: BorderRadius.circular(7.sp)),
                         child: Center(
                           child: GlobalText(
                             text: "Curriculum",
-                            softWrap: true,
+                            softWrap: false,
                             style: TextStyle(
-                                color: AppColors.smallTextColor,
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                                color: toggleController.selectedIndex.value == 1
+                                    ? AppColors.titleTextColor
+                                    : AppColors.inactiveIconColor),
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Bounceable(
-                    onTap: () {
-                      toggleController.selectedIndex(2);
-                    },
-                    child: Obx(() {
-                      return Container(
+                  horizontalGap(2.sp),
+                  VerticalDivider(
+                    thickness: 2.sp,
+                    width: 3.sp,
+                    endIndent: 15.sp,
+                    indent: 15.sp,
+                  ),
+                  horizontalGap(2.sp),
+                  Expanded(
+                    child: Bounceable(
+                      onTap: () {
+                        toggleController.selectedIndex(2);
+                      },
+                      child: Container(
                         height: double.infinity,
                         decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Colors.white, width: 1.5.sp),
-                          borderRadius: BorderRadius.circular(3.sp),
-                          color: toggleController.selectedIndex.value == 2
-                              ? Colors.white
-                              : null,
-                        ),
+                            color: toggleController.selectedIndex.value == 2
+                                ? Colors.white
+                                : AppColors.nuralItemBackgroundColor,
+                            borderRadius: BorderRadius.circular(7.sp)),
                         child: Center(
                           child: GlobalText(
                             text: "Reviews",
-                            softWrap: true,
+                            softWrap: false,
                             style: TextStyle(
-                                color: AppColors.smallTextColor,
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                                color: toggleController.selectedIndex.value == 2
+                                    ? AppColors.titleTextColor
+                                    : AppColors.inactiveIconColor),
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                ],
+              ),
+            );
+          }),
         ),
+        verticalGap(10.sp),
         Obx(() {
           if (toggleController.selectedIndex.value == 0) {
             return Container(
@@ -161,8 +177,7 @@ class ToggleWidget extends StatelessWidget {
                     ),
                     verticalGap(10.sp),
                     GlobalText(
-                      text:
-                          r"Are you ready to take your Laravel skills to the next level? In this course, you will build a complete Realtime Messaging System project from scratch using Laravel 10 and Pusher. This project-based  course is designed to help you become a professional Laravel developer and give you a competitive edge in the job market.Why Learn Laravel 10?Laravel 10 is the latest version of the popular PHP framework and  comes packed with new features and improvements, making it faster and  more efficient than ever before. It's easy to learn and has a huge  community, making it the perfect choice for building robust and scalable web applications.What Will You Learn?",
+                      text: courseDetalisController.course.value!.description,
                       softWrap: true,
                     ),
                   ],
@@ -176,73 +191,96 @@ class ToggleWidget extends StatelessWidget {
               child: Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: 7.sp, vertical: 15.sp),
-                child: Accordion(
-                  disableScrolling: true,
-                  contentVerticalPadding: 0,
-                  paddingListTop: 0,
-                  paddingListBottom: 0,
-                  rightIcon: SvgPicture.asset(
-                    AppIcon.arrowDownIcon,
-                    color: Colors.black,
-                  ),
-                  children: [
-                    AccordionSection(
-                      headerPadding: EdgeInsets.all(10.sp),
-                      headerBackgroundColor: AppColors.nuralItemBackgroundColor,
-                      contentBackgroundColor:
-                          AppColors.nuralItemBackgroundColor,
-                      contentBorderColor: Colors.transparent,
-                      header: GlobalText(
-                        text: "Introduction",
-                        softWrap: true,
-                        style: TextStyle(
-                            fontSize: 13.sp, color: AppColors.titleTextColor),
+                child: Column(
+                  children: List.generate(
+                      courseDetalisController.course.value!.curriculums.length,
+                      (index) {
+                    var curriculums = courseDetalisController
+                        .course.value!.curriculums[index];
+                    return Accordion(
+                      disableScrolling: true,
+                      contentVerticalPadding: 0,
+                      paddingListTop: 0,
+                      paddingListBottom: 0,
+                      rightIcon: SvgPicture.asset(
+                        AppIcon.arrowDownIcon,
+                        color: Colors.black,
                       ),
-                      content: Column(
-                        textDirection: multiLangualDataController.isLTR.value
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 50.sp,
-                            child: ListTile(
-                                title: GlobalText(
-                                  text: "How To Work With Laravel",
-                                  softWrap: true,
-                                ),
-                                subtitle: GlobalText(
-                                  text: "1h 30m",
-                                  softWrap: true,
-                                  style: TextStyle(fontSize: 10.sp),
-                                ),
-                                trailing: SvgPicture.asset(
-                                  AppIcon.playIcon,
-                                  color: AppColors.activeIconColor,
-                                )),
+                      children: [
+                        AccordionSection(
+                          headerPadding: EdgeInsets.all(10.sp),
+                          headerBackgroundColor:
+                              AppColors.nuralItemBackgroundColor,
+                          contentBackgroundColor:
+                              AppColors.nuralItemBackgroundColor,
+                          contentBorderColor: Colors.transparent,
+                          header: GlobalText(
+                            text: curriculums.title,
+                            softWrap: true,
+                            style: TextStyle(
+                                fontSize: 13.sp,
+                                color: AppColors.titleTextColor),
                           ),
-                          SizedBox(
-                            height: 50.sp,
-                            child: ListTile(
-                                title: GlobalText(
-                                  text: "Environment Setup For Laravel",
-                                  softWrap: true,
-                                ),
-                                subtitle: GlobalText(
-                                  text: "1h 30m",
-                                  softWrap: true,
-                                  style: TextStyle(fontSize: 10.sp),
-                                ),
-                                trailing: SvgPicture.asset(
-                                  AppIcon.lockIcon,
-                                  color: AppColors.activeIconColor,
-                                )),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+                          content: Column(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: List.generate(curriculums.chapters.length,
+                                (index) {
+                              var chapter = curriculums.chapters[index];
+                              if (chapter.type == "lesson") {
+                                return Container(
+                                  height: 50.sp,
+                                  margin: EdgeInsets.symmetric(vertical: 5.sp),
+                                  child: ListTile(
+                                      title: GlobalText(
+                                        text: chapter.lesson!.title.toString(),
+                                        softWrap: true,
+                                      ),
+                                      subtitle: GlobalText(
+                                        text: "1h 30m",
+                                        softWrap: true,
+                                        style: TextStyle(fontSize: 10.sp),
+                                      ),
+                                      trailing: SvgPicture.asset(
+                                        AppIcon.playIcon,
+                                        color: AppColors.activeIconColor,
+                                      )),
+                                );
+                              } else {
+                                return Container(
+                                  height: 50.sp,
+                                  margin: EdgeInsets.symmetric(vertical: 5.sp),
+                                  child: ListTile(
+                                      title: GlobalText(
+                                        text: chapter.quiz!.title.toString(),
+                                        softWrap: true,
+                                        style: TextStyle(fontSize: 13.sp),
+                                      ),
+                                      subtitle: GlobalText(
+                                        text: "1h 30m",
+                                        softWrap: true,
+                                        style: TextStyle(fontSize: 10.sp),
+                                      ),
+                                      trailing: SizedBox(
+                                        height: 17.sp,
+                                        width: 17.sp,
+                                        child: SvgPicture.asset(
+                                          AppIcon.quiz,
+                                          color: AppColors.activeIconColor,
+                                        ),
+                                      )),
+                                );
+                              }
+                            }),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ),
             );
@@ -251,67 +289,140 @@ class ToggleWidget extends StatelessWidget {
               width: double.infinity,
               // height: 100.sp,
               decoration: BoxDecoration(color: Colors.white),
-              child: Column(
-                textDirection: multiLangualDataController.isLTR.value
-                    ? TextDirection.ltr
-                    : TextDirection.rtl,
-                children: [
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(15.sp),
-                      child: Row(
-                        textDirection: multiLangualDataController.isLTR.value
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
-                        children: [
-                          CircleAvatar(
-                              radius: 30.r,
-                              backgroundImage:
-                                  AssetImage(AppImage.freshCourseImage1)),
-                          horizontalGap(10.sp),
-                          Flexible(
-                            child: Column(
+              child: Obx(() {
+                if (courseReviewController.isLoading.value) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  return Column(
+                    textDirection: multiLangualDataController.isLTR.value
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
+                    children: [
+                      // Reviews List inside ListView
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount:
+                            courseReviewController.course.value!.data.length,
+                        itemBuilder: (context, index) {
+                          var reviews =
+                              courseReviewController.course.value!.data[index];
+                          return Container(
+                            padding: EdgeInsets.all(10.sp),
+                            decoration: BoxDecoration(
+                                color: AppColors.nuralItemBackgroundColor),
+                            child: Row(
                               textDirection:
                                   multiLangualDataController.isLTR.value
                                       ? TextDirection.ltr
                                       : TextDirection.rtl,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                GlobalText(
-                                  text: "Shakil Ahmed",
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                CircleAvatar(
+                                  radius: 25.r,
+                                  backgroundImage: NetworkImage(
+                                      ApiEndpoint.imageUrl +
+                                          courseReviewController
+                                              .course.value!.data[0].avatar),
                                 ),
-                                CustomRatingBar(
-                                  rating: 3.5,
-                                  filledColor: AppColors.activeIconColor,
-                                  unfilledColor: AppColors.activeIconColor,
-                                  iconSize: 15.sp,
-                                ),
-                                GlobalText(
-                                  text:
-                                      "A simple yet profound tale, The Alchemist inspires readers to follow their dreams. Its universal themes of purpose and self-discovery resonate deeply. A poetic reminder to listen to one’s heart.",
-                                  softWrap: true,
-                                  style: TextStyle(fontSize: 12.sp),
+                                horizontalGap(10.sp),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  textDirection:
+                                      multiLangualDataController.isLTR.value
+                                          ? TextDirection.ltr
+                                          : TextDirection.rtl,
+                                  children: [
+                                    GlobalText(
+                                      text: reviews.name,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.titleTextColor,
+                                      ),
+                                    ),
+                                    CustomRatingBar(
+                                      rating: reviews.rating.toDouble(),
+                                      filledColor: AppColors.primaryColor,
+                                      unfilledColor: AppColors.activeIconColor,
+                                      iconSize: 18.sp,
+                                    ),
+                                    GlobalText(
+                                      text: reviews.review,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w300,
+                                        color: AppColors.titleTextColor,
+                                      ),
+                                    ),
+                                  ],
                                 )
                               ],
                             ),
-                          )
-                        ],
+                          );
+                        },
                       ),
-                    ),
-                  )
-                ],
-              ),
+
+                      // Pagination Controls at the end of the review list
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: courseReviewController.course.value!
+                                          .pagination.currentPage >
+                                      1
+                                  ? () {
+                                      // Navigate to the previous page
+                                      final prevPage = courseReviewController
+                                              .course
+                                              .value!
+                                              .pagination
+                                              .currentPage -
+                                          1;
+                                      courseReviewController
+                                          .fetchCourseReview(prevPage);
+                                    }
+                                  : null,
+                              child: Text('Previous'),
+                            ),
+                            Text(
+                              'Page ${courseReviewController.course.value!.pagination.currentPage} of ${courseReviewController.course.value!.pagination.lastPage}',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: courseReviewController.course.value!
+                                          .pagination.currentPage <
+                                      courseReviewController
+                                          .course.value!.pagination.lastPage
+                                  ? () {
+                                      // Navigate to the next page
+                                      final nextPage = courseReviewController
+                                              .course
+                                              .value!
+                                              .pagination
+                                              .currentPage +
+                                          1;
+                                      courseReviewController
+                                          .fetchCourseReview(nextPage);
+                                    }
+                                  : null,
+                              child: Text('Next'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                }
+              }),
             );
           }
         })

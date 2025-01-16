@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:html/parser.dart';
 
 class OnboardingTitleText extends StatelessWidget {
   final String text;
@@ -44,7 +45,7 @@ class OnboardingTitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlobalText(
-     text: text,
+      text: text,
       style: defaultStyle.merge(style), // Merge the default and custom styles
       textAlign: textAlign,
       softWrap: softWrap,
@@ -56,6 +57,7 @@ class OnboardingTitleText extends StatelessWidget {
     );
   }
 }
+
 class OnboardingSubtitleText extends StatelessWidget {
   final String text;
   final TextStyle? style;
@@ -94,7 +96,7 @@ class OnboardingSubtitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlobalText(
-     text: text,
+      text: text,
       style: defaultStyle.merge(style), // Merge the default and custom styles
       textAlign: textAlign,
       softWrap: softWrap,
@@ -134,18 +136,24 @@ class GlobalText extends StatelessWidget {
     this.textScaleFactor,
   });
 
-  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  MultiLangualDataController multiLangualDataController =
+      Get.put(MultiLangualDataController());
 
   @override
   Widget build(BuildContext context) {
     // Ensure multiLangualData is a Map and the key exists
-    String translatedText = multiLangualDataController.multiLangualData[text] ?? text;
+    var document = parse(text);
+    String cleanText = document.body?.text ?? '';
+    String translatedText =
+        multiLangualDataController.multiLangualData[cleanText] ?? cleanText;
 
     return Text(
       translatedText,
       style: style,
       textAlign: textAlign,
-      textDirection: multiLangualDataController.isLTR.value ? TextDirection.ltr : TextDirection.rtl,
+      textDirection: multiLangualDataController.isLTR.value
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       softWrap: softWrap,
       overflow: overflow,
       maxLines: maxLines,

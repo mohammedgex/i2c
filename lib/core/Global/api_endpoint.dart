@@ -76,15 +76,15 @@ class ApiEndpoint {
     required String currency,
     String? userId
   }) {
-    return '$baseUrl/course/$slug?currency=$slug&user_id=$userId';
+    return '$baseUrl/course/$slug?currency=$currency&user_id=$userId';
   }
 
   static String freeLessonInfoUrl({required String lesson_id}) {
     return '$baseUrl/course/free-lesson-info/:$lesson_id';
   }
 
-  static String courseReviewUrl({required String course_slug}) {
-    return '$baseUrl/course/reviews/:$course_slug';
+  static String courseReviewUrl({required String course_slug, int? limit, int? page}) {
+    return '$baseUrl/course/reviews/$course_slug?page=$page?limit=$limit';
   }
 
   // Frontend URLs

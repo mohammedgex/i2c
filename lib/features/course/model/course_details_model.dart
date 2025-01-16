@@ -121,43 +121,48 @@ class Chapter {
   });
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
+    final item = json['item'] ?? {};
+    final isLesson = item['file_type'] != null;
+
     return Chapter(
       type: json['type'] ?? '',
-      lesson: json['item']['file_type'] != null
-          ? Lesson.fromJson(json['item'])
-          : null,
-      quiz: json['item']['file_type'] == null
-          ? Quiz.fromJson(json['item'])
-          : null,
+      lesson: isLesson ? Lesson.fromJson(item) : null,
+      quiz: isLesson ? null : Quiz.fromJson(item),
     );
   }
 }
 
+
+
+
+
+
 class Lesson {
   final int id;
   final String title;
-  final String fileType;
-  final String duration;
-  final bool isFree;
+  final String? fileType;
+  final String? duration;
+  final bool? isFree;
 
   Lesson({
     required this.id,
-    required this.title,
-    required this.fileType,
-    required this.duration,
-    required this.isFree,
+    this.title = 'Untitled', // Default value for title
+    this.fileType = '', // Default value for fileType
+    this.duration = '', // Default value for duration
+    this.isFree = false, // Default value for isFree
   });
 
   factory Lesson.fromJson(Map<String, dynamic> json) {
     return Lesson(
       id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      fileType: json['file_type'] ?? '',
-      duration: json['duration'] ?? '',
-      isFree: json['is_free'] ?? false,
+      title: json['title'] ?? 'Untitled', // Default to 'Untitled' if null
+      fileType: json['file_type'] ?? '', // Default to empty string if null
+      duration: json['duration'] ?? '', // Default to empty string if null
+      isFree: json['is_free'] ?? false, // Default to false if null
     );
   }
 }
+
 
 class Quiz {
   final int id;

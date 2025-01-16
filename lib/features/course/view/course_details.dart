@@ -13,10 +13,9 @@ import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
+import 'package:skill_grow/features/course/widget/course_info.dart';
 import 'package:skill_grow/features/course/widget/toggle_widget.dart';
-
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
-import '../widget/overview_item.dart';
 
 class CourseDetailsView extends StatelessWidget {
   const CourseDetailsView({super.key});
@@ -122,36 +121,6 @@ class CourseDetailsView extends StatelessWidget {
                               softWrap: true,
                             ),
                           ],
-                        ),
-                        verticalGap(10.sp),
-                        Container(
-                          width: double.infinity,
-                          height: 220.sp, // Adjust as needed
-                          decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(10.sp),
-                          ),
-                          child: GridView.builder(
-                            itemCount: overviewItems.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  ScreenUtil().screenWidth > 600 ? 4 : 3,
-                              crossAxisSpacing: 10.sp,
-                              mainAxisSpacing: 10.sp,
-                              childAspectRatio: 1.1,
-                            ),
-                            padding: EdgeInsets.all(10.sp),
-                            physics: NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              final item = overviewItems[index];
-                              return OverviewItem(
-                                title: item['title']!,
-                                value: item['value']!,
-                                icon: item['icon']!,
-                              );
-                            },
-                          ),
                         ),
                         verticalGap(10.sp),
                         Row(
@@ -266,7 +235,7 @@ class CourseDetailsView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        ToggleWidget(),
+                       
                       ],
                     ),
                   ),
@@ -292,12 +261,13 @@ class CourseDetailsView extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.primaryColor,
                       borderRadius: BorderRadius.circular(10.sp),
-                      
                     ),
+                    // child: WebViewWidget(controller: WebViewController()..loadRequest(Uri.parse('https://www.youtube.com/'))),
                   ),
                   verticalGap(10.sp),
                   GlobalText(
-                    text: "Master Laravel 11 & PHP: From Beginner to Advanced",
+                    text:
+                        courseDetalisController.course.value!.title.toString(),
                     softWrap: true,
                     style:
                         TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
@@ -305,7 +275,7 @@ class CourseDetailsView extends StatelessWidget {
                   verticalGap(5.sp),
                   RichText(
                     text: TextSpan(
-                      text: "Created by ",
+                      text: translatedText("Created by"),
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
@@ -313,7 +283,17 @@ class CourseDetailsView extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text: "Web Solution US",
+                          text: " ",
+                          style: TextStyle(
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        TextSpan(
+                          text: translatedText(courseDetalisController
+                              .course.value!.instructor.name
+                              .toString()),
                           style: TextStyle(
                             fontSize: 11.sp,
                             fontWeight: FontWeight.w500,
@@ -330,7 +310,8 @@ class CourseDetailsView extends StatelessWidget {
                         : TextDirection.rtl,
                     children: [
                       CustomRatingBar(
-                        rating: 2.5,
+                        rating:
+                            courseDetalisController.course.value!.averageRating,
                         maxRating: 5,
                         iconSize: 15.sp,
                         filledColor: AppColors.primaryColor,
@@ -338,7 +319,45 @@ class CourseDetailsView extends StatelessWidget {
                       ),
                       horizontalGap(3.sp),
                       GlobalText(
-                        text: "(500) | 200 Students",
+                        text:
+                            "(${courseDetalisController.course.value!.reviewsCount})",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.smallTextColor,
+                        ),
+                        softWrap: true,
+                      ),
+                      GlobalText(
+                        text: " | ",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.smallTextColor,
+                        ),
+                        softWrap: true,
+                      ),
+                      GlobalText(
+                        text:
+                            "${courseDetalisController.course.value!.students}",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.smallTextColor,
+                        ),
+                        softWrap: true,
+                      ),
+                      GlobalText(
+                        text: " ",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.smallTextColor,
+                        ),
+                        softWrap: true,
+                      ),
+                      GlobalText(
+                        text: "Students",
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -348,35 +367,9 @@ class CourseDetailsView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  verticalGap(10.sp),
-                  Container(
-                    width: double.infinity,
-                    height: 220.sp, // Adjust as needed
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: GridView.builder(
-                      itemCount: overviewItems.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: ScreenUtil().screenWidth > 600 ? 4 : 3,
-                        crossAxisSpacing: 10.sp,
-                        mainAxisSpacing: 10.sp,
-                        childAspectRatio: 1.1,
-                      ),
-                      padding: EdgeInsets.all(10.sp),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final item = overviewItems[index];
-                        return OverviewItem(
-                          title: item['title']!,
-                          value: item['value']!,
-                          icon: item['icon']!,
-                        );
-                      },
-                    ),
-                  ),
-                  verticalGap(10.sp),
+                  verticalGap(15.sp),
+                  CourseInfo(courseDetalisController: courseDetalisController),
+                  verticalGap(15.sp),
                   Row(
                     textDirection: multiLangualDataController.isLTR.value
                         ? TextDirection.ltr
@@ -397,36 +390,58 @@ class CourseDetailsView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              GlobalText(
-                                text: "Price:",
-                                softWrap: true,
-                                style: TextStyle(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Row(
+                              RichText(
+                                  text: TextSpan(
+                                      text: translatedText("Price"),
+                                      style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.smallTextColor,
+                                      ),
+                                      children: [
+                                    TextSpan(
+                                      text: ":",
+                                      style: TextStyle(
+                                        fontSize: 15.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ])),
+                              Wrap(
                                 textDirection:
                                     multiLangualDataController.isLTR.value
                                         ? TextDirection.ltr
                                         : TextDirection.rtl,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: WrapCrossAlignment.end,
                                 children: [
-                                  GlobalText(
-                                    text: r"$50",
-                                    softWrap: true,
-                                    style: TextStyle(
-                                      fontSize: 25.sp,
-                                      fontWeight: FontWeight.w800,
+                                  FittedBox(
+                                    child: Flexible(
+                                      child: GlobalText(
+                                        text: courseDetalisController
+                                            .course.value!.price,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   horizontalGap(5.sp),
-                                  GlobalText(
-                                    text: r"$100",
-                                    softWrap: true,
-                                    style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w400,
-                                      decoration: TextDecoration.lineThrough,
+                                  Flexible(
+                                    child: FittedBox(
+                                      child: GlobalText(
+                                        text: courseDetalisController
+                                            .course.value!.discount,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -486,7 +501,7 @@ class CourseDetailsView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ToggleWidget(),
+                  ToggleWidget(courseDetalisController: courseDetalisController,),
                 ],
               ),
             );

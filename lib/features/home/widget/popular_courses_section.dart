@@ -146,11 +146,14 @@ class PopularCoursesSection extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10.sp),
-                              child: Image.network(
-                                ApiEndpoint.imageUrl +
-                                    popularCourseItemController
-                                        .courses[index].thumbnail,
-                                fit: BoxFit.cover,
+                              child: Container(
+                                constraints: BoxConstraints(minHeight: 80.sp),
+                                child: Image.network(
+                                  ApiEndpoint.imageUrl +
+                                      popularCourseItemController
+                                          .courses[index].thumbnail,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),

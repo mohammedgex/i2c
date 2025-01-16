@@ -2,11 +2,11 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/api_service.dart';
-import 'package:skill_grow/features/course/model/course_details_model.dart';
+import 'package:skill_grow/features/course/model/course_review_model.dart';
 
-class CourseDetalisController extends GetxController {
+class CourseReviewController extends GetxController {
   // Observable state
-  var course = Rxn<CourseDetailsResponseModel>();
+  var course = Rxn<CourseReviewsResponse>();
   var isLoading = false.obs;
 
   final ApiService _apiService = ApiService();
@@ -14,23 +14,25 @@ class CourseDetalisController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchCourseData();
+    fetchCourseReview(1);
   }
 
   // Fetch course data from API
-  Future<void> fetchCourseData() async {
+  Future<void> fetchCourseReview(page) async {
     isLoading.value = true;
 
     try {
       dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.coursesUrl(
-            slug: "songwriting-basics-crafting-melodies", currency: "USD"),
+        url: ApiEndpoint.courseReviewUrl(
+          course_slug: "songwriting-basics-crafting-melodies",
+          page: page
+        ),
       );
+      print(response!.data);
 
-      if (response!.data != null) {
+      if (response.data != null) {
         // Parse the response data into the Course model
-        course.value =
-            CourseDetailsResponseModel.fromJson(response.data['data']);
+        course.value = CourseReviewsResponse.fromJson(response.data);
       }
     } catch (e) {
       // Handle errors

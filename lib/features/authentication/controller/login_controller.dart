@@ -2,8 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/authentication/service/login_service.dart';
+import 'package:skill_grow/features/home/view/home_screen.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
 
 import '../../../core/widgets/snackbar.dart';
 import '../model/login_model.dart';
@@ -56,11 +59,15 @@ class LoginController extends GetxController {
 
       if (response.status == 'success') {
         // Handle success, navigate to home
+
+        SharedPrefUtil.put('token', response.bearerToken);
+
         customSnackbar(
             title: "Success",
             message: response.message.toString(),
             type: CustomSnackbarType.success);
       }
+      Get.to(() => CustomPersistentBottomNavBar());
       emailController.clear();
       passwordController.clear();
     } catch (e) {

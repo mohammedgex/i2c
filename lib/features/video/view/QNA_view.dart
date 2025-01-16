@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
-import 'package:skill_grow/features/video/widget/view/add_qna_modal.dart';
+import 'package:skill_grow/features/video/widget/add_qna_modal.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';

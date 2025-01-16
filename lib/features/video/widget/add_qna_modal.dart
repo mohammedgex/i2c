@@ -6,8 +6,8 @@ import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
-import '../../../../core/constant/constant.dart';
-import '../../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../../../core/constant/constant.dart';
+import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class AddQnaModal extends StatelessWidget {
   const AddQnaModal({super.key});

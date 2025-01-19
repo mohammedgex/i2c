@@ -23,7 +23,8 @@ class ApiEndpoint {
 
   static const String courseLanguagesUrl = '$baseUrl/course-languages';
 
-  static String courseMainCategoriesUrl({required String languageCode,  int? limit}) {
+  static String courseMainCategoriesUrl(
+      {required String languageCode, int? limit}) {
     return '$baseUrl/course-main-categories?language=$languageCode&limit=$limit';
   }
 
@@ -71,11 +72,8 @@ class ApiEndpoint {
     return '$baseUrl/search-courses?limit=$limit&currency=$currency&search=$search&main_category=$main_category&sub_category=$sub_category&price=$price&languages=$languages&levels=$levels&rating=$rating&page=$page';
   }
 
-  static String coursesUrl({
-    required String slug,
-    required String currency,
-    String? userId
-  }) {
+  static String coursesUrl(
+      {required String slug, required String currency, String? userId}) {
     return '$baseUrl/course/$slug?currency=$currency&user_id=$userId';
   }
 
@@ -83,7 +81,8 @@ class ApiEndpoint {
     return '$baseUrl/course/free-lesson-info/:$lesson_id';
   }
 
-  static String courseReviewUrl({required String course_slug, int? limit, int? page}) {
+  static String courseReviewUrl(
+      {required String course_slug, int? limit, int? page}) {
     return '$baseUrl/course/reviews/$course_slug?page=$page?limit=$limit';
   }
 
@@ -151,7 +150,7 @@ class ApiEndpoint {
 
   // Dashboard Enrolled Course URLs
   static String dashboardEnrolledCourseUrl({
-     int? limit,
+    int? limit,
     required int page,
   }) {
     return "$baseUrl/enrolled-courses?limit=$limit&page=$page";
@@ -223,7 +222,7 @@ class ApiEndpoint {
 
   // Dashboard Learning URLs
   static String dashboardLearningUrl({required String course_slug}) {
-    return "$baseUrl/learning/:$course_slug";
+    return "$baseUrl/learning/$course_slug";
   }
 
   static String dashboardLearningGetFileInfoUrl({
@@ -231,17 +230,17 @@ class ApiEndpoint {
     required String type,
     required String lesson_id,
   }) {
-    return "$baseUrl/learning/:$course_slug/get-file-info/:t$type/:$lesson_id";
+    return "$baseUrl/learning/:$course_slug/get-file-info/$type/$lesson_id";
   }
 
   static String dashboardLearningLessonCompleteUrl({
     required String lesson_id,
   }) {
-    return "$baseUrl/learning/make-lesson-complete/:$lesson_id";
+    return "https://360softbd.com/skillgro/api/learning/make-lesson-complete/141";
   }
 
   static String dashboardLearningAnnouncementUrl({required String slug}) {
-    return "$baseUrl//learning/:$slug/announcements";
+    return "$baseUrl/learning/$slug/announcements";
   }
 
   // Dashboard Profile URLs

@@ -85,7 +85,7 @@ class LearingView extends StatelessWidget {
 
                           return Bounceable(
                             onTap: () {
-                              Get.to(() => LandingViewForVideo());
+                              Get.to(() => LandingViewForVideo(slug: data.slug,));
                             },
                             child: Container(
                               width: double.infinity,

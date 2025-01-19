@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/api_service.dart';
-import 'package:skill_grow/features/learining/model/enrolled_course_model.dart';
+
+
+import '../model.dart/enrolled_course_model.dart';
 
 class EnrolledCourseController extends GetxController {
   var courses = <Course>[].obs; // Store courses

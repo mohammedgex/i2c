@@ -26,7 +26,8 @@ class ApiService {
       // Set Authorization Header (Use await instead of then())
       if (requiresAuth) {
         String token = await SharedPrefUtil.get("token", '');
-        _dio.options.headers['Authorization'] = 'Bearer $token'; // Ensure token format
+        _dio.options.headers['Authorization'] =
+            'Bearer $token'; // Ensure token format
       } else {
         _dio.options.headers.remove('Authorization');
       }
@@ -35,13 +36,16 @@ class ApiService {
       Response response;
       switch (method.toUpperCase()) {
         case 'GET':
-          response = await _dio.get(url, options: Options(contentType: "application/json"));
+          response = await _dio.get(url,
+              options: Options(contentType: "application/json"));
           break;
         case 'POST':
-          response = await _dio.post(url, data: data);
+          response = await _dio.post(url,
+              data: data, options: Options(contentType: "application/json"));
           break;
         case 'PUT':
-          response = await _dio.put(url, data: data);
+          response = await _dio.put(url,
+              data: data, options: Options(contentType: "application/json"));
           break;
         case 'DELETE':
           response = await _dio.delete(url, data: data);
@@ -50,8 +54,11 @@ class ApiService {
           throw UnsupportedError('HTTP method not supported: $method');
       }
 
+
       // Handle successful response
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         return response;
       } else {
         // Handle non-successful status codes
@@ -66,7 +73,8 @@ class ApiService {
       GlobalErrorHandler.handleError(e);
     } on SocketException {
       // Handle network issues
-      GlobalErrorHandler.handleError('No internet connection. Please try again.');
+      GlobalErrorHandler.handleError(
+          'No internet connection. Please try again.');
     } catch (e) {
       // Handle any other exceptions
       GlobalErrorHandler.handleError(e);

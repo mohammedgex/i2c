@@ -1,101 +1,167 @@
 import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/video/controller/lesson_complete_status_update_controller.dart';
 import 'package:skill_grow/widgets/checkbox.dart';
 
-import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../controller/learning_data_controller.dart';
 
 class CurriculumView extends StatelessWidget {
-  const CurriculumView({super.key});
+  LearningDataController learningDataController;
+  CurriculumView({super.key, required this.learningDataController});
 
   @override
-  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
+    LessonCompleteStatusUpdateController lessonCompleteStatuseUpdateController =
+        Get.put(LessonCompleteStatusUpdateController());
     return Column(
-      textDirection: multiLangualDataController.isLTR.value
-          ? TextDirection.ltr
-          : TextDirection.rtl,
-      children: [
-        Accordion(
-            rightIcon: SvgPicture.asset(AppIcon.arrowDownIcon),
-            children: [
-              AccordionSection(
-                headerBackgroundColor: AppColors.nuralItemBackgroundColor,
-                contentBackgroundColor: AppColors.nuralItemBackgroundColor,
-                headerBorderColor: AppColors.nuralItemBackgroundColor,
-                contentBorderColor: AppColors.nuralItemBackgroundColor,
-                headerPadding: EdgeInsets.all(10.sp),
-                isOpen: true,
-                header: GlobalText(
-                  text: "Introduction",
-                  softWrap: true,
-                  style:
-                      TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
-                ),
-                content: Column(
-                  textDirection: multiLangualDataController.isLTR.value
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 40.sp,
-                      decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
-                      child: Center(
-                        child: Row(
-                          textDirection: multiLangualDataController.isLTR.value
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomRectangleCheckBox(),
-                            horizontalGap(10.sp),
-                            Column(
-                              textDirection:
-                                  multiLangualDataController.isLTR.value
-                                      ? TextDirection.ltr
-                                      : TextDirection.rtl,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GlobalText(
-                                  text: "How To Work With Laravel 8",
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.primaryColor),
-                                  softWrap: true,
-                                ),
-                                GlobalText(
-                                  text: "1h 30m",
-                                  style: TextStyle(fontSize: 10.sp),
-                                  softWrap: true,
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            SizedBox(
-                              height: 22.sp,
-                              width: 22.sp,
-                              child: SvgPicture.asset(AppIcon.playIcon),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+      children: List.generate(
+          learningDataController.course.value!.data.curriculums.length,
+          (index) {
+        var curriculums =
+            learningDataController.course.value!.data.curriculums[index];
+        return Accordion(
+          disableScrolling: true,
+          contentVerticalPadding: 0,
+          paddingListTop: 0,
+          paddingListBottom: 0,
+          rightIcon: SvgPicture.asset(
+            AppIcon.arrowDownIcon,
+            color: Colors.black,
+          ),
+          children: [
+            AccordionSection(
+              headerPadding: EdgeInsets.all(10.sp),
+              headerBackgroundColor: AppColors.nuralItemBackgroundColor,
+              contentBackgroundColor: AppColors.nuralItemBackgroundColor,
+              contentBorderColor: Colors.transparent,
+              header: GlobalText(
+                text: curriculums.title,
+                softWrap: true,
+                style:
+                    TextStyle(fontSize: 13.sp, color: AppColors.titleTextColor),
               ),
-            ])
-      ],
+              content: Column(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List.generate(curriculums.chapters.length, (index) {
+                  var chapter = curriculums.chapters[index];
+                  if (chapter.type == "lesson") {
+                    return Container(
+                      height: 50.sp,
+                      margin: EdgeInsets.symmetric(vertical: 5.sp),
+                      child: ListTile(
+                          leading:
+                              GetBuilder<LessonCompleteStatusUpdateController>(
+                            id: 'lessonStatus', // Only updates when this tag is triggered
+                            builder: (controller) {
+                              return learningDataController
+                                      .course.value!.data.alreadyWatchedLectures
+                                      .contains(chapter.lesson!.id)
+                                  ? Bounceable(
+                                      onTap: () {
+                                        lessonCompleteStatuseUpdateController
+                                            .sendStatus(
+                                          lessonId:
+                                              chapter.lesson!.id.toString(),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 20.sp,
+                                        width: 20.sp,
+                                        decoration: BoxDecoration(
+                                            border:
+                                                Border.all(color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(4.sp),
+                                            color: AppColors.primaryColor),
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                              AppIcon.successIcon),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                          color: Colors.transparent),
+                                    );
+                            },
+                          ),
+                          title: GlobalText(
+                            text: chapter.lesson!.title.toString(),
+                            softWrap: true,
+                            style: TextStyle(fontSize: 13.sp),
+                          ),
+                          subtitle: GlobalText(
+                            text: chapter.lesson!.duration.toString(),
+                            softWrap: true,
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
+                          trailing: SvgPicture.asset(
+                            AppIcon.playIcon,
+                            color: AppColors.activeIconColor,
+                          )),
+                    );
+                  } else {
+                    return Container(
+                      height: 50.sp,
+                      margin: EdgeInsets.symmetric(vertical: 5.sp),
+                      child: ListTile(
+                          leading: Container(
+                            height: 20.sp,
+                            width: 20.sp,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(4.sp),
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(AppIcon.successIcon),
+                            ),
+                          ),
+                          title: GlobalText(
+                            text: chapter.quiz!.title.toString(),
+                            softWrap: true,
+                            style: TextStyle(fontSize: 13.sp),
+                          ),
+                          subtitle: GlobalText(
+                            text: "1h 30m",
+                            softWrap: true,
+                            style: TextStyle(fontSize: 10.sp),
+                          ),
+                          trailing: SizedBox(
+                            height: 17.sp,
+                            width: 17.sp,
+                            child: SvgPicture.asset(
+                              AppIcon.quiz,
+                              color: AppColors.activeIconColor,
+                            ),
+                          )),
+                    );
+                  }
+                }),
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

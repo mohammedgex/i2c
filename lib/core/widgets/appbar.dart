@@ -15,12 +15,15 @@ class MyCustomAppBar extends StatelessWidget {
   final double? horizontalPadding;
   final double? verticalPadding;
   final bool isShowbackButton;
-   MyCustomAppBar(
+  final bool? isShowNotification;
+  MyCustomAppBar(
       {super.key,
       this.horizontalPadding,
       this.verticalPadding,
-      this.isShowbackButton = false});
-        MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+      this.isShowbackButton = false,
+      this.isShowNotification = true});
+  MultiLangualDataController multiLangualDataController =
+      Get.put(MultiLangualDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -52,56 +55,58 @@ class MyCustomAppBar extends StatelessWidget {
               ),
             ),
           if (isShowbackButton) horizontalGap(15.sp),
+          if (isShowNotification == false) Spacer(),
           Image.asset(
             AppImage.logo,
             width: 80.53.sp,
             height: 20.98.sp,
           ),
           Spacer(),
-          SizedBox(
-            child: Bounceable(
-              onTap: () {},
-              child: Stack(
-                children: [
-                  SizedBox(
-                    height: 40.sp,
-                    // width: 40.sp,
-                    child: SvgPicture.asset(
-                      AppIcon.cartIcon,
-                      width: 19.98.sp,
-                      height: 20.sp,
-                    ),
-                  ),
-                  Positioned(
-                    top: 5.sp,
-                    right: 3.sp,
-                    child: Container(
-                      height: 10.sp,
-                      width: 10.sp,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.mainRedColor,
+          if (isShowNotification == true)
+            SizedBox(
+              child: Bounceable(
+                onTap: () {},
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      height: 40.sp,
+                      // width: 40.sp,
+                      child: SvgPicture.asset(
+                        AppIcon.cartIcon,
+                        width: 19.98.sp,
+                        height: 20.sp,
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(1.sp),
-                        child: Center(
-                          child: FittedBox(
-                            child: GlobalText(
-                              text: "10",
-                              style: TextStyle(
-                                  color: AppColors.scaffoldBackgroundColor,
-                                  fontWeight: FontWeight.w900),
-                              softWrap: false,
+                    ),
+                    Positioned(
+                      top: 5.sp,
+                      right: 3.sp,
+                      child: Container(
+                        height: 10.sp,
+                        width: 10.sp,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.mainRedColor,
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(1.sp),
+                          child: Center(
+                            child: FittedBox(
+                              child: GlobalText(
+                                text: "10",
+                                style: TextStyle(
+                                    color: AppColors.scaffoldBackgroundColor,
+                                    fontWeight: FontWeight.w900),
+                                softWrap: false,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

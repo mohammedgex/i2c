@@ -225,11 +225,11 @@ class ApiEndpoint {
   }
 
   static String deleteQuestionUrl({required String question_id}) {
-    return "$baseUrl/questions-destroy/:$question_id";
+    return "$baseUrl/questions-destroy/$question_id";
   }
 
   static String addQuestionReplyUrl({required String question_id}) {
-    return "$baseUrl/questions/replay/:$question_id";
+    return "$baseUrl/questions/replay/$question_id";
   }
 
   static String deleteQuestionReplyUrl({required String reply_id}) {

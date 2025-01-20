@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-
 import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
 
 import '../../../core/images/app_image.dart';
+
 
 class OnboardingController extends GetxController {
   var currentPageIndex = 0.obs; // Track the current page index
@@ -30,7 +30,7 @@ class OnboardingController extends GetxController {
   ];
 
   // Method to go to the next page
-  void goToNextPage() {
+   void goToNextPage() {
     if (currentPageIndex.value < onboardingData.length - 1) {
       currentPageIndex.value++;
     } else {

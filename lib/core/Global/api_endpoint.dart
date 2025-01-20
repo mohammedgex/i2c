@@ -129,11 +129,11 @@ class ApiEndpoint {
   }
 
   static String dashboardReviewsDetailUrl({required String id}) {
-    return "$baseUrl/reviews/:$id";
+    return "$baseUrl/reviews/$id";
   }
 
   static String dashboardReviewsDeleteUrl({required String id}) {
-    return "$baseUrl/reviews/:$id";
+    return "$baseUrl/reviews/$id";
   }
 
   // Dashboard Quiz URLs
@@ -172,7 +172,7 @@ class ApiEndpoint {
   }
 
   static String dashboardAddRemoveWishlistUrl({required String course_slug}) {
-    return "$baseUrl/add-remove-wishlist/:$course_slug";
+    return "$baseUrl/add-remove-wishlist/$course_slug";
   }
 
   // Dashboard Learning Quiz URLs
@@ -180,32 +180,48 @@ class ApiEndpoint {
     required String course_slug,
     required String id,
   }) {
-    return "$baseUrl/learning/:$course_slug/quiz/:$id";
+    return "$baseUrl/learning/$course_slug/quiz/$id";
   }
 
   static String dashboardLearningQuizeResultUrl({
     required String course_slug,
     required String id,
   }) {
-    return "$baseUrl/learning/:$course_slug/quiz-results/:$id";
+    return "$baseUrl/learning/$course_slug/quiz-results/$id";
   }
 
   // QNA URLs
   static String qnaUrl({
-    required int limit,
+    int? limit,
     required String course_slug,
     required String lesson_id,
-    required String search,
-    required String page,
+    String? search,
+    String? page,
   }) {
-    return "$baseUrl/questions/:$course_slug/:$lesson_id?search=$search&page=$page";
+    if (search != null && page != null && limit != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?search=$search&page=$page&limit=$limit";
+    } else if (search != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?search=$search";
+    } else if (page != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?page=$page";
+    } else if (limit != null && page != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?limit=$limit&page=$page";
+    } else if (limit != null && search != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?search=$search&limit=$limit";
+    } else if (page != null && search != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?search=$search&page=$page";
+    } else if (limit != null) {
+      return "$baseUrl/questions/$course_slug/$lesson_id?limit=$limit";
+    } else {
+      return "$baseUrl/questions/$course_slug/$lesson_id";
+    }
   }
 
   static String addQuestionUrl({
     required String course_slug,
     required String lesson_id,
   }) {
-    return "$baseUrl/questions-create/:$course_slug/:$lesson_id";
+    return "$baseUrl/questions-create/$course_slug/$lesson_id";
   }
 
   static String deleteQuestionUrl({required String question_id}) {

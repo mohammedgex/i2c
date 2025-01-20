@@ -6,7 +6,7 @@ import 'package:skill_grow/features/course/model/course_review_model.dart';
 
 class CourseReviewController extends GetxController {
   // Observable state
-  final slug;
+  final String slug;
   CourseReviewController(this.slug);
 
   var course = Rxn<CourseReviewsResponse>();

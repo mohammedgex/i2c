@@ -20,14 +20,14 @@ class ApiService {
     required String url,
     required String method,
     Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
     bool requiresAuth = true,
   }) async {
     try {
       // Set Authorization Header (Use await instead of then())
       if (requiresAuth) {
         String token = await SharedPrefUtil.get("token", '');
-        _dio.options.headers['Authorization'] =
-            'Bearer $token'; // Ensure token format
+        _dio.options.headers['Authorization'] = 'Bearer $token';
       } else {
         _dio.options.headers.remove('Authorization');
       }
@@ -37,6 +37,7 @@ class ApiService {
       switch (method.toUpperCase()) {
         case 'GET':
           response = await _dio.get(url,
+              queryParameters: queryParameters,
               options: Options(contentType: "application/json"));
           break;
         case 'POST':
@@ -54,33 +55,27 @@ class ApiService {
           throw UnsupportedError('HTTP method not supported: $method');
       }
 
-
       // Handle successful response
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         return response;
       } else {
-        // Handle non-successful status codes
-        throw DioException(
+        throw DioError(
           requestOptions: response.requestOptions,
           response: response,
-          type: DioExceptionType.badResponse,
+          type: DioErrorType.badResponse,
         );
       }
-    } on DioException catch (e) {
-      // Handle Dio exceptions
-      GlobalErrorHandler.handleError(e);
+    } on DioError catch (e) {
+      GlobalErrorHandler.handleError(e.message ?? 'An unexpected error occurred');
     } on SocketException {
-      // Handle network issues
-      GlobalErrorHandler.handleError(
-          'No internet connection. Please try again.');
+      GlobalErrorHandler.handleError('No internet connection. Please try again.');
     } catch (e) {
-      // Handle any other exceptions
-      GlobalErrorHandler.handleError(e);
+      GlobalErrorHandler.handleError(e.toString());
     }
 
-    return null; // Return null if an error occurs
+    return null;
   }
 
   // Example: GET API
@@ -92,6 +87,7 @@ class ApiService {
     return await request(
       url: url,
       method: 'GET',
+      queryParameters: queryParameters,
       requiresAuth: requiresAuth,
     );
   }

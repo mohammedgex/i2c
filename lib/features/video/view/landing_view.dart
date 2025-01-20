@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/video/controller/learning_data_controller.dart';
 import 'package:skill_grow/features/video/controller/state_controller.dart';
 import 'package:skill_grow/features/video/view/QNA_view.dart';
@@ -36,7 +37,7 @@ class LandingViewForVideo extends StatelessWidget {
           child: Obx(() {
             if (learningDataController.isLoading.value) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CourserDetailsLoading(),
               );
             } else {
               return Flexible(

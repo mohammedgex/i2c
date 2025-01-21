@@ -48,7 +48,7 @@ class CreateReplyController extends GetxController {
         reply: replyController.text.trim(),
       );
 
-      String url = ApiEndpoint.addQuestionReplyUrl(question_id: question_id);
+      String url = ApiEndpoint.addQuestionReplyUrl(question_id: question_id, lesson_id: lessonId);
 
       final response =
           await CreateReplyService().createReply(requestModel, url);

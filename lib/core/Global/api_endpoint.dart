@@ -1,8 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
 class ApiEndpoint {
-  static const String baseUrl = 'https://360softbd.com/skillgro/api';
-  static const String imageUrl = "https://360softbd.com/skillgro/";
+  // static const String baseUrl = 'https://360softbd.com/skillgro/api';
+  static const String baseUrl = 'https://test.shakilahmeed.com/api';
+  // static const String imageUrl = "https://360softbd.com/skillgro/";
+  static const String imageUrl = "https://test.shakilahmeed.com/";
 
   // Authentication URLs
   static const String loginUrl = '$baseUrl/login';
@@ -228,12 +230,12 @@ class ApiEndpoint {
     return "$baseUrl/questions-destroy/$question_id";
   }
 
-  static String addQuestionReplyUrl({required String question_id}) {
-    return "$baseUrl/questions/replay/$question_id";
+  static String addQuestionReplyUrl({required String question_id, required String lesson_id}) {
+    return "$baseUrl/questions/replay/$lesson_id/$question_id";
   }
 
   static String deleteQuestionReplyUrl({required String reply_id}) {
-    return "$baseUrl/questions/replay/:$reply_id";
+    return "$baseUrl/questions/replay/$reply_id";
   }
 
   // Dashboard Learning URLs
@@ -252,7 +254,7 @@ class ApiEndpoint {
   static String dashboardLearningLessonCompleteUrl({
     required String lesson_id,
   }) {
-    return "https://360softbd.com/skillgro/api/learning/make-lesson-complete/141";
+    return "$baseUrl/learning/make-lesson-complete/$lesson_id";
   }
 
   static String dashboardLearningAnnouncementUrl({required String slug}) {

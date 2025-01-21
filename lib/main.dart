@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
+import 'package:skill_grow/features/profile/view/profile_view.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -24,8 +25,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-      SharedPrefUtil.get('isLoggedin', false).then((value) => print(value));
-  SharedPrefUtil.get('token', "").then((value) => print(value));
+    SharedPrefUtil.get('isLoggedin', false).then((value) => print(value));
+    SharedPrefUtil.get('token', "").then((value) => print(value));
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -38,19 +39,19 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: FutureBuilder<bool>(
-  future: SharedPrefUtil.get('isLoggedin', false).then((value) => value as bool), // Explicit cast
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return CircularProgressIndicator(); // Show a loading indicator
-    }
-    if (snapshot.hasData && snapshot.data == true) {
-      return CustomPersistentBottomNavBar();
-    } else {
-      return LoginView();
-    }
-  },
-),
-
+            future: SharedPrefUtil.get('isLoggedin', false)
+                .then((value) => value as bool), // Explicit cast
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // Show a loading indicator
+              }
+              if (snapshot.hasData && snapshot.data == true) {
+                return ProfileView();
+              } else {
+                return LoginView();
+              }
+            },
+          ),
         );
       },
     );

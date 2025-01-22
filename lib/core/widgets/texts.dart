@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
@@ -142,10 +143,8 @@ class GlobalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Ensure multiLangualData is a Map and the key exists
-    var document = parse(text);
-    String cleanText = document.body?.text ?? '';
     String translatedText =
-        multiLangualDataController.multiLangualData[cleanText] ?? cleanText;
+        multiLangualDataController.multiLangualData[text] ?? text;
 
     return Text(
       translatedText,
@@ -161,6 +160,57 @@ class GlobalText extends StatelessWidget {
       strutStyle: strutStyle,
       textWidthBasis: textWidthBasis,
       textScaleFactor: textScaleFactor,
+    );
+  }
+}
+
+class HtmlGlobalText extends StatelessWidget {
+  final String text;
+  final TextStyle? style;
+  final TextAlign? textAlign;
+  final bool softWrap;
+  final TextOverflow? overflow;
+  final int? maxLines;
+  final Locale? locale;
+  final StrutStyle? strutStyle;
+  final TextWidthBasis? textWidthBasis;
+  final double? textScaleFactor;
+
+  HtmlGlobalText({
+    super.key,
+    required this.text,
+    this.style,
+    this.textAlign,
+    required this.softWrap,
+    this.overflow = TextOverflow.fade,
+    this.maxLines,
+    this.locale,
+    this.strutStyle,
+    this.textWidthBasis,
+    this.textScaleFactor,
+  });
+
+  final MultiLangualDataController multiLangualDataController =
+      Get.find<MultiLangualDataController>();
+
+  @override
+  Widget build(BuildContext context) {
+    // Parse and clean the text for translation
+    var document = parse(text);
+    String cleanText = document.body?.text ?? '';
+    String translatedText =
+        multiLangualDataController.multiLangualData[cleanText] ?? cleanText;
+
+    return Html(
+      data: translatedText,
+      style: {
+        "body": Style(
+          fontSize: FontSize(style?.fontSize?.sign ?? 14.sp),
+          fontWeight: style?.fontWeight,
+          color: style?.color,
+          textAlign: textAlign ?? TextAlign.start,
+        ),
+      },
     );
   }
 }

@@ -25,6 +25,7 @@ class RepliesOfQuestionView extends StatelessWidget {
         Get.put(MultiLangualDataController());
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         color: AppColors.scaffoldBackgroundColor,
         child: SingleChildScrollView(
           child: Padding(

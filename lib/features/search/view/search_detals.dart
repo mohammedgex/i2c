@@ -15,9 +15,12 @@ class SearchDetalsView extends StatelessWidget {
   const SearchDetalsView({super.key});
 
   @override
-  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         color: Colors.white,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.sp),

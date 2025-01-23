@@ -20,10 +20,12 @@ class CartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Scaffold(
       body: SafeArea(
           child: ColorfulSafeArea(
+        bottom: false,
         color: AppColors.scaffoldBackgroundColor,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),

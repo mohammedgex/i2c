@@ -1,4 +1,3 @@
-
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -26,6 +25,7 @@ class HomeScreen extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     return ColorfulSafeArea(
+      bottom: false,
       color: AppColors.scaffoldBackgroundColor,
       child: Scaffold(
         body: SingleChildScrollView(
@@ -57,8 +57,6 @@ class HomeScreen extends StatelessWidget {
                     Spacer(),
                     Bounceable(
                       onTap: () {
-                        
-                        
                         Get.to(() => CategoryAllItemView());
                       },
                       child: GlobalText(

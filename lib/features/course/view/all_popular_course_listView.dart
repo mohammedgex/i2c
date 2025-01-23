@@ -26,6 +26,7 @@ class AllPopularCourseListview extends StatelessWidget {
         Get.put(PopularCourseController());
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         color: AppColors.scaffoldBackgroundColor,
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -151,7 +152,10 @@ class AllPopularCourseListview extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Bounceable(
                               onTap: () {
-                                 Get.to(() => CourseDetailsView(slug: popularCourseController.courses[index].slug,));
+                                Get.to(() => CourseDetailsView(
+                                      slug: popularCourseController
+                                          .courses[index].slug,
+                                    ));
                               },
                               child: Container(
                                   width: double.infinity,

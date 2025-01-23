@@ -30,6 +30,7 @@ class CourseDetailsView extends StatelessWidget {
 
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         color: Colors.transparent,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.sp),

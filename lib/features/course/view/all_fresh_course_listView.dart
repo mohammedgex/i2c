@@ -25,6 +25,7 @@ class AllFreshCourseListview extends StatelessWidget {
     FreshCourseConroller freshCourseConroller = Get.put(FreshCourseConroller());
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         color: AppColors.scaffoldBackgroundColor,
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.sp),
@@ -150,7 +151,10 @@ class AllFreshCourseListview extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Bounceable(
                               onTap: () {
-                                Get.to(CourseDetailsView(slug: freshCourseConroller.courses[index].slug,));
+                                Get.to(CourseDetailsView(
+                                  slug:
+                                      freshCourseConroller.courses[index].slug,
+                                ));
                               },
                               child: Container(
                                   width: double.infinity,

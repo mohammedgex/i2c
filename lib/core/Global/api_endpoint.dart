@@ -99,9 +99,15 @@ class ApiEndpoint {
 
   static String faqUrl({
     required String languageCode,
-    required int limit,
+    int? limit,
   }) {
-    return '$baseUrl/faqs?language=$languageCode&limit=$limit';
+    if (limit == null) {
+      return '$baseUrl/faqs?language=$languageCode';
+    }
+    else{
+      return '$baseUrl/faqs?language=$languageCode&limit=$limit';
+    }
+   
   }
 
   static const String onboardingUrl = '$baseUrl/on-boarding-screen';

@@ -19,6 +19,7 @@ class AnnouncementsView extends StatelessWidget {
         Get.put(MultiLangualDataController());
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         color: AppColors.scaffoldBackgroundColor,
         child: Padding(
           padding: EdgeInsets.all(10.sp),

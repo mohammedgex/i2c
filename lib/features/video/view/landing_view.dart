@@ -30,6 +30,7 @@ class LandingViewForVideo extends StatelessWidget {
         Get.put(LearningDataController(slug));
     return Scaffold(
       body: ColorfulSafeArea(
+        bottom: false,
         maintainBottomViewPadding: true,
         color: AppColors.scaffoldBackgroundColor,
         child: Padding(

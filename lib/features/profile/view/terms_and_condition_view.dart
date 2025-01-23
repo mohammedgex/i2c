@@ -5,16 +5,15 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/profile/controller/terms_and_condition_controller.dart';
 
-import '../controller/privycy_policy_controller.dart';
-
-class PrivecyPolicyView extends StatelessWidget {
-  const PrivecyPolicyView({super.key});
+class TermsAndConditionView extends StatelessWidget {
+  const TermsAndConditionView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    PrivacyPolicyController privacyPolicyController =
-        Get.put(PrivacyPolicyController());
+    TermsAndConditionController privacyPolicyController =
+        Get.put(TermsAndConditionController());
     return Scaffold(
       body: ColorfulSafeArea(
         bottom: false,
@@ -34,12 +33,12 @@ class PrivecyPolicyView extends StatelessWidget {
                       isShowbackButton: true,
                     ),
                     GlobalText(
-                      text: "Privacy Policy",
+                      text: "Terms & Conditions",
                       softWrap: true,
                       style: TextStyle(fontSize: 15.sp, color: Colors.black),
                     ),
                     HtmlGlobalText(
-                      text: privacyPolicyController.privacyPolicyContent.value,
+                      text: privacyPolicyController.termsAndConditions.value,
                       softWrap: true,
                     ),
                   ],

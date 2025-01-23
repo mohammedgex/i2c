@@ -41,6 +41,7 @@ class LearingView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ColorfulSafeArea(
+          bottom: false,
           color: AppColors.scaffoldBackgroundColor,
           child: Obx(() {
             if (enrolledCourseController.isLoading.value &&
@@ -85,7 +86,9 @@ class LearingView extends StatelessWidget {
 
                           return Bounceable(
                             onTap: () {
-                              Get.to(() => LandingViewForVideo(slug: data.slug,));
+                              Get.to(() => LandingViewForVideo(
+                                    slug: data.slug,
+                                  ));
                             },
                             child: Container(
                               width: double.infinity,

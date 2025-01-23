@@ -205,7 +205,7 @@ class HtmlGlobalText extends StatelessWidget {
       data: translatedText,
       style: {
         "body": Style(
-          fontSize: FontSize(style?.fontSize?.sign ?? 14.sp),
+          fontSize: FontSize(style?.fontSize?.sign ?? 12.sp),
           fontWeight: style?.fontWeight,
           color: style?.color,
           textAlign: textAlign ?? TextAlign.start,

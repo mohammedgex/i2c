@@ -6,6 +6,7 @@ import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
 import 'package:skill_grow/features/profile/view/profile_view.dart';
+import 'package:skill_grow/features/quiz/view/quiz_question_view.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
                 return CircularProgressIndicator(); // Show a loading indicator
               }
               if (snapshot.hasData && snapshot.data == true) {
-                return ProfileView();
+                return QuizQuestionView();
               } else {
                 return LoginView();
               }

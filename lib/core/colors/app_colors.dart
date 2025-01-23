@@ -18,7 +18,7 @@ class AppColors {
   static Color nuralItemBackgroundColor = Color(0xFFF8F9FE);
 
   static Color infoSnackBackgroundColor = Color(0xFFEAF2FF);
-  static Color infoSnackIconBackgroundColor = Color(0xFF006FFD);
+  static Color infoSnackIconBackgroundColor = Color(0xFF2897FF);
   static Color successSnackIconBackgroundColor = Color(0xFF3AC0A0);
   static Color successSnackBackgroundColor = Color(0xFFE7F4E8);
   static Color warningSnackBackgroundColor = Color(0xFFFFF4E4);

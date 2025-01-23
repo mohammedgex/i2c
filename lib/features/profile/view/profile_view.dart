@@ -8,6 +8,7 @@ import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/profile/view/account_setting_landing_view.dart';
 import 'package:skill_grow/features/profile/view/faq_view.dart';
 import 'package:skill_grow/features/profile/view/privecy_policy_view.dart';
 import 'package:skill_grow/features/profile/view/terms_and_condition_view.dart';
@@ -139,28 +140,33 @@ class ProfileView extends StatelessWidget {
                 verticalGap(20.sp),
                 GlobalText(text: "Account", softWrap: true),
                 verticalGap(10.sp),
-                Container(
-                  width: double.infinity,
-                  height: 50.sp,
-                  decoration: BoxDecoration(
-                    color: AppColors.nuralItemBackgroundColor,
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Row(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    children: [
-                      horizontalGap(10.sp),
-                      GlobalText(text: "Account Setting", softWrap: true),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.titleTextColor,
-                        size: 15.sp,
-                      ),
-                      horizontalGap(10.sp),
-                    ],
+                Bounceable(
+                  onTap: () {
+                    Get.to(() => AccountSettingLandingView());
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50.sp,
+                    decoration: BoxDecoration(
+                      color: AppColors.nuralItemBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      children: [
+                        horizontalGap(10.sp),
+                        GlobalText(text: "Account Setting", softWrap: true),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.titleTextColor,
+                          size: 15.sp,
+                        ),
+                        horizontalGap(10.sp),
+                      ],
+                    ),
                   ),
                 ),
                 verticalGap(20.sp),

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/constant/constant.dart';
-import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/cart/view/cart_view.dart';
 
 import '../../features/cart/controller/cart_list_controller.dart';
@@ -116,7 +115,8 @@ class MyCustomAppBar extends StatelessWidget {
                                 return Center(
                                   child: FittedBox(
                                     child: Text(
-                                      cartListController.cartData.value.totalQty
+                                      cartListController
+                                          .cartData.value.cartCourses.length
                                           .toString(),
                                       style: TextStyle(
                                           color:

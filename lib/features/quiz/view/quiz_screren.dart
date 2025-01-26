@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:skill_grow/features/quiz/controller/question_data_get_controller.dart';
 
 class QuizScreen extends StatelessWidget {
-  final QuizQuestionDataController quizController = Get.put(QuizQuestionDataController());
+  final QuizQuestionDataController quizController =
+      Get.put(QuizQuestionDataController());
+
+  QuizScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +25,21 @@ class QuizScreen extends StatelessWidget {
         return ListView(
           padding: EdgeInsets.all(16),
           children: [
-            Text(quiz.title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(quiz.title,
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
             ...quiz.questions.map((q) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(q.title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    Text(q.title,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600)),
                     ...q.answers.map((a) => ListTile(
                           title: Text(a.title),
-                          leading: Radio(value: a.id, groupValue: null, onChanged: (value) {}),
+                          leading: Radio(
+                              value: a.id,
+                              groupValue: null,
+                              onChanged: (value) {}),
                         ))
                   ],
                 ))

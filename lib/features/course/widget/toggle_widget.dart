@@ -175,7 +175,7 @@ class ToggleWidget extends StatelessWidget {
                       ),
                     ),
                     verticalGap(10.sp),
-                    GlobalText(
+                    HtmlGlobalText(
                       text: courseDetalisController.course.value!.description,
                       softWrap: true,
                     ),

@@ -24,7 +24,7 @@ class ApiService {
     bool requiresAuth = true,
   }) async {
     try {
-      // Set Authorization Header (Use await instead of then())
+      // Set Authorization Header
       if (requiresAuth) {
         String token = await SharedPrefUtil.get("token", '');
         _dio.options.headers['Authorization'] = 'Bearer $token';
@@ -55,23 +55,19 @@ class ApiService {
           throw UnsupportedError('HTTP method not supported: $method');
       }
 
-      // Handle successful response
-      if (response.statusCode != null &&
-          response.statusCode! >= 200 &&
-          response.statusCode! < 300) {
-        return response;
-      } else {
-        throw DioError(
-          requestOptions: response.requestOptions,
-          response: response,
-          type: DioErrorType.badResponse,
-        );
-      }
-    } on DioError catch (e) {
-      GlobalErrorHandler.handleError(e.message ?? 'An unexpected error occurred');
+      // Log the response
+      print("API Response (${response.statusCode}): ${response.data}");
+
+      return response;
+    } on DioException catch (e) {
+      print("API Error: ${e.response?.statusCode} -> ${e.response?.data}");
+      GlobalErrorHandler.handleError(e);
     } on SocketException {
-      GlobalErrorHandler.handleError('No internet connection. Please try again.');
+      print("Network Error: No internet connection.");
+      GlobalErrorHandler.handleError(
+          'No internet connection. Please try again.');
     } catch (e) {
+      print("Unexpected Error: $e");
       GlobalErrorHandler.handleError(e.toString());
     }
 

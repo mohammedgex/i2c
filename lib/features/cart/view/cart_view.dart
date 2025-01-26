@@ -2,7 +2,6 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
@@ -52,6 +51,7 @@ class CartView extends StatelessWidget {
                       verticalPadding: 0,
                       horizontalPadding: 0,
                       isShowbackButton: true,
+                      isShowNotification: false,
                     ),
                     GlobalText(
                       text: "Cart",

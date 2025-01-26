@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:dio/dio.dart' as dio;
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/snackbar.dart';
 

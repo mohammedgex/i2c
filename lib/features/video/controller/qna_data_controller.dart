@@ -36,8 +36,6 @@ class QnaDataController extends GetxController {
 
       dio.Response? response = await _apiService.getData(url: url);
 
-      print("API Response: $response");
-
       if (response != null && response.data != null) {
         // Parse the response data into the Course model
         qnaData.value = QnaDataResponseModel.fromJson(response.data);

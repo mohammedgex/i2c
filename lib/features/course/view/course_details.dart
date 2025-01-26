@@ -10,6 +10,7 @@ import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/cart/controller/add_to_cart_controller.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
 import 'package:skill_grow/features/course/widget/course_info.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
@@ -24,7 +25,7 @@ class CourseDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
-
+    AddToCartController addToCartController = Get.put(AddToCartController());
     CourseDetalisController courseDetalisController =
         Get.put(CourseDetalisController(slug));
 
@@ -248,28 +249,39 @@ class CourseDetailsView extends StatelessWidget {
                       ),
                       horizontalGap(10.sp),
                       Expanded(
-                        child: Bounceable(
-                          onTap: () {},
-                          child: Container(
-                            height: 40.sp,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: AppColors.primaryColor, width: 1.5.sp),
-                              borderRadius: BorderRadius.circular(5.sp),
-                            ),
-                            child: Center(
-                              child: GlobalText(
-                                  text: "Add to Cart",
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.w500,
-                                  )),
-                            ),
-                          ),
-                        ),
+                        child: Obx(() {
+                          if (addToCartController.isLoading.value) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return Bounceable(
+                              onTap: () {
+                                addToCartController.addToCart(slug);
+                              },
+                              child: Container(
+                                height: 40.sp,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: AppColors.primaryColor,
+                                      width: 1.5.sp),
+                                  borderRadius: BorderRadius.circular(5.sp),
+                                ),
+                                child: Center(
+                                  child: GlobalText(
+                                      text: "Add to Cart",
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 13.sp,
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                      )),
+                                ),
+                              ),
+                            );
+                          }
+                        }),
                       ),
                       horizontalGap(10.sp),
                       Expanded(

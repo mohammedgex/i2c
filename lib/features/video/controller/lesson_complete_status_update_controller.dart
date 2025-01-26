@@ -18,7 +18,7 @@ class LessonCompleteStatusUpdateController extends GetxController {
     );
 
     if (response != null) {
-      print("✅ API Response Received!");
+  
 
       if (learningDataController.course.value != null) {
         var watchedLectures =

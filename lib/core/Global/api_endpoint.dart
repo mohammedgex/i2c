@@ -103,11 +103,9 @@ class ApiEndpoint {
   }) {
     if (limit == null) {
       return '$baseUrl/faqs?language=$languageCode';
-    }
-    else{
+    } else {
       return '$baseUrl/faqs?language=$languageCode&limit=$limit';
     }
-   
   }
 
   static const String onboardingUrl = '$baseUrl/on-boarding-screen';
@@ -236,7 +234,8 @@ class ApiEndpoint {
     return "$baseUrl/questions-destroy/$question_id";
   }
 
-  static String addQuestionReplyUrl({required String question_id, required String lesson_id}) {
+  static String addQuestionReplyUrl(
+      {required String question_id, required String lesson_id}) {
     return "$baseUrl/questions/replay/$lesson_id/$question_id";
   }
 
@@ -266,8 +265,13 @@ class ApiEndpoint {
   static String dashboardLearningAnnouncementUrl({required String slug}) {
     return "$baseUrl/learning/$slug/announcements";
   }
+
   static String dashboardCartListUrl({required String currency}) {
     return "$baseUrl/cart-list?currency=$currency";
+  }
+
+  static String dashboardAddToCartUrl({required String slug}) {
+    return "$baseUrl/add-to-cart/$slug";
   }
 
   // Dashboard Profile URLs

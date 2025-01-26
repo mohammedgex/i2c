@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/home/view/home_screen.dart';
-import 'package:skill_grow/features/quiz/view/quiz_question_view.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {

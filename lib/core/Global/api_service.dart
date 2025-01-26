@@ -49,7 +49,8 @@ class ApiService {
               data: data, options: Options(contentType: "application/json"));
           break;
         case 'DELETE':
-          response = await _dio.delete(url, data: data);
+          response = await _dio.delete(url,
+              data: data, options: Options(contentType: "application/json"));
           break;
         default:
           throw UnsupportedError('HTTP method not supported: $method');
@@ -98,6 +99,18 @@ class ApiService {
       url: url,
       method: 'POST',
       data: data,
+      requiresAuth: requiresAuth,
+    );
+  }
+
+  Future<Response?> deleteData({
+    required String url,
+    Map<String, dynamic>? data,
+    bool requiresAuth = true,
+  }) async {
+    return await request(
+      url: url,
+      method: 'DELETE',
       requiresAuth: requiresAuth,
     );
   }

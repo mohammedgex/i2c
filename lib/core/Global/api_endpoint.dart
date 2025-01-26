@@ -273,6 +273,9 @@ class ApiEndpoint {
   static String dashboardAddToCartUrl({required String slug}) {
     return "$baseUrl/add-to-cart/$slug";
   }
+  static String dashboardRemoveCartUrl({required String slug}) {
+    return "$baseUrl/remove-from-cart/$slug";
+  }
 
   // Dashboard Profile URLs
   static const String dashboardProfileUrl = "$baseUrl/profile";

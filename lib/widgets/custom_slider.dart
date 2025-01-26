@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,16 +11,17 @@ class CustomSlidable extends StatelessWidget {
   final Widget child;
   final VoidCallback onDelete;
 
-  CustomSlidable({
+  const CustomSlidable({
     super.key,
     required this.child,
     required this.onDelete,
   });
 
-  final SlidableController slidableController = Get.put(SlidableController());
-
   @override
   Widget build(BuildContext context) {
+    final SlidableController slidableController =
+        SlidableController(); // Create a new instance for each item
+
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
         slidableController.updateDragExtent(details.primaryDelta!);
@@ -33,10 +35,10 @@ class CustomSlidable extends StatelessWidget {
           Positioned.fill(
             child: Align(
               alignment: Alignment.centerRight,
-              child: GestureDetector(
+              child: Bounceable(
                 onTap: () {
                   onDelete();
-                  slidableController.close();
+                  // slidableController.close();
                 },
                 child: Container(
                   width: slidableController.maxSlide,
@@ -47,9 +49,10 @@ class CustomSlidable extends StatelessWidget {
                   ),
                   child: Center(
                     child: SizedBox(
-                        height: 25.sp,
-                        width: 25.sp,
-                        child: SvgPicture.asset(AppIcon.binIcon)),
+                      height: 25.sp,
+                      width: 25.sp,
+                      child: SvgPicture.asset(AppIcon.binIcon),
+                    ),
                   ),
                 ),
               ),

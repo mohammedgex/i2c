@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/api_endpoint.dart';
-
+import 'package:skill_grow/core/Global/response_model.dart';
 import '../../../core/Global/api_service.dart';
+import '../../../core/widgets/snackbar.dart';
 import '../model/cart_list_model.dart';
 
 class CartListController extends GetxController {
@@ -38,6 +39,37 @@ class CartListController extends GetxController {
       errorMessage.value = 'Error: ${e.toString()}';
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> removeFromCart(String slug) async {
+    print("Removing Slug: $slug");
+
+    try {
+      dio.Response? response = await _apiService.deleteData(
+        url: ApiEndpoint.dashboardRemoveCartUrl(slug: slug),
+        requiresAuth: true,
+      );
+
+      if (response != null &&
+          (response.statusCode == 200 || response.statusCode == 201)) {
+        final cartResponse = GlobalResponseModel.fromJson(response.data);
+
+        // **REMOVE ITEM FROM LOCAL CART LIST**
+        cartData.update((cart) {
+          cart?.cartCourses.removeWhere((course) => course.slug == slug);
+        });
+
+        customSnackbar(
+          title: "Success",
+          message: cartResponse.message,
+          type: CustomSnackbarType.success,
+        );
+      } else {
+        print("Error: ${response?.data}");
+      }
+    } catch (e) {
+      print("Error: $e");
     }
   }
 }

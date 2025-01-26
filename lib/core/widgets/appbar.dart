@@ -7,6 +7,7 @@ import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/cart/view/cart_view.dart';
 
+import '../../features/cart/controller/cart_list_controller.dart';
 import '../../features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../colors/app_colors.dart';
 import '../icons/app_icon.dart';
@@ -25,6 +26,8 @@ class MyCustomAppBar extends StatelessWidget {
       this.isShowNotification = true});
   MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
+
+  CartListController cartListController = Get.put(CartListController());
 
   @override
   Widget build(BuildContext context) {
@@ -92,17 +95,40 @@ class MyCustomAppBar extends StatelessWidget {
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(1.sp),
-                          child: Center(
-                            child: FittedBox(
-                              child: GlobalText(
-                                text: "10",
-                                style: TextStyle(
-                                    color: AppColors.scaffoldBackgroundColor,
-                                    fontWeight: FontWeight.w900),
-                                softWrap: false,
-                              ),
-                            ),
-                          ),
+                          child: Obx(() {
+                            if (cartListController.isLoading.value) {
+                              return SizedBox();
+                            } else {
+                              if (cartListController
+                                  .cartData.value.cartCourses.isEmpty) {
+                                return Center(
+                                    child: FittedBox(
+                                  child: Text(
+                                    "0",
+                                    style: TextStyle(
+                                        color:
+                                            AppColors.scaffoldBackgroundColor,
+                                        fontWeight: FontWeight.w900),
+                                    softWrap: false,
+                                  ),
+                                ));
+                              } else {
+                                return Center(
+                                  child: FittedBox(
+                                    child: Text(
+                                      cartListController.cartData.value.totalQty
+                                          .toString(),
+                                      style: TextStyle(
+                                          color:
+                                              AppColors.scaffoldBackgroundColor,
+                                          fontWeight: FontWeight.w900),
+                                      softWrap: false,
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          }),
                         ),
                       ),
                     )

@@ -266,6 +266,9 @@ class ApiEndpoint {
   static String dashboardLearningAnnouncementUrl({required String slug}) {
     return "$baseUrl/learning/$slug/announcements";
   }
+  static String dashboardCartListUrl({required String currency}) {
+    return "$baseUrl/cart-list?currency=$currency";
+  }
 
   // Dashboard Profile URLs
   static const String dashboardProfileUrl = "$baseUrl/profile";

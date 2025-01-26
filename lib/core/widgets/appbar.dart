@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/cart/view/cart_view.dart';
 
 import '../../features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../colors/app_colors.dart';
@@ -65,7 +66,9 @@ class MyCustomAppBar extends StatelessWidget {
           if (isShowNotification == true)
             SizedBox(
               child: Bounceable(
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => CartView());
+                },
                 child: Stack(
                   children: [
                     SizedBox(

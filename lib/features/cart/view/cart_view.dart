@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/features/cart/controller/cart_list_controller.dart';
+import 'package:skill_grow/widgets/custom_slider.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../../core/images/app_image.dart';
@@ -22,219 +24,282 @@ class CartView extends StatelessWidget {
   Widget build(BuildContext context) {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
-    return Scaffold(
-      body: SafeArea(
-          child: ColorfulSafeArea(
-        bottom: false,
-        color: AppColors.scaffoldBackgroundColor,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          child: Column(
-            textDirection: multiLangualDataController.isLTR.value
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyCustomAppBar(
-                verticalPadding: 0,
-                horizontalPadding: 0,
-                isShowbackButton: true,
-              ),
-              GlobalText(
-                text: "Cart",
-                softWrap: true,
-                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
-              ),
-              Slidable(
-                key: const ValueKey(0),
-
-                // The end action pane is the one at the right or the bottom side.
-                endActionPane: ActionPane(
-                  motion: ScrollMotion(),
+    CartListController cartListController = Get.put(CartListController());
+    return Obx(() {
+      if (cartListController.isLoading.value) {
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      } else {
+        return Scaffold(
+          body: Builder(builder: (context) {
+            return SafeArea(
+                child: ColorfulSafeArea(
+              bottom: false,
+              color: AppColors.scaffoldBackgroundColor,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Column(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SlidableAction(
-                      // An action can be bigger than the others.
-                      flex: 4,
-                      onPressed: (value) {},
-                      backgroundColor: AppColors.secondRedColor,
-                      foregroundColor: Colors.white,
-                      icon: Icons.archive,
-                      label: 'Delete',
-                      borderRadius: BorderRadius.circular(10.r),
+                    MyCustomAppBar(
+                      verticalPadding: 0,
+                      horizontalPadding: 0,
+                      isShowbackButton: true,
                     ),
-                  ],
-                ),
-                child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      // border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(12.sp),
-                      color: AppColors.nuralItemBackgroundColor,
+                    GlobalText(
+                      text: "Cart",
+                      softWrap: true,
+                      style: TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.w600),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(3.sp),
-                      child: Row(
-                        textDirection: multiLangualDataController.isLTR.value
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
-                        children: [
-                          Container(
-                            height: 80.sp,
-                            width: 103.sp,
-                            decoration: BoxDecoration(),
-                            child: Image.asset(
-                              AppImage.image1,
-                              // fit: BoxFit.cover,
+                    ...cartListController.cartData.value.cartCourses.map(
+                      (cart) => CustomSlidable(
+                        onDelete: () {},
+                        child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              // border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10.sp),
+                              color: AppColors.nuralItemBackgroundColor,
                             ),
-                          ),
-                          horizontalGap(10.sp),
-                          SizedBox(
-                            width: 235.w,
-                            child: Column(
-                              textDirection:
-                                  multiLangualDataController.isLTR.value
-                                      ? TextDirection.ltr
-                                      : TextDirection.rtl,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                GlobalText(
-                                  text:
-                                      'Master Laravel 11 & PHP: From Beginner to Advanced',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.titleTextColor),
-                                  softWrap: true,
-                                ),
-                                verticalGap(3.sp),
-                                GlobalText(
-                                    text: 'Web Solution Us | 1000+ Students',
-                                    style: TextStyle(
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppColors.titleTextColor),
-                                    softWrap: true),
-                                verticalGap(2.sp),
-                                Row(
-                                  textDirection:
-                                      multiLangualDataController.isLTR.value
-                                          ? TextDirection.ltr
-                                          : TextDirection.rtl,
-                                  children: [
-                                    CustomRatingBar(
-                                      rating: 3.5,
-                                      maxRating: 5,
-                                      iconSize: 15.sp,
-                                      filledColor: AppColors.activeIconColor,
-                                      unfilledColor: AppColors.activeIconColor,
+                            child: Padding(
+                              padding: EdgeInsets.all(3.sp),
+                              child: Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                children: [
+                                  Container(
+                                    height: 80.sp,
+                                    width: 103.sp,
+                                    decoration: BoxDecoration(),
+                                    child: Image.asset(
+                                      AppImage.image1,
+                                      // fit: BoxFit.cover,
                                     ),
-                                    Spacer(),
-                                    Row(
+                                  ),
+                                  horizontalGap(10.sp),
+                                  SizedBox(
+                                    width: 235.w,
+                                    child: Column(
                                       textDirection:
                                           multiLangualDataController.isLTR.value
                                               ? TextDirection.ltr
                                               : TextDirection.rtl,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         GlobalText(
-                                          text: '100',
+                                          text: cart.title,
                                           style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontSize: 10.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.w600,
                                               color: AppColors.titleTextColor),
                                           softWrap: true,
                                         ),
-                                        horizontalGap(3.sp),
-                                        GlobalText(
-                                          text: r'$50',
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.titleTextColor),
-                                          softWrap: true,
+                                        verticalGap(3.sp),
+                                        Row(
+                                          textDirection:
+                                              multiLangualDataController
+                                                      .isLTR.value
+                                                  ? TextDirection.ltr
+                                                  : TextDirection.rtl,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          spacing: 5.sp,
+                                          children: [
+                                            GlobalText(
+                                                text: cart.instructor.name,
+                                                style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: AppColors
+                                                        .titleTextColor),
+                                                softWrap: true),
+                                            GlobalText(
+                                                text: "|",
+                                                style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: AppColors
+                                                        .titleTextColor),
+                                                softWrap: true),
+                                            Text(cart.students.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: AppColors
+                                                        .titleTextColor),
+                                                softWrap: true),
+                                            GlobalText(
+                                                text: "Students",
+                                                style: TextStyle(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: AppColors
+                                                        .titleTextColor),
+                                                softWrap: true),
+                                          ],
                                         ),
-                                        horizontalGap(5.sp),
+                                        verticalGap(2.sp),
+                                        Row(
+                                          textDirection:
+                                              multiLangualDataController
+                                                      .isLTR.value
+                                                  ? TextDirection.ltr
+                                                  : TextDirection.rtl,
+                                          children: [
+                                            CustomRatingBar(
+                                              rating: cart.averageRating,
+                                              maxRating: 5,
+                                              iconSize: 15.sp,
+                                              filledColor:
+                                                  AppColors.activeIconColor,
+                                              unfilledColor:
+                                                  AppColors.activeIconColor,
+                                            ),
+                                            Spacer(),
+                                            Row(
+                                              textDirection:
+                                                  multiLangualDataController
+                                                          .isLTR.value
+                                                      ? TextDirection.ltr
+                                                      : TextDirection.rtl,
+                                              children: [
+                                                Text(
+                                                  cart.discount.toString(),
+                                                  style: TextStyle(
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      fontSize: 10.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppColors
+                                                          .titleTextColor),
+                                                  softWrap: true,
+                                                ),
+                                                horizontalGap(3.sp),
+                                                Text(
+                                                  cart.price.toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 15.sp,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppColors
+                                                          .titleTextColor),
+                                                  softWrap: true,
+                                                ),
+                                                horizontalGap(5.sp),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ],
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
                       ),
-                    )),
-              ),
-            ],
-          ),
-        ),
-      )),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.only(bottom: 20.sp),
-        width: double.infinity,
-        height: 60.h,
-        decoration: BoxDecoration(
-          color: AppColors.nuralItemBackgroundColor,
-          // borderRadius: BorderRadius.circular(10.r),
-        ),
-        child: Center(
-          child: Row(
-            textDirection: multiLangualDataController.isLTR.value
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GlobalText(
-                text: r"Sub Total: $500",
-                softWrap: true,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13.sp,
+                    )
+                  ],
                 ),
               ),
-              horizontalGap(10.sp),
-              Bounceable(
-                onTap: () {},
-                child: Container(
-                  height: 38.sp,
-                  width: 150.sp,
-                  decoration: BoxDecoration(
-                    color: AppColors.activeIconColor,
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                  child: Center(
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GlobalText(
-                          text: "Check out",
-                          softWrap: true,
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
-                        ),
-                        horizontalGap(5.sp),
-                        SizedBox(
-                            width: 15.sp,
-                            child: SvgPicture.asset(AppIcon.arrowForwardIcon))
-                      ],
+            ));
+          }),
+          bottomNavigationBar: Container(
+            margin: EdgeInsets.only(bottom: 20.sp),
+            width: double.infinity,
+            height: 60.h,
+            decoration: BoxDecoration(
+              color: AppColors.nuralItemBackgroundColor,
+              // borderRadius: BorderRadius.circular(10.r),
+            ),
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GlobalText(
+                    text: "Sub Total",
+                    softWrap: true,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13.sp,
                     ),
                   ),
-                ),
+                  GlobalText(
+                    text: ": ",
+                    softWrap: true,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                  Text(
+                    cartListController.cartData.value.totalAmount.toString(),
+                    softWrap: true,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                  horizontalGap(50.sp),
+                  Bounceable(
+                    onTap: () {},
+                    child: Container(
+                      height: 38.sp,
+                      width: 150.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.activeIconColor,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Center(
+                        child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GlobalText(
+                              text: "Check out",
+                              softWrap: true,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            horizontalGap(5.sp),
+                            SizedBox(
+                                width: 15.sp,
+                                child:
+                                    SvgPicture.asset(AppIcon.arrowForwardIcon))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
+      }
+    });
   }
 }

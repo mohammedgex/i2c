@@ -14,6 +14,7 @@ import '../../../core/constant/constant.dart';
 import '../../../core/widgets/custom_rating_bar.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../../payment/view/payment_method_list_view.dart';
 
 class CartView extends StatelessWidget {
   const CartView({super.key});
@@ -301,7 +302,9 @@ class CartView extends StatelessWidget {
                     ),
                     horizontalGap(50.sp),
                     Bounceable(
-                      onTap: () {},
+                      onTap: () {
+                        Get.to(() => PaymentMethodListView());
+                      },
                       child: Container(
                         height: 38.sp,
                         width: 150.sp,

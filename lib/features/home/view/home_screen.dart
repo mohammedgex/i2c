@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                         Get.to(() => CategoryAllItemView());
                       },
                       child: GlobalText(
-                        text: "See all",
+                        text: "View All",
                         style: TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 14.0,
@@ -97,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                         Get.to(() => AllPopularCourseListview());
                       },
                       child: GlobalText(
-                        text: "See all",
+                        text: "View All",
                         style: TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 14.sp,
@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
                         Get.to(() => AllFreshCourseListview());
                       },
                       child: GlobalText(
-                        text: "See all",
+                        text: "View All",
                         style: TextStyle(
                           color: AppColors.primaryColor,
                           fontSize: 14.sp,

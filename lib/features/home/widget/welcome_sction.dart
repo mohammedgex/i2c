@@ -11,7 +11,9 @@ class WelcomeSction extends StatelessWidget {
   const WelcomeSction({super.key});
 
   @override
-  Widget build(BuildContext context) {  MultiLangualDataController multiLangualDataController = Get.put(MultiLangualDataController());
+  Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 19.sp),
       child: Container(

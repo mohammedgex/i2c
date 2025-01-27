@@ -1,15 +1,14 @@
+
+
 class LearningCourseDetailsModel {
   final String status;
   final CourseData data;
 
-  LearningCourseDetailsModel({
-    required this.status,
-    required this.data,
-  });
+  LearningCourseDetailsModel({required this.status, required this.data});
 
   factory LearningCourseDetailsModel.fromJson(Map<String, dynamic> json) {
     return LearningCourseDetailsModel(
-      status: json['status'] ?? '',
+      status: json['status'],
       data: CourseData.fromJson(json['data']),
     );
   }
@@ -20,8 +19,8 @@ class CourseData {
   final String title;
   final Instructor instructor;
   final List<Curriculum> curriculums;
-  final Progress currentProgress;
-  final List<int> alreadyWatchedLectures;
+  final CurrentProgress currentProgress;
+  final List<String> alreadyWatchedLectures;
   final List<int> alreadyCompletedQuiz;
 
   CourseData({
@@ -36,15 +35,16 @@ class CourseData {
 
   factory CourseData.fromJson(Map<String, dynamic> json) {
     return CourseData(
-      thumbnail: json['thumbnail'] ?? '',
-      title: json['title'] ?? '',
+      thumbnail: json['thumbnail'],
+      title: json['title'],
       instructor: Instructor.fromJson(json['instructor']),
       curriculums: (json['curriculums'] as List)
-          .map((c) => Curriculum.fromJson(c))
+          .map((e) => Curriculum.fromJson(e))
           .toList(),
-      currentProgress: Progress.fromJson(json['current_progress']),
-      alreadyWatchedLectures: List<int>.from(json['already_watched_lectures'] ?? []),
-      alreadyCompletedQuiz: List<int>.from(json['already_completed_quiz'] ?? []),
+      currentProgress: CurrentProgress.fromJson(json['current_progress']),
+      alreadyWatchedLectures:
+          List<String>.from(json['already_watched_lectures']),
+      alreadyCompletedQuiz: List<int>.from(json['already_completed_quiz']),
     );
   }
 }
@@ -54,17 +54,13 @@ class Instructor {
   final String name;
   final String image;
 
-  Instructor({
-    required this.id,
-    required this.name,
-    required this.image,
-  });
+  Instructor({required this.id, required this.name, required this.image});
 
   factory Instructor.fromJson(Map<String, dynamic> json) {
     return Instructor(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      image: json['image'] ?? '',
+      id: json['id'],
+      name: json['name'],
+      image: json['image'],
     );
   }
 }
@@ -73,92 +69,65 @@ class Curriculum {
   final String title;
   final List<Chapter> chapters;
 
-  Curriculum({
-    required this.title,
-    required this.chapters,
-  });
+  Curriculum({required this.title, required this.chapters});
 
   factory Curriculum.fromJson(Map<String, dynamic> json) {
     return Curriculum(
-      title: json['title'] ?? '',
-      chapters: (json['chapters'] as List)
-          .map((ch) => Chapter.fromJson(ch))
-          .toList(),
+      title: json['title'],
+      chapters:
+          (json['chapters'] as List).map((e) => Chapter.fromJson(e)).toList(),
     );
   }
 }
 
 class Chapter {
   final String type;
-  final Lesson? lesson;
-  final Quiz? quiz;
+  final ChapterItem item;
 
-  Chapter({
-    required this.type,
-    this.lesson,
-    this.quiz,
-  });
+  Chapter({required this.type, required this.item});
 
   factory Chapter.fromJson(Map<String, dynamic> json) {
     return Chapter(
-      type: json['type'] ?? '',
-      lesson: json['type'] == 'lesson' ? Lesson.fromJson(json['item']) : null,
-      quiz: json['type'] == 'quiz' ? Quiz.fromJson(json['item']) : null,
+      type: json['type'],
+      item: ChapterItem.fromJson(json['item']),
     );
   }
 }
 
-class Lesson {
+class ChapterItem {
   final int id;
   final String title;
-  final String fileType;
-  final String duration;
-  final bool isFree;
+  final String? fileType;
+  final String? duration;
+  final bool? isFree;
 
-  Lesson({
+  ChapterItem({
     required this.id,
     required this.title,
-    required this.fileType,
-    required this.duration,
-    required this.isFree,
+    this.fileType,
+    this.duration,
+    this.isFree,
   });
 
-  factory Lesson.fromJson(Map<String, dynamic> json) {
-    return Lesson(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      fileType: json['file_type'] ?? '',
-      duration: json['duration'] ?? '',
-      isFree: json['is_free'] ?? false,
+  factory ChapterItem.fromJson(Map<String, dynamic> json) {
+    return ChapterItem(
+      id: json['id'],
+      title: json['title'],
+      fileType: json['file_type'],
+      duration: json['duration'],
+      isFree: json['is_free'],
     );
   }
 }
 
-class Quiz {
-  final int id;
-  final String title;
-
-  Quiz({
-    required this.id,
-    required this.title,
-  });
-
-  factory Quiz.fromJson(Map<String, dynamic> json) {
-    return Quiz(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-    );
-  }
-}
-
-class Progress {
+class CurrentProgress {
   final String type;
   final int chapterId;
   final int lessonId;
   final int watched;
   final int current;
 
-  Progress({
+  CurrentProgress({
     required this.type,
     required this.chapterId,
     required this.lessonId,
@@ -166,13 +135,13 @@ class Progress {
     required this.current,
   });
 
-  factory Progress.fromJson(Map<String, dynamic> json) {
-    return Progress(
-      type: json['type'] ?? '',
-      chapterId: json['chapter_id'] ?? 0,
-      lessonId: json['lesson_id'] ?? 0,
-      watched: json['watched'] ?? 0,
-      current: json['current'] ?? 0,
+  factory CurrentProgress.fromJson(Map<String, dynamic> json) {
+    return CurrentProgress(
+      type: json['type'],
+      chapterId: json['chapter_id'],
+      lessonId: json['lesson_id'],
+      watched: json['watched'],
+      current: json['current'],
     );
   }
 }

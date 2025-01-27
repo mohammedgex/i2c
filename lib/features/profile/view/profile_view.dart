@@ -14,6 +14,7 @@ import 'package:skill_grow/features/profile/view/privecy_policy_view.dart';
 import 'package:skill_grow/features/profile/view/terms_and_condition_view.dart';
 
 import '../../../core/widgets/texts.dart';
+import '../../language/view/language_list_view.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -86,29 +87,34 @@ class ProfileView extends StatelessWidget {
                 verticalGap(20.sp),
                 GlobalText(text: "Language and Currency", softWrap: true),
                 verticalGap(10.sp),
-                Container(
-                  width: double.infinity,
-                  height: 50.sp,
-                  decoration: BoxDecoration(
-                    color: AppColors.nuralItemBackgroundColor,
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Row(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    children: [
-                      horizontalGap(10.sp),
-                      GlobalText(text: "Language", softWrap: true),
-                      GlobalText(text: "(English)", softWrap: true),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.titleTextColor,
-                        size: 15.sp,
-                      ),
-                      horizontalGap(10.sp),
-                    ],
+                Bounceable(
+                  onTap: () {
+                    Get.to(() => LanguageListView());
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50.sp,
+                    decoration: BoxDecoration(
+                      color: AppColors.nuralItemBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      children: [
+                        horizontalGap(10.sp),
+                        GlobalText(text: "Language", softWrap: true),
+                        GlobalText(text: "(English)", softWrap: true),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.titleTextColor,
+                          size: 15.sp,
+                        ),
+                        horizontalGap(10.sp),
+                      ],
+                    ),
                   ),
                 ),
                 verticalGap(10.sp),

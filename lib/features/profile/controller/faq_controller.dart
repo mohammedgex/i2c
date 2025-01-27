@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/error_handler.dart';
 import '../../../core/Global/api_endpoint.dart';
 import '../../../core/Global/api_service.dart';
+import '../../../core/Global/sharedPref.dart';
 import '../model/faq_model.dart';
 
 
@@ -13,16 +14,17 @@ class FAQController extends GetxController {
   var faqResponse = Rx<FaqResponseModel?>(null);
 
   @override
-  void onInit() {
+  void onInit() async{
+        var langCode = await SharedPrefUtil.get('language_code', 'en');
     super.onInit();
-    fetchData();
+    fetchData(langCode);
   }
 
-  Future<void> fetchData() async {
+  Future<void> fetchData(langCode) async {
     try {
       isLoading(true);
       dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.faqUrl(languageCode: "en"),
+        url: ApiEndpoint.faqUrl(languageCode: langCode),
 
       );
 

@@ -146,21 +146,23 @@ class GlobalText extends StatelessWidget {
     String translatedText =
         multiLangualDataController.multiLangualData[text] ?? text;
 
-    return Text(
-      translatedText,
-      style: style,
-      textAlign: textAlign,
-      textDirection: multiLangualDataController.isLTR.value
-          ? TextDirection.ltr
-          : TextDirection.rtl,
-      softWrap: softWrap,
-      overflow: overflow,
-      maxLines: maxLines,
-      locale: locale,
-      strutStyle: strutStyle,
-      textWidthBasis: textWidthBasis,
-      textScaleFactor: textScaleFactor,
-    );
+    return Obx(() {
+      return Text(
+        translatedText,
+        style: style,
+        textAlign: textAlign,
+        textDirection: multiLangualDataController.isLTR.value
+            ? TextDirection.ltr
+            : TextDirection.rtl,
+        softWrap: softWrap,
+        overflow: overflow,
+        maxLines: maxLines,
+        locale: locale,
+        strutStyle: strutStyle,
+        textWidthBasis: textWidthBasis,
+        textScaleFactor: textScaleFactor,
+      );
+    });
   }
 }
 

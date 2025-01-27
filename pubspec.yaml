@@ -36,7 +36,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.6.6
   flutter_svg: ^2.0.16
-  shimmer: ^3.0.0
   flutter_bounceable: ^1.1.0
   flutter_screenutil: ^5.9.3
   colorful_safe_area: ^1.0.0
@@ -53,6 +52,8 @@ dependencies:
   shared_preferences: ^2.3.5
   flutter_html: ^3.0.0-beta.2
   html: ^0.15.4
+  url_launcher: ^6.3.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

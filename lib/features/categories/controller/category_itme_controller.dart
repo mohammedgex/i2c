@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import '../../../core/Global/api_service.dart';
+import '../../../core/Global/sharedPref.dart';
 import '../model/category_list_model.dart';
 
 
@@ -13,17 +14,18 @@ class MainCategoryController extends GetxController {
   var isLoading = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
+    var langCode = await SharedPrefUtil.get('language_code', 'en');
     super.onInit();
-    fetchCategories();
+    fetchCategories(langCode);
   }
   // Fetch Categories from API
-  Future<void> fetchCategories() async {
+  Future<void> fetchCategories(String languageCode) async {
     isLoading.value = true;
 
     try {
       final dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.courseMainCategoriesUrl(languageCode: "en" ),
+        url: ApiEndpoint.courseMainCategoriesUrl(languageCode:  languageCode),
       );
 
       if (response != null && response.statusCode == 200) {

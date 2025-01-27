@@ -3,6 +3,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
+import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class GlobalButton extends StatelessWidget {
@@ -35,8 +36,9 @@ class GlobalButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.sp),
         ),
         child: Center(
-          child: Text(
-            translatedText,
+          child: GlobalText(
+            softWrap: true,
+            text: translatedText,
             style: TextStyle(
               color: AppColors.globalButtonTextColor,
               fontSize: 15.sp,

@@ -25,7 +25,7 @@ class FreshCrourseSection extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     return Padding(
-      padding: EdgeInsets.only(left: 15.sp),
+      padding: EdgeInsets.only(left: 0.sp),
       child: Obx(() {
         if (freshCourseController.isLoading.value) {
           return Shimmer.fromColors(
@@ -126,7 +126,9 @@ class FreshCrourseSection extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Bounceable(
                       onTap: () {
-                        Get.to(() => CourseDetailsView(slug: freshCourseController.courses[index].slug,));
+                        Get.to(() => CourseDetailsView(
+                              slug: freshCourseController.courses[index].slug,
+                            ));
                       },
                       child: Container(
                         width: 200.sp,

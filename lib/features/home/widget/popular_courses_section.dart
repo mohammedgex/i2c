@@ -24,7 +24,7 @@ class PopularCoursesSection extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     return Padding(
-      padding: EdgeInsets.only(left: 15.sp),
+      padding: EdgeInsets.only(left: 0.sp),
       child: Obx(() {
         if (popularCourseItemController.isLoading.value) {
           return Shimmer.fromColors(
@@ -124,8 +124,11 @@ class PopularCoursesSection extends StatelessWidget {
                       : popularCourseItemController.courses.length,
                   itemBuilder: (context, index) {
                     return Bounceable(
-                      onTap: (){
-                         Get.to(() => CourseDetailsView(slug: popularCourseItemController.courses[index].slug,));
+                      onTap: () {
+                        Get.to(() => CourseDetailsView(
+                              slug: popularCourseItemController
+                                  .courses[index].slug,
+                            ));
                       },
                       child: Container(
                         width: 200.sp,
@@ -264,7 +267,8 @@ class PopularCoursesSection extends StatelessWidget {
                                           fontSize: 11.sp,
                                           fontWeight: FontWeight.w400,
                                           height: 11.sp / 9.sp,
-                                          decoration: TextDecoration.lineThrough),
+                                          decoration:
+                                              TextDecoration.lineThrough),
                                       softWrap: false,
                                     ),
                                     horizontalGap(5.sp),

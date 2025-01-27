@@ -191,93 +191,104 @@ class ToggleWidget extends StatelessWidget {
                 padding:
                     EdgeInsets.symmetric(horizontal: 7.sp, vertical: 15.sp),
                 child: Column(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: List.generate(
                       courseDetalisController.course.value!.curriculums.length,
                       (index) {
                     var curriculums = courseDetalisController
                         .course.value!.curriculums[index];
-                    return Accordion(
-                      disableScrolling: true,
-                      contentVerticalPadding: 0,
-                      paddingListTop: 0,
-                      paddingListBottom: 0,
-                      rightIcon: SvgPicture.asset(
-                        AppIcon.arrowDownIcon,
-                        color: Colors.black,
-                      ),
-                      children: [
-                        AccordionSection(
-                          headerPadding: EdgeInsets.all(10.sp),
-                          headerBackgroundColor:
-                              AppColors.nuralItemBackgroundColor,
-                          contentBackgroundColor:
-                              AppColors.nuralItemBackgroundColor,
-                          contentBorderColor: Colors.transparent,
-                          header: GlobalText(
-                            text: curriculums.title,
-                            softWrap: true,
-                            style: TextStyle(
-                                fontSize: 13.sp,
-                                color: AppColors.titleTextColor),
-                          ),
-                          content: Column(
-                            textDirection:
-                                multiLangualDataController.isLTR.value
-                                    ? TextDirection.ltr
-                                    : TextDirection.rtl,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: List.generate(curriculums.chapters.length,
-                                (index) {
-                              var chapter = curriculums.chapters[index];
-                              if (chapter.type == "lesson") {
-                                return Container(
-                                  height: 50.sp,
-                                  margin: EdgeInsets.symmetric(vertical: 5.sp),
-                                  child: ListTile(
-                                      title: GlobalText(
-                                        text: chapter.lesson!.title.toString(),
-                                        softWrap: true,
-                                      ),
-                                      subtitle: GlobalText(
-                                        text: "1h 30m",
-                                        softWrap: true,
-                                        style: TextStyle(fontSize: 10.sp),
-                                      ),
-                                      trailing: SvgPicture.asset(
-                                        AppIcon.playIcon,
-                                        color: AppColors.activeIconColor,
-                                      )),
-                                );
-                              } else {
-                                return Container(
-                                  height: 50.sp,
-                                  margin: EdgeInsets.symmetric(vertical: 5.sp),
-                                  child: ListTile(
-                                      title: GlobalText(
-                                        text: chapter.quiz!.title.toString(),
-                                        softWrap: true,
-                                        style: TextStyle(fontSize: 13.sp),
-                                      ),
-                                      subtitle: GlobalText(
-                                        text: "1h 30m",
-                                        softWrap: true,
-                                        style: TextStyle(fontSize: 10.sp),
-                                      ),
-                                      trailing: SizedBox(
-                                        height: 17.sp,
-                                        width: 17.sp,
-                                        child: SvgPicture.asset(
-                                          AppIcon.quiz,
-                                          color: AppColors.activeIconColor,
-                                        ),
-                                      )),
-                                );
-                              }
-                            }),
-                          ),
+                    return Directionality(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      child: Accordion(
+                        disableScrolling: true,
+                        contentVerticalPadding: 0,
+                        paddingListTop: 0,
+                        paddingListBottom: 0,
+                        rightIcon: SvgPicture.asset(
+                          AppIcon.arrowDownIcon,
+                          color: Colors.black,
                         ),
-                      ],
+                        children: [
+                          AccordionSection(
+                            headerPadding: EdgeInsets.all(10.sp),
+                            headerBackgroundColor:
+                                AppColors.nuralItemBackgroundColor,
+                            contentBackgroundColor:
+                                AppColors.nuralItemBackgroundColor,
+                            contentBorderColor: Colors.transparent,
+                            header: GlobalText(
+                              text: curriculums.title,
+                              softWrap: true,
+                              style: TextStyle(
+                                  fontSize: 13.sp,
+                                  color: AppColors.titleTextColor),
+                            ),
+                            content: Column(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: List.generate(
+                                  curriculums.chapters.length, (index) {
+                                var chapter = curriculums.chapters[index];
+                                if (chapter.type == "lesson") {
+                                  return Container(
+                                    height: 50.sp,
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 5.sp),
+                                    child: ListTile(
+                                        title: GlobalText(
+                                          text:
+                                              chapter.lesson!.title.toString(),
+                                          softWrap: true,
+                                        ),
+                                        subtitle: GlobalText(
+                                          text: "1h 30m",
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                        trailing: SvgPicture.asset(
+                                          AppIcon.playIcon,
+                                          color: AppColors.activeIconColor,
+                                        )),
+                                  );
+                                } else {
+                                  return Container(
+                                    height: 50.sp,
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 5.sp),
+                                    child: ListTile(
+                                        title: GlobalText(
+                                          text: chapter.quiz!.title.toString(),
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 13.sp),
+                                        ),
+                                        subtitle: GlobalText(
+                                          text: "1h 30m",
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                        trailing: SizedBox(
+                                          height: 17.sp,
+                                          width: 17.sp,
+                                          child: SvgPicture.asset(
+                                            AppIcon.quiz,
+                                            color: AppColors.activeIconColor,
+                                          ),
+                                        )),
+                                  );
+                                }
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   }),
                 ),
@@ -453,6 +464,9 @@ class ToggleWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ElevatedButton(
@@ -471,7 +485,10 @@ class ToggleWidget extends StatelessWidget {
                                           .fetchCourseReview(prevPage);
                                     }
                                   : null,
-                              child: Text('Previous'),
+                              child: GlobalText(
+                                text: 'Previous',
+                                softWrap: false,
+                              ),
                             ),
                             Text(
                               'Page ${courseReviewController.course.value!.pagination.currentPage} of ${courseReviewController.course.value!.pagination.lastPage}',
@@ -497,7 +514,10 @@ class ToggleWidget extends StatelessWidget {
                                           .fetchCourseReview(nextPage);
                                     }
                                   : null,
-                              child: Text('Next'),
+                              child: GlobalText(
+                                text: 'Next',
+                                softWrap: false,
+                              ),
                             ),
                           ],
                         ),

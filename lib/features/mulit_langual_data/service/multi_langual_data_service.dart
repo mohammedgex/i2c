@@ -6,9 +6,9 @@ class MultiLangualDataService {
   final ApiService _apiService = ApiService();
 
   // Function to handle language data retrieval
-  Future<Map<String, dynamic>> getLanguage() async {
+  Future<Map<String, dynamic>> getLanguage(String language_code) async {
     try {
-      String url = ApiEndpoint.multiLangualDataUrl("en");
+      String url = ApiEndpoint.multiLangualDataUrl(language_code);
 
       // Print the URL for debugging purposes
       // print('API URL: $url');

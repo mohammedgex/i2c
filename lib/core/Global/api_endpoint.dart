@@ -276,6 +276,13 @@ class ApiEndpoint {
   static String dashboardRemoveCartUrl({required String slug}) {
     return "$baseUrl/remove-from-cart/$slug";
   }
+  static String paymentApiUrl({required String method, required String currency}) {
+    return "$baseUrl/payment-api/$method?currency=$currency";
+  }
+
+  // payment URLs
+  static String payemntMethodsListUrl = "$baseUrl/payment-gateway-list";
+
 
   // Dashboard Profile URLs
   static const String dashboardProfileUrl = "$baseUrl/profile";

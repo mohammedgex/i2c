@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:skill_grow/features/mulit_langual_data/service/multi_langual_data_service.dart';
 
+import '../../../core/Global/sharedPref.dart';
+
 class MultiLangualDataController extends GetxController {
   MultiLangualDataService languageService = MultiLangualDataService();
   RxMap<String, dynamic> multiLangualData = <String, dynamic>{}.obs;
@@ -8,16 +10,25 @@ class MultiLangualDataController extends GetxController {
   RxBool isLTR = true.obs;
 
   @override
-  void onInit() {
-    getMultilangualData();
+  void onInit() async {
+    var langCode = await SharedPrefUtil.get('language_code', 'en');
+
+    var direction = await SharedPrefUtil.get('text_direction', 'ltr');
+    if (direction == "ltr") {
+      isLTR.value = true;
+    } else {
+      isLTR.value = false;
+    }
+
+    getMultilangualData(langCode);
     super.onInit();
   }
 
   // Make this method async to handle the API response properly
-  Future<void> getMultilangualData() async {
+  Future<void> getMultilangualData(String language_code) async {
     try {
       isLoading.value = true;
-      var response = await languageService.getLanguage();
+      var response = await languageService.getLanguage(language_code);
 
       // Ensure response is valid before updating state
       multiLangualData.value = response;

@@ -5,44 +5,44 @@ import '../../../core/Global/api_service.dart';
 
 class LessonCompleteStatusUpdateController extends GetxController {
   Future<void> sendStatus({required String lessonId}) async {
-    String url =
-        ApiEndpoint.dashboardLearningLessonCompleteUrl(lesson_id: lessonId);
-    LearningDataController learningDataController =
-        Get.find<LearningDataController>();
+    try {
+      String url =
+          ApiEndpoint.dashboardLearningLessonCompleteUrl(lesson_id: lessonId);
+      LearningDataController learningDataController =
+          Get.find<LearningDataController>();
 
-    print("📡 Updating lesson status for Lesson ID: $lessonId");
+      print("📡 Sending lesson completion status update for Lesson ID: $lessonId");
 
-    var response = await ApiService().getData(
-      url: url,
-      requiresAuth: true,
-    );
+      var response = await ApiService().getData(
+        url: url,
+        requiresAuth: true,
+      );
 
-    if (response != null) {
-  
+      if (response != null) {
+        if (learningDataController.course.value != null) {
+          var watchedLectures =
+              learningDataController.course.value!.data.alreadyWatchedLectures;
+          int lessonIntId = int.parse(lessonId);
 
-      if (learningDataController.course.value != null) {
-        var watchedLectures =
-            learningDataController.course.value!.data.alreadyWatchedLectures;
-        int lessonIntId = int.parse(lessonId);
+          // Toggle lesson completion status
+          if (watchedLectures.contains(lessonIntId)) {
+            watchedLectures.remove(lessonIntId);
+            print("❌ Lesson ID $lessonIntId marked as incomplete.");
+          } else {
+            watchedLectures.add(lessonIntId.toString());
+            print("✅ Lesson ID $lessonIntId marked as complete.");
+          }
 
-        // Toggle lesson status without refreshing entire course
-        if (watchedLectures.contains(lessonIntId)) {
-          watchedLectures.remove(lessonIntId);
-          print("❌ Lesson ID $lessonIntId marked as incomplete.");
+          // 🔥 Update only UI elements tagged with 'lessonStatus'
+          update(['lessonStatus']);
         } else {
-          watchedLectures.add(lessonIntId);
-          print("✅ Lesson ID $lessonIntId marked as complete.");
+          print("⚠️ Warning: `learningDataController.course.value` is null.");
         }
-
-        // 🔥 Update only the specific watched list to avoid closing accordion
-        update([
-          'lessonStatus'
-        ]); // Update only UI elements tagged with 'lessonStatus'
       } else {
-        print("⚠️ Warning: `learningDataController.course.value` is null.");
+        print("❌ Error: API response is null. Check endpoint or authentication.");
       }
-    } else {
-      print("❌ Error: API response is null. Check endpoint or authentication.");
+    } catch (e) {
+      print("🚨 Exception in sendStatus: $e");
     }
   }
 }

@@ -5,6 +5,9 @@ import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 
+import 'core/Global/sharedPref.dart';
+import 'features/navigation_bar/views/bottom_navigation_bar.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -20,7 +23,20 @@ class SplashScreen extends StatelessWidget {
                     width: 180.sp,),
           );
         } else {
-          return LoginView();
+          return FutureBuilder<bool>(
+            future: SharedPrefUtil.get('isLoggedin', false)
+                .then((value) => value as bool), // Explicit cast
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator(); // Show a loading indicator
+              }
+              if (snapshot.hasData && snapshot.data == true) {
+                return CustomPersistentBottomNavBar();
+              } else {
+                return LoginView();
+              }
+            },
+          );
         }
       }),
     );

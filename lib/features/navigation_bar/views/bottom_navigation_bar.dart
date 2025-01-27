@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/learining/view/learing_view.dart';
+import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/navigation_bar/controller/bottom_nav_bar_controller.dart';
+import 'package:skill_grow/features/profile/view/profile_view.dart';
 import 'package:skill_grow/features/search/view/search_view.dart';
 import '../../../core/colors/app_colors.dart'; // Add your own colors
 import '../../../core/icons/app_icon.dart';
@@ -21,38 +24,45 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
     HomeScreen(),
     SearchView(),
     LearingView(),
-    LearingView(),
+    ProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    MultiLangualDataController multiLangualDataController =
+        Get.put(MultiLangualDataController());
     return Obx(() {
-      return Scaffold(
-        body:
-            _screens[_controller.currentIndex.value], // Display current screen
-        bottomNavigationBar: Container(
-          height: 70.h, // Set the height of the nav bar
-          decoration: BoxDecoration(
-            color: AppColors.scaffoldBackgroundColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.r),
-              topRight: Radius.circular(20.r),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                blurRadius: 10.r,
+      return Directionality(
+        textDirection: multiLangualDataController.isLTR.value
+            ? TextDirection.ltr
+            : TextDirection.rtl,
+        child: Scaffold(
+          body: _screens[
+              _controller.currentIndex.value], // Display current screen
+          bottomNavigationBar: Container(
+            height: 70.h, // Set the height of the nav bar
+            decoration: BoxDecoration(
+              color: AppColors.scaffoldBackgroundColor,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.r),
+                topRight: Radius.circular(20.r),
               ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(0, AppIcon.lockIcon, "Home"),
-              _buildNavItem(1, AppIcon.announcements, "Search"),
-              _buildNavItem(2, AppIcon.playIcon, "Learning"),
-              _buildNavItem(3, AppIcon.userIcon, "Profile"),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 10.r,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildNavItem(0, AppIcon.lockIcon, "Home"),
+                _buildNavItem(1, AppIcon.announcements, "Search"),
+                _buildNavItem(2, AppIcon.playIcon, "Learning"),
+                _buildNavItem(3, AppIcon.userIcon, "Profile"),
+              ],
+            ),
           ),
         ),
       );
@@ -78,8 +88,9 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
             color: iconColor, // Change color based on selection
           ),
           SizedBox(height: 4.h),
-          Text(
-            label,
+          GlobalText(
+            softWrap: false,
+            text: label,
             style: TextStyle(
               color: iconColor,
               fontSize: 10.sp, // Adjust label size

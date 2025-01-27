@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/home/view/home_screen.dart';
+import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
+import 'package:skill_grow/features/payment/view/payment_method_list_view.dart';
+import 'package:skill_grow/splash_screen.dart';
 
 void main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -37,20 +40,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: FutureBuilder<bool>(
-            future: SharedPrefUtil.get('isLoggedin', false)
-                .then((value) => value as bool), // Explicit cast
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(); // Show a loading indicator
-              }
-              if (snapshot.hasData && snapshot.data == true) {
-                return HomeScreen();
-              } else {
-                return LoginView();
-              }
-            },
-          ),
+          home: SplashScreen()
         );
       },
     );

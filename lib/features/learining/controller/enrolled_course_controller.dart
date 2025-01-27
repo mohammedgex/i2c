@@ -4,7 +4,7 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/api_service.dart';
 
 
-import '../model.dart/enrolled_course_model.dart';
+import '../model/enrolled_course_model.dart';
 
 class EnrolledCourseController extends GetxController {
   var courses = <Course>[].obs; // Store courses

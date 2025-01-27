@@ -63,8 +63,13 @@ class LanguageListView extends StatelessWidget {
 
                           return GestureDetector(
                             onTap: () {
-                              languageSelectionController
-                                  .selectItem(index: index, language: data.name, code: data.code, direction: data.direction, is_default: data.isDefault); // Select the item
+                              languageSelectionController.selectItem(
+                                  index: index,
+                                  language: data.name,
+                                  code: data.code,
+                                  direction: data.direction,
+                                  is_default:
+                                      data.isDefault); // Select the item
                             },
                             child: Obx(
                               () {
@@ -89,8 +94,8 @@ class LanguageListView extends StatelessWidget {
                                             ? TextDirection.ltr
                                             : TextDirection.rtl,
                                     children: [
-                                      GlobalText(
-                                        text: data.name.toString(),
+                                      Text(
+                                        data.name.toString(),
                                         softWrap: true,
                                         style: TextStyle(
                                           fontSize: 13.sp,

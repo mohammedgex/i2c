@@ -51,4 +51,6 @@ class SharedPrefUtil {
     final prefs = await SharedPreferences.getInstance();
     return prefs.containsKey(key);
   }
+
+  static init(SharedPreferences prefs) {}
 }

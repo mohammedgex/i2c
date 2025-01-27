@@ -19,8 +19,11 @@ class SplashScreen extends StatelessWidget {
       body: Obx(() {
         if (multiLangualDataController.isLoading.value == true) {
           return Center(
-            child: Image.asset(AppImage.logo, height: 120.sp,
-                    width: 180.sp,),
+            child: Image.asset(
+              AppImage.logo,
+              height: 120.sp,
+              width: 180.sp,
+            ),
           );
         } else {
           return FutureBuilder<bool>(

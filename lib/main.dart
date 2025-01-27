@@ -3,10 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
-import 'package:skill_grow/features/authentication/view/login_view.dart';
-import 'package:skill_grow/features/home/view/home_screen.dart';
-import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
-import 'package:skill_grow/features/payment/view/payment_method_list_view.dart';
 import 'package:skill_grow/splash_screen.dart';
 
 void main() async {

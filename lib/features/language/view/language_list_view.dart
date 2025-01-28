@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
-import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/language/controller/language_list_controller.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../../core/colors/app_colors.dart';

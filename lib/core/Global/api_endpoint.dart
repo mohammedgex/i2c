@@ -253,7 +253,7 @@ class ApiEndpoint {
     required String type,
     required String lesson_id,
   }) {
-    return "$baseUrl/learning/:$course_slug/get-file-info/$type/$lesson_id";
+    return "$baseUrl/learning/$course_slug/get-file-info/$type/$lesson_id";
   }
 
   static String dashboardLearningLessonCompleteUrl({

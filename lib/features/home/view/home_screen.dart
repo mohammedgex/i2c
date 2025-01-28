@@ -14,7 +14,6 @@ import 'package:skill_grow/features/home/widget/category_section.dart';
 import 'package:skill_grow/features/home/widget/fresh_crourse_section.dart';
 import 'package:skill_grow/features/home/widget/popular_courses_section.dart';
 import 'package:skill_grow/features/home/widget/welcome_sction.dart';
-
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,129 +21,42 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MultiLangualDataController multiLangualDataController =
-        Get.put(MultiLangualDataController());
+    final multiLangualDataController = Get.put(MultiLangualDataController());
+    final isLTR = multiLangualDataController.isLTR.value;
+
     return ColorfulSafeArea(
       bottom: false,
       color: AppColors.scaffoldBackgroundColor,
       child: Scaffold(
         body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: Column(
-            textDirection: multiLangualDataController.isLTR.value
-                ? TextDirection.ltr
-                : TextDirection.rtl,
+            textDirection: isLTR ? TextDirection.ltr : TextDirection.rtl,
             children: [
               MyCustomAppBar(),
-              WelcomeSction(),
+              const WelcomeSction(),
               verticalGap(10.sp),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                child: Row(
-                  textDirection: multiLangualDataController.isLTR.value
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  children: [
-                    GlobalText(
-                      text: "Categories",
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      softWrap: false,
-                    ),
-                    Spacer(),
-                    Bounceable(
-                      onTap: () {
-                        Get.to(() => CategoryAllItemView());
-                      },
-                      child: GlobalText(
-                        text: "View All",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        softWrap: false,
-                      ),
-                    ),
-                  ],
-                ),
+              _buildSectionHeader(
+                title: "Categories",
+                onViewAllTap: () => Get.to(() => CategoryAllItemView()),
+                isLTR: isLTR,
               ),
               verticalGap(10.sp),
               CategorySection(),
               verticalGap(30.sp),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                child: Row(
-                  textDirection: multiLangualDataController.isLTR.value
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  children: [
-                    GlobalText(
-                      text: "Popular Courses",
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      softWrap: false,
-                    ),
-                    Spacer(),
-                    Bounceable(
-                      onTap: () {
-                        Get.to(() => AllPopularCourseListview());
-                      },
-                      child: GlobalText(
-                        text: "View All",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        softWrap: false,
-                      ),
-                    ),
-                  ],
-                ),
+              _buildSectionHeader(
+                title: "Popular Courses",
+                onViewAllTap: () =>
+                    Get.to(() => const AllPopularCourseListview()),
+                isLTR: isLTR,
               ),
               verticalGap(10.sp),
               PopularCoursesSection(),
               verticalGap(30.sp),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.sp),
-                child: Row(
-                  textDirection: multiLangualDataController.isLTR.value
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  children: [
-                    GlobalText(
-                      text: "Fresh Courses",
-                      style: TextStyle(
-                        color: AppColors.titleTextColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      softWrap: false,
-                    ),
-                    Spacer(),
-                    Bounceable(
-                      onTap: () {
-                        Get.to(() => AllFreshCourseListview());
-                      },
-                      child: GlobalText(
-                        text: "View All",
-                        style: TextStyle(
-                          color: AppColors.primaryColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        softWrap: false,
-                      ),
-                    ),
-                  ],
-                ),
+              _buildSectionHeader(
+                title: "Fresh Courses",
+                onViewAllTap: () =>
+                    Get.to(() => const AllFreshCourseListview()),
+                isLTR: isLTR,
               ),
               verticalGap(10.sp),
               FreshCrourseSection(),
@@ -152,6 +64,43 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader({
+    required String title,
+    required VoidCallback onViewAllTap,
+    required bool isLTR,
+  }) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.sp),
+      child: Row(
+        textDirection: isLTR ? TextDirection.ltr : TextDirection.rtl,
+        children: [
+          GlobalText(
+            text: title,
+            style: TextStyle(
+              color: AppColors.titleTextColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+            ),
+            softWrap: true,
+          ),
+          const Spacer(),
+          Bounceable(
+            onTap: onViewAllTap,
+            child: GlobalText(
+              text: "View All",
+              style: TextStyle(
+                color: AppColors.primaryColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              softWrap: true,
+            ),
+          ),
+        ],
       ),
     );
   }

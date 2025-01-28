@@ -25,96 +25,98 @@ class MoreView extends StatelessWidget {
         color: AppColors.nuralItemBackgroundColor,
         borderRadius: BorderRadius.circular(10.sp),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        textDirection: multiLangualDataController.isLTR.value
-            ? TextDirection.ltr
-            : TextDirection.rtl,
-        spacing: 10.sp,
-        children: [
-          Bounceable(
-            onTap: () {},
-            child: Row(
-              textDirection: multiLangualDataController.isLTR.value
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              children: [
-                SvgPicture.asset(AppIcon.more),
-                horizontalGap(15.sp),
-                GlobalText(
-                  text: "About This Course",
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: multiLangualDataController.isLTR.value
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+          spacing: 10.sp,
+          children: [
+            Bounceable(
+              onTap: () {},
+              child: Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                children: [
+                  SvgPicture.asset(AppIcon.more),
+                  horizontalGap(15.sp),
+                  GlobalText(
+                    text: "About This Course",
+                    softWrap: true,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Bounceable(
-            onTap: () {},
-            child: Row(
-              textDirection: multiLangualDataController.isLTR.value
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              children: [
-                SvgPicture.asset(AppIcon.courseCertificate),
-                horizontalGap(15.sp),
-                GlobalText(
-                  text: "Course certificate",
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+            Bounceable(
+              onTap: () {},
+              child: Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                children: [
+                  SvgPicture.asset(AppIcon.courseCertificate),
+                  horizontalGap(15.sp),
+                  GlobalText(
+                    text: "Course certificate",
+                    softWrap: true,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Bounceable(
-            onTap: () {},
-            child: Row(
-              textDirection: multiLangualDataController.isLTR.value
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              children: [
-                SvgPicture.asset(AppIcon.share),
-                horizontalGap(15.sp),
-                GlobalText(
-                  text: "Share this Course",
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+            Bounceable(
+              onTap: () {},
+              child: Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                children: [
+                  SvgPicture.asset(AppIcon.share),
+                  horizontalGap(15.sp),
+                  GlobalText(
+                    text: "Share this Course",
+                    softWrap: true,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Bounceable(
-            onTap: () {
-              Get.to(() => AnnouncementsView());
-            },
-            child: Row(
-              textDirection: multiLangualDataController.isLTR.value
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              children: [
-                SvgPicture.asset(AppIcon.announcements),
-                horizontalGap(15.sp),
-                GlobalText(
-                  text: "Announcements",
-                  softWrap: true,
-                  style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w500,
+            Bounceable(
+              onTap: () {
+                Get.to(() => AnnouncementsView());
+              },
+              child: Row(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                children: [
+                  SvgPicture.asset(AppIcon.announcements),
+                  horizontalGap(15.sp),
+                  GlobalText(
+                    text: "Announcements",
+                    softWrap: true,
+                    style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

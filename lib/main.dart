@@ -4,13 +4,10 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
+import 'package:skill_grow/features/video_player/view/test.dart';
 import 'package:skill_grow/splash_screen.dart';
 
-
-
 void main() async {
- 
-
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -27,21 +24,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SharedPrefUtil.get('isLoggedin', false).then((value) => print(value));
     SharedPrefUtil.get('token', "").then((value) => print(value));
-    return  ScreenUtilInit(
-          designSize: const Size(375, 812),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return GetMaterialApp(
-            
-              debugShowCheckedModeBanner: false,
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              home: SplashScreen()
-            );
-          },
-        );  
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: VideoSelectionScreen());
+      },
+    );
   }
 }

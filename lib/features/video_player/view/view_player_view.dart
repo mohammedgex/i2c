@@ -11,13 +11,8 @@ class VideoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Video Player")),
-      body: SafeArea(
-        child: SizedBox(
-            height: 200.sp,
-            child: universalVideoPlayer(source: videoSource, url: videoUrl)),
-      ),
-    );
+    return SizedBox(
+        height: 200.sp,
+        child: universalVideoPlayer(source: videoSource, url: videoUrl));
   }
 }

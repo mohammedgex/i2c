@@ -18,11 +18,10 @@ import 'package:skill_grow/features/video/view/QNA_view.dart';
 import 'package:skill_grow/features/video/view/curriculum_view.dart';
 import 'package:skill_grow/features/video/view/more_view.dart';
 import 'package:skill_grow/features/video/view/widget/initial_tumbnail_ui.dart';
-
+import 'package:skill_grow/features/video_player/view/view_player_view.dart';
 import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../video_player/controller/global_player_controller.dart';
-import '../../video_player/view/view_player_view.dart';
 
 class LandingViewForVideo extends StatelessWidget {
   String slug;
@@ -73,11 +72,51 @@ class LandingViewForVideo extends StatelessWidget {
                         color: AppColors.primaryColor,
                         borderRadius: BorderRadius.circular(10.sp),
                       ),
-                      child: InitialTumbnailUI(
-                          thumbnailImage: learningDataController
-                              .course.value!.data.thumbnail,
-                          wishOntap: () {},
-                          playOntap: () {})
+                      child: Obx(() {
+                        if (videoPlayController.isLoading.value) {
+                          return InitialTumbnailUI(
+                              thumbnailImage: learningDataController
+                                  .course.value!.data.thumbnail,
+                              wishOntap: () {},
+                              playOntap: () {
+                                videoPlayController.fetchVideoFile(
+                                    slug: videoPlayController
+                                        .initialVideoDetails['slug']
+                                        .toString(),
+                                    type: videoPlayController
+                                        .initialVideoDetails['type']
+                                        .toString(),
+                                    id: videoPlayController
+                                        .initialVideoDetails['id']
+                                        .toString());
+                              });
+                        } else {
+                          if (videoPlayController.videoFile.value != null) {
+                            return VideoScreen(
+                                videoSource: videoPlayController
+                                    .videoFile.value!.data.storage,
+                                videoUrl: videoPlayController
+                                    .videoFile.value!.data.filePath);
+                          } else {
+                            return InitialTumbnailUI(
+                                thumbnailImage: learningDataController
+                                    .course.value!.data.thumbnail,
+                                wishOntap: () {},
+                                playOntap: () {
+                                  videoPlayController.fetchVideoFile(
+                                      slug: videoPlayController
+                                          .initialVideoDetails['slug']
+                                          .toString(),
+                                      type: videoPlayController
+                                          .initialVideoDetails['type']
+                                          .toString(),
+                                      id: videoPlayController
+                                          .initialVideoDetails['id']
+                                          .toString());
+                                });
+                          }
+                        }
+                      })
                       // child: universalVideoPlayer(a
                       //     source: "mp4",
                       //     url:
@@ -100,14 +139,6 @@ class LandingViewForVideo extends StatelessWidget {
                         color: AppColors.primaryColor),
                   ),
                   // Play YouTube Video
-                  verticalGap(10.sp),
-                  GlobalButton(
-                      height: 50,
-                      width: 200,
-                      text: "Text",
-                      onTap: () {
-                        print(videoPlayController.initialVideoDetails.value);
-                      }),
 
                   verticalGap(7.sp),
                   SizedBox(

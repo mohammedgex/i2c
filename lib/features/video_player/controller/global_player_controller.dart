@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
 import '../view/mp4_video_player_view.dart';
 import '../view/vimo_and_drive_video_player_view.dart';
 import '../view/youtube_video_player_view.dart';
 
-// 🎬 VideoController using GetX
+
 class VideoController extends GetxController {
   VideoPlayerController? mp4Controller;
   YoutubePlayerController? youtubeController;
@@ -18,40 +16,44 @@ class VideoController extends GetxController {
   /// 🎥 Initialize MP4 Video Player
   void initializeMp4(String url) {
     if (mp4Controller == null || mp4Controller!.dataSource != url) {
-      mp4Controller?.dispose(); // Dispose previous controller
+      mp4Controller?.dispose();
       mp4Controller = VideoPlayerController.network(url)
         ..initialize().then((_) {
           isMp4Initialized.value = true;
           mp4Controller!.play();
-          update(); // Refresh UI
         }).catchError((error) {
           print("Error initializing MP4 video: $error");
         });
     }
   }
 
-  /// 🎬 Initialize YouTube Video Player
+  /// 🎬 Initialize YouTube Video Player (Fixed `convertUrlToId`)
   void initializeYouTube(String url) {
-    final videoId = YoutubePlayer.convertUrlToId(url);
+    final videoId = YoutubePlayer.convertUrlToId(url); // ✅ Correct method usage
     if (videoId != null) {
-      youtubeController?.dispose(); // Dispose previous controller
-      youtubeController = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: YoutubePlayerFlags(autoPlay: false, mute: false),
-      );
+      if (youtubeController == null) {
+        youtubeController = YoutubePlayerController(
+          initialVideoId: videoId,
+          flags: YoutubePlayerFlags(
+            autoPlay: true,
+            // showControls: true,
+            // showFullscreenButton: true,
+          ),
+        );
+      } else {
+        youtubeController!.load(videoId);
+      }
       isYouTubeInitialized.value = true;
-      update(); // Refresh UI
     } else {
       print("Invalid YouTube URL: $url");
     }
   }
 
-  /// 🎬 Enter Fullscreen Mode
-
+  /// 🎬 Clean up resources when the controller is disposed
   @override
   void onClose() {
     mp4Controller?.dispose();
-    youtubeController?.dispose();
+    youtubeController?.pause(); // Avoid dispose() to prevent reuse issues
     super.onClose();
   }
 }
@@ -60,7 +62,7 @@ class VideoController extends GetxController {
 Widget universalVideoPlayer({required String source, required String url}) {
   switch (source.toLowerCase()) {
     case "youtube":
-      return YouTubeVideoPlayer(url: url);
+      return YouTubeWebViewPlayer(url: url);
     case "vimeo":
     case "google_drive":
       return WebVideoPlayer(url: url); // Handles both Vimeo & Google Drive

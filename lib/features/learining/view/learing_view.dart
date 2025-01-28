@@ -195,7 +195,7 @@ class LearingView extends StatelessWidget {
                                                     minHeight: 10.sp,
                                                     value: data.progress
                                                             .toDouble() /
-                                                        10,
+                                                        100,
                                                     color:
                                                         AppColors.primaryColor,
                                                     backgroundColor:
@@ -206,7 +206,7 @@ class LearingView extends StatelessWidget {
                                               horizontalGap(10.sp),
                                               GlobalText(
                                                 text:
-                                                    '${data.progress.toInt() * 10}/100',
+                                                    '${data.progress.toInt()}/100',
                                                 style: TextStyle(
                                                     fontSize: 12.sp,
                                                     color: AppColors

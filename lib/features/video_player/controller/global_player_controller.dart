@@ -4,7 +4,6 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../view/mp4_video_player_view.dart';
 import '../view/vimo_and_drive_video_player_view.dart';
-import '../view/youtube_video_player_view.dart';
 
 
 class VideoController extends GetxController {
@@ -62,7 +61,6 @@ class VideoController extends GetxController {
 Widget universalVideoPlayer({required String source, required String url}) {
   switch (source.toLowerCase()) {
     case "youtube":
-      return YouTubeWebViewPlayer(url: url);
     case "vimeo":
     case "google_drive":
       return WebVideoPlayer(url: url); // Handles both Vimeo & Google Drive

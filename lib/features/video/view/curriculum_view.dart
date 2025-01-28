@@ -87,39 +87,33 @@ class CurriculumView extends StatelessWidget {
                                   lessonId: chapter.item.id.toString(),
                                 );
                               },
-                              child: GetBuilder<
-                                  LessonCompleteStatusUpdateController>(
-                                id: 'lessonStatus', // Only updates when this tag is triggered
-                                builder: (controller) {
-                                  return learningDataController.course.value!
-                                          .data.alreadyWatchedLectures
-                                          .contains(chapter.item.id)
-                                      ? Container(
-                                          height: 20.sp,
-                                          width: 20.sp,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.grey),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.sp),
-                                              color: AppColors.primaryColor),
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                                AppIcon.successIcon),
-                                          ),
-                                        )
-                                      : Container(
-                                          height: 20.sp,
-                                          width: 20.sp,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.grey),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.sp),
-                                              color: Colors.transparent),
-                                        );
-                                },
-                              ),
+                              child: learningDataController
+                                      .course.value!.data.alreadyWatchedLectures
+                                      .contains(chapter.item.id)
+                                  ? Container(
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                          color: AppColors.primaryColor),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                            AppIcon.successIcon),
+                                      ),
+                                    )
+                                  : Container(
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                          color: Colors.transparent),
+                                    ),
                             ),
                             title: Bounceable(
                               onTap: () => fetchQNA(

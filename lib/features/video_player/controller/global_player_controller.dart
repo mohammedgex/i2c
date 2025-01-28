@@ -30,8 +30,6 @@ class VideoController extends GetxController {
     }
   }
 
-  
-
   /// 🎬 Initialize YouTube Video Player
   void initializeYouTube(String url) {
     final videoId = YoutubePlayer.convertUrlToId(url);
@@ -39,7 +37,7 @@ class VideoController extends GetxController {
       youtubeController?.dispose(); // Dispose previous controller
       youtubeController = YoutubePlayerController(
         initialVideoId: videoId,
-        flags: YoutubePlayerFlags(autoPlay: true, mute: false),
+        flags: YoutubePlayerFlags(autoPlay: false, mute: false),
       );
       isYouTubeInitialized.value = true;
       update(); // Refresh UI
@@ -48,8 +46,7 @@ class VideoController extends GetxController {
     }
   }
 
-    /// 🎬 Enter Fullscreen Mode
-
+  /// 🎬 Enter Fullscreen Mode
 
   @override
   void onClose() {

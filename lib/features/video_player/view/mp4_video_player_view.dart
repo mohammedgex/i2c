@@ -22,6 +22,7 @@ class _MP4VideoPlayerState extends State<MP4VideoPlayer> {
     super.initState();
     flickManager = FlickManager(
       videoPlayerController: VideoPlayerController.network(widget.url),
+      autoPlay: false,
     );
   }
 

@@ -20,7 +20,7 @@ class CourseData {
   final Instructor instructor;
   final List<Curriculum> curriculums;
   final CurrentProgress currentProgress;
-  final List<String> alreadyWatchedLectures;
+  late final List<String> alreadyWatchedLectures;
   final List<int> alreadyCompletedQuiz;
 
   CourseData({

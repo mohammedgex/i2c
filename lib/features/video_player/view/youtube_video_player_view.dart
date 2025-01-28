@@ -19,6 +19,7 @@ class YouTubeVideoPlayer extends StatelessWidget {
         return YoutubePlayer(
           controller: videoController.youtubeController!,
           showVideoProgressIndicator: true,
+          
         );
       } else {
         return Center(child: CircularProgressIndicator());

@@ -35,7 +35,7 @@ class SplashScreen extends StatelessWidget {
                 return CircularProgressIndicator(); // Show a loading indicator
               }
               if (snapshot.hasData && snapshot.data == true) {
-                return VideoSelectionScreen();
+                return CustomPersistentBottomNavBar();
               } else {
                 return LoginView();
               }

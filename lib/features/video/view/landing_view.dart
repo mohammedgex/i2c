@@ -2,19 +2,26 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
+import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/video/controller/learning_data_controller.dart';
 import 'package:skill_grow/features/video/controller/state_controller.dart';
+import 'package:skill_grow/features/video/controller/video_play_controller.dart';
 import 'package:skill_grow/features/video/view/QNA_view.dart';
 import 'package:skill_grow/features/video/view/curriculum_view.dart';
 import 'package:skill_grow/features/video/view/more_view.dart';
+import 'package:skill_grow/features/video/view/widget/initial_tumbnail_ui.dart';
 
 import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../../video_player/controller/global_player_controller.dart';
 import '../../video_player/view/view_player_view.dart';
 
 class LandingViewForVideo extends StatelessWidget {
@@ -23,6 +30,7 @@ class LandingViewForVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    VideoPlayController videoPlayController = Get.put(VideoPlayController());
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     final ResourseToggleController controller =
@@ -30,6 +38,7 @@ class LandingViewForVideo extends StatelessWidget {
     final LearningDataController learningDataController =
         Get.put(LearningDataController(slug));
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: ColorfulSafeArea(
         bottom: false,
         maintainBottomViewPadding: true,
@@ -58,13 +67,22 @@ class LandingViewForVideo extends StatelessWidget {
                   ),
                   verticalGap(10.sp),
                   Container(
-                    width: double.infinity,
-                    height: 200.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                  ),
+                      width: double.infinity,
+                      height: 200.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: InitialTumbnailUI(
+                          thumbnailImage: learningDataController
+                              .course.value!.data.thumbnail,
+                          wishOntap: () {},
+                          playOntap: () {})
+                      // child: universalVideoPlayer(a
+                      //     source: "mp4",
+                      //     url:
+                      //         "https://videos.pexels.com/video-files/9806389/9806389-uhd_2560_1440_25fps.mp4"),
+                      ),
                   verticalGap(5.sp),
                   GlobalText(
                     text: learningDataController.course.value!.data.title,
@@ -82,7 +100,14 @@ class LandingViewForVideo extends StatelessWidget {
                         color: AppColors.primaryColor),
                   ),
                   // Play YouTube Video
-
+                  verticalGap(10.sp),
+                  GlobalButton(
+                      height: 50,
+                      width: 200,
+                      text: "Text",
+                      onTap: () {
+                        print(videoPlayController.initialVideoDetails.value);
+                      }),
 
                   verticalGap(7.sp),
                   SizedBox(
@@ -229,14 +254,14 @@ class LandingViewForVideo extends StatelessWidget {
                     } else if (controller.selectedIndex.value == 1) {
                       return Flexible(
                           child: SingleChildScrollView(
-                            child: Container(
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.sp),
-                                                    ),
-                                                    child: QNAView(),
-                                                  ),
-                          ));
+                          ),
+                          child: QNAView(),
+                        ),
+                      ));
                     } else {
                       return MoreView();
                     }

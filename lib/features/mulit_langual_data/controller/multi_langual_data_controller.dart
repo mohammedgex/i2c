@@ -7,7 +7,7 @@ class MultiLangualDataController extends GetxController {
   MultiLangualDataService languageService = MultiLangualDataService();
   RxMap<String, dynamic> multiLangualData = <String, dynamic>{}.obs;
   RxBool isLoading = false.obs;
-  RxBool isLTR = true.obs;
+  RxBool isLTR = false.obs;
 
   @override
   void onInit() async {

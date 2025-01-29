@@ -1,67 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/widgets/controller/dropdwon_input_cntroller.dart';
 
 class CustomDropDownField extends StatelessWidget {
   final DropdownController controller = Get.put(DropdownController());
+  final MultiLangualDataController multiLangualDataController =
+      Get.put(MultiLangualDataController());
 
   CustomDropDownField({super.key});
 
   @override
   Widget build(BuildContext context) {
-    MultiLangualDataController multiLangualDataController =
-        Get.put(MultiLangualDataController());
-    // String translatedText =
-    //     multiLangualDataController.multiLangualData?[hint] ?? hint;
-    return Obx(() => Directionality(
-          textDirection: multiLangualDataController.isLTR.value
-              ? TextDirection.ltr
-              : TextDirection.rtl,
-          child: DropdownSearch<String>(
-            // asyncItems: (String? filter) async => controller.fetchItems(),
-            items: (filter, loadProps) => controller.fetchItems(),
-            itemAsString: (item) {
-              return item;
-            },
-            selectedItem: controller.selectedValue.value.isEmpty
-                ? null
-                : controller.selectedValue.value,
-            onChanged: (String? newValue) {
-              controller.updateValue(newValue);
-            },
-            // decoratorProps: DropDownDecoratorProps(
+    return Obx(() {
+      // Determine text direction based on language
+      final textDirection = multiLangualDataController.isLTR.value
+          ? TextDirection.ltr
+          : TextDirection.rtl;
 
-            //   decoration: InputDecoration(
-            //     hintText: "Search or select an option",
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.all(Radius.circular(12.r)),
-            //     ),
-            //   ),
-            // ),
-            popupProps: PopupProps.menu(
-              showSearchBox: true,
-              searchFieldProps: TextFieldProps(
+      return Directionality(
+        textDirection: textDirection,
+        child: DropdownButton2<String>(
+          value: controller.selectedValue.value.isEmpty
+              ? null
+              : controller.selectedValue.value,
+          onChanged: (String? newValue) {
+            controller.updateValue(newValue);
+          },
+          items: controller.items.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              alignment: multiLangualDataController.isLTR.value
+                  ? AlignmentDirectional.centerStart
+                  : AlignmentDirectional.centerEnd,
+              value: value,
+              child: GlobalText(
+                text: value,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: controller.selectedValue.value == value
+                      ? FontWeight.bold
+                      : FontWeight.normal,
+                ),
+                softWrap: false,
+              ),
+            );
+          }).toList(),
+          dropdownStyleData: DropdownStyleData(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              border: Border.all(color: Colors.grey),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 6.0,
+                  spreadRadius: 1.0,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+          ),
+          iconStyleData: IconStyleData(
+            icon: const Icon(Icons.arrow_drop_down),
+          ),
+          buttonStyleData: ButtonStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 10.sp),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.sp),
+              border: Border.all(color: Colors.grey),
+            ),
+          ),
+          dropdownSearchData: DropdownSearchData(
+            searchController: TextEditingController(),
+            searchInnerWidgetHeight: 50,
+            searchInnerWidget: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.sp, vertical: 5.sp),
+              child: TextField(
                 decoration: InputDecoration(
-                  labelText: "Search",
-                  border: OutlineInputBorder(),
+                  hintText: translatedText("Search"),
+                  hintTextDirection: textDirection,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.sp),
+                  ),
                 ),
               ),
             ),
-            dropdownBuilder: (context, selectedItem) {
-              return Directionality(
-                textDirection: multiLangualDataController.isLTR.value
-                    ? TextDirection.ltr
-                    : TextDirection.rtl,
-                child: Text(
-                  selectedItem ?? "Search or select an option",
-                  style: TextStyle(fontSize: 14.sp),
-                ),
-              );
-            },
           ),
-        ));
+          hint: GlobalText(
+            text: translatedText("Search or select an option"),
+            style: TextStyle(fontSize: 14.sp),
+            softWrap: false,
+          ),
+        ),
+      );
+    });
   }
 }

@@ -86,6 +86,11 @@ class CurriculumView extends StatelessWidget {
                       margin: EdgeInsets.symmetric(vertical: 5.sp),
                       child: ListTile(
                           onTap: () {
+                            videoPlayController.initialVideoDetails.value = {
+                              "id": chapter.item.id,
+                              "slug": learningDataController.slug,
+                              "type": "lesson"
+                            };
                             videoPlayController.fetchVideoFile(
                                 slug: learningDataController.slug,
                                 type: "lesson",
@@ -143,11 +148,23 @@ class CurriculumView extends StatelessWidget {
                               }
                             },
                           ),
-                          title: GlobalText(
-                            text: chapter.item.title.toString(),
-                            softWrap: true,
-                            style: TextStyle(fontSize: 13.sp),
-                          ),
+                          title: Obx(() {
+                            return GlobalText(
+                              text: chapter.item.title.toString(),
+                              softWrap: true,
+                              style: videoPlayController
+                                          .initialVideoDetails['id']
+                                          .toString() ==
+                                      chapter.item.id.toString()
+                                  ? TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.bold)
+                                  : TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.titleTextColor),
+                            );
+                          }),
                           subtitle: GlobalText(
                             text: chapter.item.duration.toString(),
                             softWrap: true,

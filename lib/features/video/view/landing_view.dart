@@ -2,13 +2,9 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
-import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
-import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/video/controller/learning_data_controller.dart';
@@ -21,7 +17,6 @@ import 'package:skill_grow/features/video/view/widget/initial_tumbnail_ui.dart';
 import 'package:skill_grow/features/video_player/view/view_player_view.dart';
 import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
-import '../../video_player/controller/global_player_controller.dart';
 
 class LandingViewForVideo extends StatelessWidget {
   String slug;

@@ -7,6 +7,8 @@ import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/video_player/view/test.dart';
 import 'package:skill_grow/splash_screen.dart';
 
+import 'features/search/view/search_view.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([

@@ -34,11 +34,11 @@ class ApiEndpoint {
     required String main_category_slug,
     required String languageCode,
   }) {
-    return '$baseUrl/course-sub-categories/:$main_category_slug?language=$languageCode';
+    return '$baseUrl/course-sub-categories/$main_category_slug?language=$languageCode';
   }
 
   static String courseLevelsUrl({
-    required int limit,
+    int? limit,
     required String languageCode,
   }) {
     return '$baseUrl/course-levels?limit=$limit&language=$languageCode';
@@ -46,14 +46,14 @@ class ApiEndpoint {
 
   // Courses URLs
   static String popularCoursesUrl({
-    required int limit,
+    int? limit,
     required String currency,
   }) {
     return '$baseUrl/popular-courses?limit=$limit&currency=$currency';
   }
 
   static String freshCoursesUrl({
-    required int limit,
+    int? limit,
     required String currency,
   }) {
     return '$baseUrl/fresh-courses?limit=$limit&currency=$currency';
@@ -273,16 +273,18 @@ class ApiEndpoint {
   static String dashboardAddToCartUrl({required String slug}) {
     return "$baseUrl/add-to-cart/$slug";
   }
+
   static String dashboardRemoveCartUrl({required String slug}) {
     return "$baseUrl/remove-from-cart/$slug";
   }
-  static String paymentApiUrl({required String method, required String currency}) {
+
+  static String paymentApiUrl(
+      {required String method, required String currency}) {
     return "$baseUrl/payment-api/$method?currency=$currency";
   }
 
   // payment URLs
   static String payemntMethodsListUrl = "$baseUrl/payment-gateway-list";
-
 
   // Dashboard Profile URLs
   static const String dashboardProfileUrl = "$baseUrl/profile";

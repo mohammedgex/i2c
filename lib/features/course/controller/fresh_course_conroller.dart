@@ -25,7 +25,7 @@ class FreshCourseConroller extends getx.GetxController {
 
     try {
       // Example URL - Replace with actual API endpoint
-      String url = ApiEndpoint.freshCoursesUrl(limit: 10, currency: "USD");
+      String url = ApiEndpoint.freshCoursesUrl(currency: "USD");
 
       // Fetch data using GET method
       dio.Response? response = await _apiService.getData(url: url);

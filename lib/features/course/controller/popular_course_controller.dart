@@ -25,7 +25,7 @@ class PopularCourseController extends getx.GetxController {
 
     try {
       // Example URL - Replace with actual API endpoint
-      String url = ApiEndpoint.popularCoursesUrl(limit: 10, currency: "USD");
+      String url = ApiEndpoint.popularCoursesUrl( currency: "USD");
 
       // Fetch data using GET method
       dio.Response? response = await _apiService.getData(url: url);

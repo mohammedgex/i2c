@@ -5,7 +5,7 @@ class SlidableController extends GetxController {
   final double maxSlide = 100.0; // Max slide distance
 
   void updateDragExtent(double delta) {
-    dragExtent.value += delta;
+    dragExtent.value -= delta;
 
     // Prevent dragging beyond limits
     if (dragExtent.value < 0) dragExtent.value = 0;

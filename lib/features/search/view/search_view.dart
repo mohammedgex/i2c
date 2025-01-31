@@ -224,7 +224,7 @@ class SearchView extends StatelessWidget {
   // Empty Sub Category Section
   Widget _buildEmptySubCategorySection(
       MultiLangualDataController multiLangualDataController) {
-    final RxBool isEmpty = true.obs;
+    final RxBool isEmpty = false.obs;
     return GestureDetector(
       onTap: () {
         isEmpty.value = true;

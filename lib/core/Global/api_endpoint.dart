@@ -60,16 +60,16 @@ class ApiEndpoint {
   }
 
   static String searchCoursesUrl({
-    required int limit,
-    required String currency,
-    required String search,
-    required String main_category,
-    required String sub_category,
-    required String price,
-    required String languages,
-    required String levels,
-    required String rating,
-    required String page,
+     int? limit,
+     String? currency,
+     String? search,
+     String? main_category,
+     String? sub_category,
+     String? price,
+     String? languages,
+     String? levels,
+     String? rating,
+     String? page,
   }) {
     return '$baseUrl/search-courses?limit=$limit&currency=$currency&search=$search&main_category=$main_category&sub_category=$sub_category&price=$price&languages=$languages&levels=$levels&rating=$rating&page=$page';
   }

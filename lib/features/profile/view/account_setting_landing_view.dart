@@ -6,197 +6,184 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
 
+import '../controller/image_picker_controller.dart';
+
 class AccountSettingLandingView extends StatelessWidget {
-  const AccountSettingLandingView({super.key});
+  final Map<String, dynamic> userData = {
+    "id": 1000,
+    "name": "Jhon Doe",
+    "email": "student@gmail.com",
+    "phone": "",
+    "age": 0,
+    "image": "/uploads/website-images/frontend-avatar.png",
+    "job_title": "Software Developer",
+    "short_bio": "Passionate coder and problem solver.",
+    "bio": "Love to create innovative solutions using modern technologies.",
+    "gender": "Male",
+    "country_id": 0,
+    "state": "California",
+    "city": "Los Angeles",
+    "address": "123 Tech Street",
+    "facebook": "",
+    "twitter": "",
+    "linkedin": "https://linkedin.com/in/johndoe",
+    "website": "https://johndoe.com",
+    "github": "https://github.com/johndoe"
+  };
+final ImagePickerController imagePickerController = Get.put(ImagePickerController());
+  AccountSettingLandingView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ProfileDataCotroller profileDataCotroller = Get.find();
     return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
-      body: Obx(() {
-        if (profileDataCotroller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        } else {
-          return ColorfulSafeArea(
-            bottom: false,
-            color: AppColors.scaffoldBackgroundColor,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Custom AppBar
-                  MyCustomAppBar(
-                    verticalPadding: 0,
-                    horizontalPadding: 0,
-                    isShowbackButton: true,
-                  ),
-                  verticalGap(10.h),
-
-                  // Title
-                  Text(
-                    "Account Settings",
-                    style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  verticalGap(20.h),
-
-                  // User Profile Section
-                  Container(
-                    padding: EdgeInsets.all(16.w),
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(12.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        // Profile Picture
-                        CircleAvatar(
-                          radius: 30.r,
-                          backgroundImage: NetworkImage(ApiEndpoint.imageUrl +
-                              profileDataCotroller
-                                  .userDataResponse.value!.data.image
-                                  .toString()),
-                        ),
-                        horizontalGap(16.w),
-
-                        // User Details
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              profileDataCotroller
-                                  .userDataResponse.value!.data.name
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                            verticalGap(4.h),
-                            Text(
-                              profileDataCotroller
-                                  .userDataResponse.value!.data.email
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  verticalGap(20.h),
-
-                  // Settings Options
-                  Expanded(
-                    child: ListView(
-                      children: [
-                        _buildSettingOption(
-                          icon: Icons.person_outline,
-                          title: "Edit Profile",
-                          onTap: () {
-                            // Navigate to Edit Profile Screen
-                          },
-                        ),
-                        _buildSettingOption(
-                          icon: Icons.lock_outline,
-                          title: "Change Password",
-                          onTap: () {
-                            // Navigate to Change Password Screen
-                          },
-                        ),
-                        _buildSettingOption(
-                          icon: Icons.notifications_none_outlined,
-                          title: "Notification Settings",
-                          onTap: () {
-                            // Navigate to Notification Settings Screen
-                          },
-                        ),
-                        _buildSettingOption(
-                          icon: Icons.private_connectivity,
-                          title: "Privacy Settings",
-                          onTap: () {
-                            // Navigate to Privacy Settings Screen
-                          },
-                        ),
-                        _buildSettingOption(
-                          icon: Icons.help_outline,
-                          title: "Help & Support",
-                          onTap: () {
-                            // Navigate to Help & Support Screen
-                          },
-                        ),
-                        _buildSettingOption(
-                          icon: Icons.logout,
-                          title: "Logout",
-                          onTap: () {
-                            // Handle Logout
-                          },
-                          isLogout: true,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.blueAccent, Colors.purpleAccent],
               ),
             ),
-          );
-        }
-      }),
+          ),
+          SafeArea(
+            bottom: false,
+            child: Column(
+              textDirection: multiLangualDataController.isLTR.value ? TextDirection.ltr : TextDirection.rtl,
+              children: [
+                SizedBox(height: 20),
+                 GestureDetector(
+                  onTap: () => imagePickerController.pickImage(),
+                  child: Obx(() => Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundImage: imagePickerController.profileImage.value != null
+                            ? FileImage(imagePickerController.profileImage.value!)
+                            : NetworkImage(ApiEndpoint.imageUrl + userData["image"])
+                                as ImageProvider,
+                        backgroundColor: Colors.white,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          padding: EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.edit, 
+                            color: Colors.white, 
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )),
+                ),
+                SizedBox(height: 12),
+                Text(
+                  userData["name"],
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                Text(
+                  userData["job_title"] ?? "Not Provided",
+                  style: TextStyle(fontSize: 16, color: Colors.white70),
+                ),
+                SizedBox(height: 20),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16),
+                        _buildInfoRow(Icons.email, "Email", userData["email"]),
+                        _buildInfoRow(Icons.phone, "Phone",
+                            userData["phone"] ?? "Not Provided"),
+                        _buildInfoRow(Icons.location_city, "Location",
+                            "${userData["city"]}, ${userData["state"]}"),
+                        _buildInfoRow(
+                            Icons.cake, "Age", userData["age"].toString()),
+                        SizedBox(height: 16),
+                        Text(
+                          "About Me",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          userData["bio"] ?? "No bio available.",
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[700]),
+                          textAlign: TextAlign.justify,
+                        ),
+                        SizedBox(height: 16),
+                        Wrap(
+                          spacing: 16,
+                          children: _buildSocialLinks(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  // Setting Option Widget
-  Widget _buildSettingOption({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-    bool isLogout = false,
-  }) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 10.h),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: ListTile(
-        onTap: onTap,
-        leading: Icon(
-          icon,
-          size: 24.sp,
-          color: isLogout ? AppColors.mainRedColor : AppColors.primaryColor,
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-            color: isLogout ? AppColors.mainRedColor : AppColors.primaryColor,
+  Widget _buildInfoRow(IconData icon, String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.blueAccent),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              "$title: $value",
+              style: TextStyle(fontSize: 16),
+            ),
           ),
-        ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: 16.sp,
-          color: AppColors.primaryColor,
-        ),
+        ],
       ),
     );
+  }
+
+  List<Widget> _buildSocialLinks() {
+    List<Map<String, dynamic>> socialLinks = [
+      {"icon": Icons.web, "url": userData["website"]},
+      {"icon": Icons.link, "url": userData["linkedin"]},
+      {"icon": Icons.code, "url": userData["github"]},
+    ];
+    return socialLinks
+        .where((link) => link["url"].isNotEmpty)
+        .map(
+          (link) => IconButton(
+            icon: Icon(link["icon"], size: 30, color: Colors.blueAccent),
+            onPressed: () {
+              // Implement URL launch logic
+            },
+          ),
+        )
+        .toList();
   }
 }

@@ -1,7 +1,9 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/button.dart';
+import 'package:skill_grow/features/profile/controller/update_address_controller.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
 import '../../../core/colors/app_colors.dart';
@@ -14,9 +16,8 @@ class UpdateAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController stateController = TextEditingController();
-    TextEditingController cityController = TextEditingController();
-    TextEditingController addressController = TextEditingController();
+    UpdateAddressController updateAddressController =
+        Get.put(UpdateAddressController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -55,7 +56,7 @@ class UpdateAddressScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: stateController,
+                    controller: updateAddressController.stateController,
                     hint: "State",
                     inputType: TextInputType.text,
                     keyName: "State",
@@ -74,7 +75,7 @@ class UpdateAddressScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: cityController,
+                    controller: updateAddressController.cityController,
                     hint: "City",
                     inputType: TextInputType.emailAddress,
                     keyName: "City",
@@ -93,7 +94,7 @@ class UpdateAddressScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: addressController,
+                    controller: updateAddressController.addressController,
                     hint: "Address",
                     inputType: TextInputType.emailAddress,
                     keyName: "Address",
@@ -105,7 +106,9 @@ class UpdateAddressScreen extends StatelessWidget {
                     height: 50.sp,
                     width: double.infinity,
                     text: "Save",
-                    onTap: () {},
+                    onTap: () {
+                      updateAddressController.updateBio();
+                    },
                   )
                 ],
               ),

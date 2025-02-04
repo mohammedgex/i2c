@@ -1,7 +1,9 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/button.dart';
+import 'package:skill_grow/features/profile/controller/update_social_links_controller.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
 import '../../../core/colors/app_colors.dart';
@@ -14,11 +16,8 @@ class UpdateSocialLinkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController facebookController = TextEditingController();
-    TextEditingController twitterController = TextEditingController();
-    TextEditingController linkedinController = TextEditingController();
-    TextEditingController websiteController = TextEditingController();
-    TextEditingController githubController = TextEditingController();
+    UpdateSocialLinksController updateSocialLinksController =
+        Get.put(UpdateSocialLinksController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -57,7 +56,7 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: facebookController,
+                    controller: updateSocialLinksController.facebookController,
                     hint: "Facebook",
                     inputType: TextInputType.text,
                     keyName: "Facebook",
@@ -74,7 +73,7 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: twitterController,
+                    controller: updateSocialLinksController.twitterController,
                     hint: "Twitter",
                     inputType: TextInputType.text,
                     keyName: "CiTwitterty",
@@ -91,7 +90,7 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: linkedinController,
+                    controller: updateSocialLinksController.linkedinController,
                     hint: "Linkedin",
                     inputType: TextInputType.text,
                     keyName: "Linkedin",
@@ -108,7 +107,7 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: websiteController,
+                    controller: updateSocialLinksController.websiteController,
                     hint: "Website",
                     inputType: TextInputType.text,
                     keyName: "Website",
@@ -125,7 +124,7 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: githubController,
+                    controller: updateSocialLinksController.githubController,
                     hint: "Github",
                     inputType: TextInputType.text,
                     keyName: "Github",
@@ -135,7 +134,9 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                     height: 50.sp,
                     width: double.infinity,
                     text: "Save",
-                    onTap: () {},
+                    onTap: () {
+                      updateSocialLinksController.updatesocialLinks();
+                    },
                   )
                 ],
               ),

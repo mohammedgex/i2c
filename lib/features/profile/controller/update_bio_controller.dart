@@ -2,21 +2,20 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
-import 'package:skill_grow/features/profile/model/update_profile_request_model.dart';
-import 'package:skill_grow/features/profile/service/update_profile_service.dart';
+import 'package:skill_grow/features/profile/model/update_bio_request_model.dart';
+import 'package:skill_grow/features/profile/service/update_bio_service.dart';
 
 import '../../../core/widgets/snackbar.dart';
 
-class UpdateProfileController extends GetxController {
+class UpdateBioController extends GetxController {
   ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
   // Form key
   final formKey = GlobalKey<FormState>();
 
   // Text controllers
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
+  TextEditingController jobTitleController = TextEditingController();
+  TextEditingController shortBioController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
 
   // State management
   var isLoading = false.obs;
@@ -24,17 +23,16 @@ class UpdateProfileController extends GetxController {
   // Email validation
 
   // Login function
-  Future<void> updateProflie() async {
+  Future<void> updateBio() async {
     isLoading.value = true;
     try {
-      final requestModel = UpdateProfileRequestModel(
-        email: emailController.text.trim(),
-        name: nameController.text.trim(),
-        phone: phoneController.text.trim(),
-        age: int.parse(ageController.text.trim()),
+      final requestModel = UpdateBioRequestModel(
+        jobTitle: jobTitleController.text.trim(),
+        shortBio: shortBioController.text.trim(),
+        bio: bioController.text.trim(),
       );
 
-      final response = await UpdateProfileService().updateProfile(requestModel);
+      final response = await UpdateBioService().updateBio(requestModel);
 
       if (response.status == 'success') {
         // Handle success, navigate to home

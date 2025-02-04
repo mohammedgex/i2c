@@ -7,8 +7,6 @@ import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_
 
 import 'core/Global/sharedPref.dart';
 import 'features/navigation_bar/views/bottom_navigation_bar.dart';
-import 'features/video_player/view/test.dart';
-
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

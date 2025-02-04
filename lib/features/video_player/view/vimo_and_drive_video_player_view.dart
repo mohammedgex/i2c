@@ -3,7 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class WebVideoPlayer extends StatefulWidget {
   final String url;
-  WebVideoPlayer({required this.url});
+ const  WebVideoPlayer({required this.url});
 
   @override
   State<WebVideoPlayer> createState() => _WebVideoPlayerState();

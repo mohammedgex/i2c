@@ -1,7 +1,9 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/button.dart';
+import 'package:skill_grow/features/profile/controller/update_password_controller.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
 import '../../../core/colors/app_colors.dart';
@@ -14,9 +16,8 @@ class UpdatePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController currentPasswordController = TextEditingController();
-    TextEditingController newPasswordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
+    UpdatePasswordController updatePasswordController =
+        Get.put(UpdatePasswordController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -55,7 +56,8 @@ class UpdatePasswordScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: currentPasswordController,
+                    controller:
+                        updatePasswordController.currentPasswordController,
                     hint: "Current Password",
                     inputType: TextInputType.visiblePassword,
                     keyName: "Current Password",
@@ -73,7 +75,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: newPasswordController,
+                    controller: updatePasswordController.newPasswordController,
                     hint: "New Password",
                     inputType: TextInputType.visiblePassword,
                     keyName: "New Password",
@@ -92,7 +94,8 @@ class UpdatePasswordScreen extends StatelessWidget {
                   verticalGap(2.sp),
                   CustomTextField(
                     obscureText: true,
-                    controller: confirmPasswordController,
+                    controller:
+                        updatePasswordController.confirmPasswordController,
                     hint: "Confirm Password",
                     inputType: TextInputType.visiblePassword,
                     keyName: "Confirm Password",
@@ -102,7 +105,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                     height: 50.sp,
                     width: double.infinity,
                     text: "Save",
-                    onTap: () {},
+                    onTap: () {
+                      updatePasswordController.updatePassword();
+                    },
                   )
                 ],
               ),

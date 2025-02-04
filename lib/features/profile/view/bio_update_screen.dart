@@ -1,6 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
@@ -8,15 +9,14 @@ import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/appbar.dart';
 import '../../../core/widgets/texts.dart';
+import '../controller/update_bio_controller.dart';
 
 class BioUpdateScreen extends StatelessWidget {
   const BioUpdateScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController jobTitleController = TextEditingController();
-    TextEditingController shortBioController = TextEditingController();
-    TextEditingController bioController = TextEditingController();
+    UpdateBioController updateBioController = Get.put(UpdateBioController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -55,7 +55,7 @@ class BioUpdateScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: jobTitleController,
+                    controller: updateBioController.jobTitleController,
                     hint: "Job Title",
                     inputType: TextInputType.text,
                     keyName: "Job Title",
@@ -72,7 +72,7 @@ class BioUpdateScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: shortBioController,
+                    controller: updateBioController.shortBioController,
                     hint: "Short Bio",
                     inputType: TextInputType.emailAddress,
                     keyName: "Short Bio",
@@ -89,7 +89,7 @@ class BioUpdateScreen extends StatelessWidget {
                   ),
                   verticalGap(2.sp),
                   CustomTextField(
-                    controller: bioController,
+                    controller: updateBioController.bioController,
                     hint: "Bio",
                     inputType: TextInputType.emailAddress,
                     keyName: "Bio",
@@ -101,7 +101,9 @@ class BioUpdateScreen extends StatelessWidget {
                     height: 50.sp,
                     width: double.infinity,
                     text: "Save",
-                    onTap: () {},
+                    onTap: () {
+                      updateBioController.updateBio();
+                    },
                   )
                 ],
               ),

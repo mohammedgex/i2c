@@ -1,0 +1,50 @@
+import 'dart:developer';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:skill_grow/features/profile/model/update_profile_request_model.dart';
+import 'package:skill_grow/features/profile/service/update_profile_service.dart';
+
+import '../../../core/widgets/snackbar.dart';
+
+class UpdateProfileController extends GetxController {
+  // Form key
+  final formKey = GlobalKey<FormState>();
+
+  // Text controllers
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+
+  // State management
+  var isLoading = false.obs;
+
+  // Email validation
+
+  // Login function
+  Future<void> updateProflie() async {
+    isLoading.value = true;
+    try {
+      final requestModel = UpdateProfileRequestModel(
+        email: emailController.text.trim(),
+        name: nameController.text.trim(),
+        phone: phoneController.text.trim(),
+        age: int.parse(ageController.text.trim()),
+      );
+
+      final response = await UpdateProfileService().updateProfile(requestModel);
+
+      if (response.status == 'success') {
+        // Handle success, navigate to home
+        customSnackbar(
+            title: "Success",
+            message: response.message.toString(),
+            type: CustomSnackbarType.success);
+      }
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}

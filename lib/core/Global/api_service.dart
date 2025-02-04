@@ -103,6 +103,19 @@ class ApiService {
     );
   }
 
+  Future<Response?> putData({
+    required String url,
+    Map<String, dynamic>? data,
+    bool requiresAuth = true,
+  }) async {
+    return await request(
+      url: url,
+      method: 'PUT',
+      data: data,
+      requiresAuth: requiresAuth,
+    );
+  }
+
   Future<Response?> deleteData({
     required String url,
     Map<String, dynamic>? data,

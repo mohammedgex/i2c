@@ -8,11 +8,13 @@ import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
 import 'package:skill_grow/features/profile/view/account_setting_landing_view.dart';
 import 'package:skill_grow/features/profile/view/faq_view.dart';
 import 'package:skill_grow/features/profile/view/privecy_policy_view.dart';
 import 'package:skill_grow/features/profile/view/terms_and_condition_view.dart';
 
+import '../../../core/Global/api_endpoint.dart';
 import '../../../core/widgets/texts.dart';
 import '../../language/view/language_list_view.dart';
 
@@ -23,6 +25,7 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
+    ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
     return Scaffold(
       body: ColorfulSafeArea(
         bottom: false,
@@ -63,19 +66,29 @@ class ProfileView extends StatelessWidget {
                             shape: BoxShape.circle,
                             color: AppColors.mainRedColor,
                             image: DecorationImage(
-                                image: AssetImage(AppImage.profile),
+                                image: profileDataCotroller.userDataResponse
+                                            .value?.data.image !=
+                                        null
+                                    ? NetworkImage(ApiEndpoint.imageUrl +
+                                        profileDataCotroller
+                                            .userDataResponse.value!.data.image)
+                                    : AssetImage(AppImage.profile),
                                 fit: BoxFit.contain),
                           ),
                         ),
                         verticalGap(5.sp),
                         GlobalText(
-                          text: 'Meharab Islam',
+                          text: profileDataCotroller
+                                  .userDataResponse.value?.data.name ??
+                              "No data found",
                           style: TextStyle(
                               fontSize: 20.sp, fontWeight: FontWeight.bold),
                           softWrap: true,
                         ),
                         GlobalText(
-                          text: 'student@gmail.com',
+                          text: profileDataCotroller
+                                  .userDataResponse.value?.data.email ??
+                              "No data found",
                           style: TextStyle(
                               fontSize: 15.sp, fontWeight: FontWeight.w300),
                           softWrap: true,

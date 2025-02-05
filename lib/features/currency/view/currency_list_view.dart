@@ -53,27 +53,29 @@ class CurrencyListView extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         itemCount: currencyListController
-                            .languageResponse.value!.data.length,
+                            .currencyResponse.value!.data.length,
                         itemBuilder: (context, index) {
                           var data = currencyListController
-                              .languageResponse.value!.data[index];
+                              .currencyResponse.value!.data[index];
 
+                          print(
+                              selectedCurrencyController.selectedIndex.value ==
+                                  index.toString());
                           // Check if this item is selected
 
                           return GestureDetector(
                             onTap: () {
                               selectedCurrencyController.selectItem(
-                                  index: index,
-                                  currency_icon: data.currencyIcon.toString(),
-                                  currency_name: data.currencyName.toString(),
-                                  currency_code: data.currencyCode.toString(),
-                                  currency_rate: data.currencyRate.toString(),
-                                  currency_position:
-                                      data.currencyPosition.toString(),
-                                  status: data.status.toString() ,
-                                  is_default: data.isDefault.toString(),
-
-                                 ); // Select the item
+                                index: index,
+                                currency_icon: data.currencyIcon.toString(),
+                                currency_name: data.currencyName.toString(),
+                                currency_code: data.currencyCode.toString(),
+                                currency_rate: data.currencyRate.toString(),
+                                currency_position:
+                                    data.currencyPosition.toString(),
+                                status: data.status.toString(),
+                                is_default: data.isDefault.toString(),
+                              ); // Select the item
                             },
                             child: Obx(
                               () {

@@ -11,7 +11,7 @@ class CurrencyListController extends GetxController {
   // Observables for loading state, response, and error
   var isLoading = false.obs;
   var errorMessage = ''.obs;
-  var languageResponse = Rxn<CurrencyListResponse>();  // Change to typed response model
+  var currencyResponse = Rxn<CurrencyListResponse>();  // Change to typed response model
 
   @override
   void onInit() {
@@ -34,7 +34,7 @@ class CurrencyListController extends GetxController {
 
       if (response != null && response.statusCode == 200) {
         // Map the response to LanguageResponseModel
-        languageResponse.value = CurrencyListResponse.fromJson(response.data);
+        currencyResponse.value = CurrencyListResponse.fromJson(response.data);
         print('API Response: ${response.data}');
       } else {
         // Handle failure response

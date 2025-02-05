@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/response_model.dart';
 import '../../../core/Global/api_service.dart';
+import '../../../core/Global/sharedPref.dart';
 import '../../../core/widgets/snackbar.dart';
 import '../model/cart_list_model.dart';
 
@@ -12,9 +13,11 @@ class CartListController extends GetxController {
   var cartData = CartData(totalQty: 0, totalAmount: '', cartCourses: []).obs;
   var isLoading = false.obs;
   var errorMessage = ''.obs;
+  var currency_code = 'USD';
 
   @override
-  void onInit() {
+  void onInit() async {
+   currency_code = await SharedPrefUtil.get('currency_code', 'USD');
     super.onInit();
     fetchCartData();
   }
@@ -26,7 +29,7 @@ class CartListController extends GetxController {
 
     try {
       dio.Response? response = await _apiService.getData(
-          url: ApiEndpoint.dashboardCartListUrl(currency: "USD"),
+          url: ApiEndpoint.dashboardCartListUrl(currency: currency_code),
           requiresAuth: true);
 
       if (response != null && response.statusCode == 200) {

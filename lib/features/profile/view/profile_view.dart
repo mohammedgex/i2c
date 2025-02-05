@@ -7,6 +7,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
+import 'package:skill_grow/features/currency/view/currency_list_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
 import 'package:skill_grow/features/profile/view/account_setting_landing_view.dart';
@@ -15,11 +16,31 @@ import 'package:skill_grow/features/profile/view/privecy_policy_view.dart';
 import 'package:skill_grow/features/profile/view/terms_and_condition_view.dart';
 
 import '../../../core/Global/api_endpoint.dart';
+import '../../../core/Global/sharedPref.dart';
 import '../../../core/widgets/texts.dart';
 import '../../language/view/language_list_view.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  var currencyCode = "USD".obs;
+  var language = "English".obs;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+
+  void _loadPreferences() async {
+    currencyCode.value = await SharedPrefUtil.get('currency_code', 'USD');
+    language.value = await SharedPrefUtil.get('language', 'English');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +139,7 @@ class ProfileView extends StatelessWidget {
                       children: [
                         horizontalGap(10.sp),
                         GlobalText(text: "Language", softWrap: true),
-                        GlobalText(text: "(English)", softWrap: true),
+                        GlobalText(text: "($language)", softWrap: true),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -131,29 +152,34 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
                 verticalGap(10.sp),
-                Container(
-                  width: double.infinity,
-                  height: 50.sp,
-                  decoration: BoxDecoration(
-                    color: AppColors.nuralItemBackgroundColor,
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Row(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    children: [
-                      horizontalGap(10.sp),
-                      GlobalText(text: "Currency", softWrap: true),
-                      GlobalText(text: "(USD)", softWrap: true),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.titleTextColor,
-                        size: 15.sp,
-                      ),
-                      horizontalGap(10.sp),
-                    ],
+                Bounceable(
+                  onTap: () {
+                    Get.to(() => CurrencyListView());
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50.sp,
+                    decoration: BoxDecoration(
+                      color: AppColors.nuralItemBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      children: [
+                        horizontalGap(10.sp),
+                        GlobalText(text: "Currency", softWrap: true),
+                        GlobalText(text: "($currencyCode)", softWrap: true),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.titleTextColor,
+                          size: 15.sp,
+                        ),
+                        horizontalGap(10.sp),
+                      ],
+                    ),
                   ),
                 ),
                 verticalGap(20.sp),

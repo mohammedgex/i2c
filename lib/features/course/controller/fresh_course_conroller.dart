@@ -5,17 +5,20 @@ import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:skill_grow/core/Global/error_handler.dart';
 import 'package:skill_grow/features/course/model/fresh_course_model.dart';
 
+import '../../../core/Global/sharedPref.dart';
+
 
 class FreshCourseConroller extends getx.GetxController {
   final ApiService _apiService = ApiService();
   var courses = <FreshCourseData>[].obs; // Observable list to store courses
   var isLoading = false.obs;  // Observable to manage loading state
   var errorMessage = ''.obs;  // Observable for error messages
-
+  var currency_code = 'USD';
 
 @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+           currency_code = await SharedPrefUtil.get('currency_code', 'USD');
     fetchCourses();
 }
   // Fetch courses data from API
@@ -25,7 +28,7 @@ class FreshCourseConroller extends getx.GetxController {
 
     try {
       // Example URL - Replace with actual API endpoint
-      String url = ApiEndpoint.freshCoursesUrl(currency: "USD");
+      String url = ApiEndpoint.freshCoursesUrl(currency: currency_code);
 
       // Fetch data using GET method
       dio.Response? response = await _apiService.getData(url: url);

@@ -4,8 +4,10 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:skill_grow/features/course/model/course_details_model.dart';
 
+import '../../../core/Global/sharedPref.dart';
+
 class CourseDetalisController extends GetxController {
-final String slug;
+  final String slug;
   CourseDetalisController(this.slug);
 
   // Observable state
@@ -14,8 +16,11 @@ final String slug;
 
   final ApiService _apiService = ApiService();
 
+  var currency_code = "USD";
+
   @override
-  void onInit() {
+  void onInit() async {
+    currency_code = await SharedPrefUtil.get('currency_code', 'USD');
     super.onInit();
     fetchCourseData(slug);
   }
@@ -26,8 +31,7 @@ final String slug;
 
     try {
       dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.coursesUrl(
-            slug: slug, currency: "USD"),
+        url: ApiEndpoint.coursesUrl(slug: slug, currency: currency_code),
       );
 
       if (response!.data != null) {

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
+import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
 
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -50,8 +51,9 @@ class WelcomeSction extends StatelessWidget {
                             height: 16.sp / 15.sp,
                           ),
                         ),
-                        Text(
-                          "Let’s start learning!",
+                        GlobalText(
+                          softWrap: true,
+                          text: "Let’s start learning!",
                           style: TextStyle(
                             color: AppColors.smallTextColor,
                             fontSize: 12.sp,

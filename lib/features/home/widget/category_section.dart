@@ -10,7 +10,6 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
 import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
-
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class CategorySection extends StatelessWidget {
@@ -85,6 +84,10 @@ class CategorySection extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: AppColors.nuralItemBackgroundColor,
                           shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1.sp,
+                          ),
                         ),
                         child: Center(
                           child: Image.network(

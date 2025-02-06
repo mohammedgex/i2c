@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -76,27 +77,30 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
         isSelected ? AppColors.activeIconColor : AppColors.inactiveIconColor;
     final double iconSize = 20.sp; // Adjust icon size
 
-    return GestureDetector(
+    return Bounceable(
       onTap: () => _controller.updateIndex(index),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            iconPath,
-            width: iconSize,
-            height: iconSize,
-            color: iconColor, // Change color based on selection
-          ),
-          SizedBox(height: 4.h),
-          GlobalText(
-            softWrap: false,
-            text: label,
-            style: TextStyle(
-              color: iconColor,
-              fontSize: 10.sp, // Adjust label size
+      child: SizedBox(
+        width: 70.sp,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              iconPath,
+              width: iconSize,
+              height: iconSize,
+              color: iconColor, // Change color based on selection
             ),
-          ),
-        ],
+            SizedBox(height: 4.h),
+            GlobalText(
+              softWrap: false,
+              text: label,
+              style: TextStyle(
+                color: iconColor,
+                fontSize: 10.sp, // Adjust label size
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

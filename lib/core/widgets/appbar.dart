@@ -46,19 +46,17 @@ class MyCustomAppBar extends StatelessWidget {
               onTap: () {
                 Get.back();
               },
-              child: SizedBox(
-                // color: Colors.red,
-                height: 25.sp,
-                // width: 20.sp,
+              child: Container(
+                padding: EdgeInsets.all(4.sp),
+                height: 50.sp,
+                width: 30.sp,
                 child: SvgPicture.asset(
                   AppIcon.arrowBackIcon,
-                  width: 13.sp,
-                  height: 13.sp,
                 ),
               ),
             ),
-          if (isShowbackButton) horizontalGap(15.sp),
-          if (isShowNotification == false) Spacer(),
+          if (isShowbackButton) horizontalGap(10.sp),
+          if (isShowNotification == false) horizontalGap(100.sp),
           Image.asset(
             AppImage.logo,
             width: 80.53.sp,

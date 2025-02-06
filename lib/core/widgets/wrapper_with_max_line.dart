@@ -41,6 +41,7 @@ class WrapWithMaxLines extends StatelessWidget {
         List<Widget> limitedChildren = children.take(maxItems).toList();
 
         return Wrap(
+          // crossAxisAlignment: CrossAxisAlignment.,
           alignment: WrapAlignment.spaceEvenly,
           runAlignment: WrapAlignment.start,
           textDirection: multiLangualDataController.isLTR.value

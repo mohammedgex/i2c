@@ -114,8 +114,12 @@ class PopularCoursesSection extends StatelessWidget {
             ),
           );
         } else {
-          return SizedBox(
-              height: 220.sp,
+          return Container(
+              // height: 220.sp,
+              constraints: BoxConstraints(
+                minHeight: 190.sp,
+                maxHeight: 200.sp,
+              ),
               child: ListView.builder(
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
@@ -133,7 +137,7 @@ class PopularCoursesSection extends StatelessWidget {
                       child: Container(
                         width: 200.sp,
                         height: 190.sp,
-                        margin: EdgeInsets.only(right: 15.sp),
+                        margin: EdgeInsets.only(left: 7.5.sp, right: 7.5.sp),
                         padding: EdgeInsets.all(5.sp),
                         decoration: BoxDecoration(
                           color: AppColors.nuralItemBackgroundColor,

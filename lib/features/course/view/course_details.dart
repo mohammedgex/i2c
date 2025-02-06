@@ -35,287 +35,280 @@ class CourseDetailsView extends StatelessWidget {
         color: Colors.transparent,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: Obx(() {
-            if (courseDetalisController.isLoading.value) {
-              return CourserDetailsLoading();
-            }
-            return SingleChildScrollView(
-              child: Column(
-                textDirection: multiLangualDataController.isLTR.value
-                    ? TextDirection.ltr
-                    : TextDirection.rtl,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MyCustomAppBar(
-                    horizontalPadding: 0,
-                    verticalPadding: 0,
-                    isShowbackButton: true,
+          child:Obx(() {
+  if (courseDetalisController.isLoading.value) {
+    return CourserDetailsLoading();
+  } else if (courseDetalisController.course.value == null) {
+    return Center(child: Text("Course details not available"));
+  } else {
+    return SingleChildScrollView(
+      child: Column(
+        textDirection: multiLangualDataController.isLTR.value
+            ? TextDirection.ltr
+            : TextDirection.rtl,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          MyCustomAppBar(
+            horizontalPadding: 0,
+            verticalPadding: 0,
+            isShowbackButton: true,
+          ),
+          verticalGap(10.sp),
+          Container(
+            width: double.infinity,
+            height: 200.sp,
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(10.sp),
+            ),
+          ),
+          verticalGap(10.sp),
+          GlobalText(
+            text: courseDetalisController.course.value?.title ?? "No Title",
+            softWrap: true,
+            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+          ),
+          verticalGap(5.sp),
+          RichText(
+            text: TextSpan(
+              text: translatedText("Created by"),
+              style: TextStyle(
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.smallTextColor,
+              ),
+              children: [
+                TextSpan(
+                  text: " ",
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.primaryColor,
                   ),
-                  verticalGap(10.sp),
-                  Container(
-                    width: double.infinity,
-                    height: 200.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    // child: WebViewWidget(controller: WebViewController()..loadRequest(Uri.parse('https://www.youtube.com/'))),
+                ),
+                TextSpan(
+                  text: translatedText(courseDetalisController
+                          .course.value?.instructor.name ??
+                      "Unknown"),
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.primaryColor,
                   ),
-                  verticalGap(10.sp),
-                  GlobalText(
-                    text:
-                        courseDetalisController.course.value!.title.toString(),
-                    softWrap: true,
-                    style:
-                        TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+          ),
+          verticalGap(7.sp),
+          Row(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            children: [
+              CustomRatingBar(
+                rating: courseDetalisController.course.value?.averageRating ?? 0,
+                maxRating: 5,
+                iconSize: 15.sp,
+                filledColor: AppColors.primaryColor,
+                unfilledColor: AppColors.activeIconColor,
+              ),
+              horizontalGap(3.sp),
+              GlobalText(
+                text:
+                    "(${courseDetalisController.course.value?.reviewsCount ?? 0})",
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.smallTextColor,
+                ),
+                softWrap: true,
+              ),
+              GlobalText(
+                text: " | ",
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.smallTextColor,
+                ),
+                softWrap: true,
+              ),
+              GlobalText(
+                text:
+                    "${courseDetalisController.course.value?.students ?? 0}",
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.smallTextColor,
+                ),
+                softWrap: true,
+              ),
+              GlobalText(
+                text: " Students",
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.smallTextColor,
+                ),
+                softWrap: true,
+              ),
+            ],
+          ),
+          verticalGap(15.sp),
+          CourseInfo(courseDetalisController: courseDetalisController),
+          verticalGap(15.sp),
+          Row(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            children: [
+              Expanded(
+                child: Container(
+                  height: 80.sp,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5.sp),
                   ),
-                  verticalGap(5.sp),
-                  RichText(
-                    text: TextSpan(
-                      text: translatedText("Created by"),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.smallTextColor,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: " ",
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                        TextSpan(
-                          text: translatedText(courseDetalisController
-                              .course.value!.instructor.name
-                              .toString()),
-                          style: TextStyle(
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.primaryColor,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  verticalGap(7.sp),
-                  Row(
+                  child: Column(
                     textDirection: multiLangualDataController.isLTR.value
                         ? TextDirection.ltr
                         : TextDirection.rtl,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomRatingBar(
-                        rating:
-                            courseDetalisController.course.value!.averageRating,
-                        maxRating: 5,
-                        iconSize: 15.sp,
-                        filledColor: AppColors.primaryColor,
-                        unfilledColor: AppColors.activeIconColor,
-                      ),
-                      horizontalGap(3.sp),
-                      GlobalText(
-                        text:
-                            "(${courseDetalisController.course.value!.reviewsCount})",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.smallTextColor,
-                        ),
-                        softWrap: true,
-                      ),
-                      GlobalText(
-                        text: " | ",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.smallTextColor,
-                        ),
-                        softWrap: true,
-                      ),
-                      GlobalText(
-                        text:
-                            "${courseDetalisController.course.value!.students}",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.smallTextColor,
-                        ),
-                        softWrap: true,
-                      ),
-                      GlobalText(
-                        text: " ",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.smallTextColor,
-                        ),
-                        softWrap: true,
-                      ),
-                      GlobalText(
-                        text: "Students",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.smallTextColor,
-                        ),
-                        softWrap: true,
-                      ),
-                    ],
-                  ),
-                  verticalGap(15.sp),
-                  CourseInfo(courseDetalisController: courseDetalisController),
-                  verticalGap(15.sp),
-                  Row(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          height: 80.sp,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.sp),
+                      RichText(
+                        text: TextSpan(
+                          text: translatedText("Price"),
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.smallTextColor,
                           ),
-                          child: Column(
-                            textDirection:
-                                multiLangualDataController.isLTR.value
-                                    ? TextDirection.ltr
-                                    : TextDirection.rtl,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                  text: TextSpan(
-                                      text: translatedText("Price"),
-                                      style: TextStyle(
-                                        fontSize: 13.sp,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.smallTextColor,
-                                      ),
-                                      children: [
-                                    TextSpan(
-                                      text: ":",
-                                      style: TextStyle(
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.primaryColor,
-                                      ),
-                                    ),
-                                  ])),
-                              Wrap(
-                                textDirection:
-                                    multiLangualDataController.isLTR.value
-                                        ? TextDirection.ltr
-                                        : TextDirection.rtl,
-                                crossAxisAlignment: WrapCrossAlignment.end,
-                                children: [
-                                  FittedBox(
-                                    child: Flexible(
-                                      child: GlobalText(
-                                        text: courseDetalisController
-                                            .course.value!.price,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.w800,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  horizontalGap(5.sp),
-                                  Flexible(
-                                    child: FittedBox(
-                                      child: GlobalText(
-                                        text: courseDetalisController
-                                            .course.value!.discount,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w400,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                          children: [
+                            TextSpan(
+                              text: ":",
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      horizontalGap(10.sp),
-                      Expanded(
-                        child: Obx(() {
-                          if (addToCartController.isLoading.value) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else {
-                            return Bounceable(
-                              onTap: () {
-                                addToCartController.addToCart(slug);
-                              },
-                              child: Container(
-                                height: 40.sp,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: AppColors.primaryColor,
-                                      width: 1.5.sp),
-                                  borderRadius: BorderRadius.circular(5.sp),
-                                ),
-                                child: Center(
-                                  child: GlobalText(
-                                      text: "Add to Cart",
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontSize: 13.sp,
-                                        color: AppColors.primaryColor,
-                                        fontWeight: FontWeight.w500,
-                                      )),
+                      Wrap(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        crossAxisAlignment: WrapCrossAlignment.end,
+                        children: [
+                          FittedBox(
+                            child: Flexible(
+                              child: GlobalText(
+                                text: courseDetalisController
+                                        .course.value?.price ??
+                                    "N/A",
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
-                            );
-                          }
-                        }),
-                      ),
-                      horizontalGap(10.sp),
-                      Expanded(
-                        child: Bounceable(
-                          onTap: () {},
-                          child: Container(
-                            height: 40.sp,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.circular(5.sp),
                             ),
-                            child: Center(
+                          ),
+                          horizontalGap(5.sp),
+                          Flexible(
+                            child: FittedBox(
                               child: GlobalText(
-                                  text: "Buy Now",
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  )),
+                                text: courseDetalisController
+                                        .course.value?.discount ??
+                                    "N/A",
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              horizontalGap(10.sp),
+              Expanded(
+                child: Obx(() {
+                  if (addToCartController.isLoading.value) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return Bounceable(
+                      onTap: () {
+                        addToCartController.addToCart(slug);
+                      },
+                      child: Container(
+                        height: 40.sp,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.primaryColor, width: 1.5.sp),
+                          borderRadius: BorderRadius.circular(5.sp),
+                        ),
+                        child: Center(
+                          child: GlobalText(
+                            text: "Add to Cart",
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: AppColors.primaryColor,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
-                  ToggleWidget(
-                    courseDetalisController: courseDetalisController,
-                  ),
-                ],
+                    );
+                  }
+                }),
               ),
-            );
-          }),
+              horizontalGap(10.sp),
+              Expanded(
+                child: Bounceable(
+                  onTap: () {},
+                  child: Container(
+                    height: 40.sp,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(5.sp),
+                    ),
+                    child: Center(
+                      child: GlobalText(
+                        text: "Buy Now",
+                        softWrap: true,
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          ToggleWidget(
+            courseDetalisController: courseDetalisController,
+          ),
+        ],
+      ),
+    );
+  }
+}),
+
         ),
       ),
     );

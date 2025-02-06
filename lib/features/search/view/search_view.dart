@@ -92,22 +92,13 @@ class SearchView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const Spacer(),
         Image.asset(
           AppImage.logo,
           width: 80.53.sp,
           height: 20.98.sp,
         ),
         const Spacer(),
-        Bounceable(
-          onTap: () {
-            // Handle cross icon tap
-          },
-          child: SvgPicture.asset(
-            AppIcon.crossIcon,
-            width: 15.sp,
-            height: 15.sp,
-          ),
-        ),
       ],
     );
   }
@@ -238,9 +229,7 @@ class SearchView extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: isEmpty.value
-                      ? AppColors.mainRedColor
-                      : const Color.fromARGB(255, 187, 187, 187),
+                  color: isEmpty.value ? AppColors.mainRedColor : Colors.grey,
                   width: 1.2.sp,
                 ),
                 borderRadius: BorderRadius.circular(10.sp),
@@ -248,7 +237,7 @@ class SearchView extends StatelessWidget {
               child: Center(
                 child: Row(
                   children: [
-                    horizontalGap(5.sp),
+                    horizontalGap(15.sp),
                     GlobalText(
                       softWrap: false,
                       text: 'Sub Category',

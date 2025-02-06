@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,17 +9,15 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
-import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
-import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
-import '../../../core/constant/constant.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../controller/category_itme_controller.dart';
 
 class CategoryAllItemView extends StatelessWidget {
   CategoryAllItemView({super.key});
 
-  MultiLangualDataController multiLangualDataController =
+  final MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
-  MainCategoryController controller = Get.put(MainCategoryController());
+  final MainCategoryController controller = Get.put(MainCategoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +26,6 @@ class CategoryAllItemView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
           child: Column(
-            textDirection: multiLangualDataController.isLTR.value
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MyCustomAppBar(
@@ -38,7 +33,7 @@ class CategoryAllItemView extends StatelessWidget {
                 verticalPadding: 0.sp,
                 isShowbackButton: true,
               ),
-              verticalGap(10.sp),
+              SizedBox(height: 10.sp),
               GlobalText(
                 text: 'Categories',
                 style: TextStyle(
@@ -47,96 +42,122 @@ class CategoryAllItemView extends StatelessWidget {
                     color: AppColors.titleTextColor),
                 softWrap: false,
               ),
-              verticalGap(10.sp),
-              Obx(() {
-                if (controller.isLoading.value) {
-                  return Wrap(
-                    spacing: 20.sp,
-                    runSpacing: 20.sp,
-                    children: List.generate(10, (index) {
-                      return Shimmer.fromColors(
-                        baseColor: AppColors.nuralItemBackgroundColor,
-                        highlightColor: AppColors.shimmerBackgroundColor,
-                        child: Bounceable(
-                            onTap: () {},
-                            child: Column(
-                              textDirection:
-                                  multiLangualDataController.isLTR.value
-                                      ? TextDirection.ltr
-                                      : TextDirection.rtl,
-                              children: [
-                                Container(
-                                  height: 44.sp,
-                                  width: 44.sp,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.nuralItemBackgroundColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                verticalGap(3.sp),
-                                Container(
-                                  height: 11.sp,
-                                  width: 50.sp,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.nuralItemBackgroundColor,
-                                    borderRadius: BorderRadius.circular(5.sp),
-                                  ),
-                                )
-                              ],
-                            )),
-                      );
-                    }),
-                  );
-                } else {
-                  return WrapWithMaxLines(
-                    itemWidth: 45.sp,
-                    maxLines: 12,
-                    spacing: 20.sp,
-                    runSpacing: 20.sp,
-                    children:
-                        List.generate(controller.categories.length, (index) {
-                      return Bounceable(
-                          onTap: () {},
-                          child: Column(
-                            textDirection:
-                                multiLangualDataController.isLTR.value
-                                    ? TextDirection.ltr
-                                    : TextDirection.rtl,
-                            children: [
-                              Container(
-                                height: 45.sp,
-                                width: 45.sp,
-                                padding: EdgeInsets.all(10.sp),
-                                decoration: BoxDecoration(
-                                  color: AppColors.nuralItemBackgroundColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                    child: Image.network(
-                                  ApiEndpoint.imageUrl +
-                                      controller.categories[index].icon,
-                                )),
-                              ),
-                              verticalGap(3.sp),
-                              GlobalText(
-                                text: controller.categories[index].name,
-                                style: TextStyle(
-                                  color: AppColors.smallTextColor,
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                softWrap: false,
-                              ),
-                            ],
-                          ));
-                    }),
-                  );
-                }
-              }),
+              SizedBox(height: 10.sp),
+              Expanded(
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return _buildShimmerLoading();
+                  } else if (controller.categories.isEmpty) {
+                    return Center(
+                      child: GlobalText(
+                        softWrap: true,
+                        text: 'No categories available',
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.smallTextColor,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return _buildCategoryGrid();
+                  }
+                }),
+              ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildShimmerLoading() {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        mainAxisSpacing: 20.sp,
+        crossAxisSpacing: 20.sp,
+        childAspectRatio: 1,
+      ),
+      itemCount: 9,
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: AppColors.nuralItemBackgroundColor,
+          highlightColor: AppColors.shimmerBackgroundColor,
+          child: Column(
+            children: [
+              Container(
+                height: 50.sp,
+                width: 50.sp,
+                decoration: BoxDecoration(
+                  color: AppColors.nuralItemBackgroundColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              SizedBox(height: 3.sp),
+              Container(
+                height: 12.sp,
+                width: 50.sp,
+                decoration: BoxDecoration(
+                  color: AppColors.nuralItemBackgroundColor,
+                  borderRadius: BorderRadius.circular(5.sp),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCategoryGrid() {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4, // Ensures the same number of items per row
+        mainAxisSpacing: 20.sp,
+        crossAxisSpacing: 20.sp,
+        childAspectRatio: 1,
+      ),
+      itemCount: controller.categories.length,
+      itemBuilder: (context, index) {
+        final category = controller.categories[index];
+        return Bounceable(
+          onTap: () {},
+          child: Column(
+            children: [
+              Container(
+                height: 50.sp,
+                width: 50.sp,
+                padding: EdgeInsets.all(10.sp),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  color: AppColors.nuralItemBackgroundColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Image.network(
+                    ApiEndpoint.imageUrl + category.icon,
+                    errorBuilder: (context, error, stackTrace) => Icon(
+                      Icons.image_not_supported,
+                      color: AppColors.smallTextColor,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 3.sp),
+              GlobalText(
+                text: category.name,
+                style: TextStyle(
+                  color: AppColors.smallTextColor,
+                  fontSize: 11.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+                softWrap: false,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

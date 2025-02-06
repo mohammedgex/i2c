@@ -15,8 +15,8 @@ import 'package:skill_grow/features/course/view/course_details.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
-class FreshCrourseSection extends StatelessWidget {
-  FreshCrourseSection({super.key});
+class FreshCourseSection extends StatelessWidget {
+  FreshCourseSection({super.key});
 
   FreshCourseConroller freshCourseController = Get.put(FreshCourseConroller());
 
@@ -116,7 +116,7 @@ class FreshCrourseSection extends StatelessWidget {
           );
         } else {
           return SizedBox(
-              height: 220.sp,
+              height: 210.sp,
               child: ListView.builder(
                   // shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
@@ -132,7 +132,7 @@ class FreshCrourseSection extends StatelessWidget {
                       },
                       child: Container(
                         width: 200.sp,
-                        margin: EdgeInsets.only(right: 15.sp),
+                        margin: EdgeInsets.only(right: 7.5.sp, left: 7.5.sp),
                         padding: EdgeInsets.all(5.sp),
                         decoration: BoxDecoration(
                           color: AppColors.nuralItemBackgroundColor,

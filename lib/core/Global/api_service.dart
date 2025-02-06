@@ -22,6 +22,7 @@ class ApiService {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     bool requiresAuth = true,
+     bool showSnackbar = false, // New parameter
   }) async {
     try {
       // Set Authorization Header

@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                 isLTR: isLTR,
               ),
               verticalGap(10.sp),
-              FreshCrourseSection(),
+              FreshCourseSection(),
               verticalGap(10.sp),
             ],
           ),

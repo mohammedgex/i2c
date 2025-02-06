@@ -4,8 +4,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/sharedPref.dart';
+import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/splash_screen.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
+                primarySwatch: Colors.blue,
+                scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor),
             home: SplashScreen());
       },
     );

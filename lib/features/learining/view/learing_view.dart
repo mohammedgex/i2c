@@ -109,8 +109,12 @@ class LearingView extends StatelessWidget {
                                       constraints:
                                           BoxConstraints(minHeight: 40.sp),
                                       width: 103.sp,
-                                      child: Image.network(
-                                        ApiEndpoint.imageUrl + data.thumbnail,
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(5.sp),
+                                        child: Image.network(
+                                          ApiEndpoint.imageUrl + data.thumbnail,
+                                        ),
                                       ),
                                     ),
                                     horizontalGap(10.sp),

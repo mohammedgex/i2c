@@ -30,12 +30,16 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-                primarySwatch: Colors.blue,
-                scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor),
-            home: SplashScreen());
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primaryColor: AppColors.primaryColor,
+            
+            primarySwatch: Colors.blue,
+            scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
+          ),
+          home: SplashScreen(),
+        );
       },
     );
   }

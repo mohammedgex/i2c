@@ -22,7 +22,7 @@ class ApiService {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     bool requiresAuth = true,
-     bool showSnackbar = false, // New parameter
+    bool showSnackbar = true,
   }) async {
     try {
       // Set Authorization Header
@@ -62,15 +62,15 @@ class ApiService {
 
       return response;
     } on DioException catch (e) {
-      print("API Error: ${e.response?.statusCode} -> ${e.response?.data}");
-      GlobalErrorHandler.handleError(e);
+      print("API Error: \${e.response?.statusCode} -> \${e.response?.data}");
+      GlobalErrorHandler.handleError(e, showSnackbar: showSnackbar);
     } on SocketException {
       print("Network Error: No internet connection.");
       GlobalErrorHandler.handleError(
-          'No internet connection. Please try again.');
+          'No internet connection. Please try again.', showSnackbar: showSnackbar);
     } catch (e) {
-      print("Unexpected Error: $e");
-      GlobalErrorHandler.handleError(e.toString());
+      print("Unexpected Error: \$e");
+      GlobalErrorHandler.handleError(e.toString(), showSnackbar: showSnackbar);
     }
 
     return null;
@@ -81,12 +81,14 @@ class ApiService {
     required String url,
     Map<String, dynamic>? queryParameters,
     bool requiresAuth = true,
+    bool showSnackbar = true,
   }) async {
     return await request(
       url: url,
       method: 'GET',
       queryParameters: queryParameters,
       requiresAuth: requiresAuth,
+      showSnackbar: showSnackbar,
     );
   }
 
@@ -95,12 +97,14 @@ class ApiService {
     required String url,
     Map<String, dynamic>? data,
     bool requiresAuth = true,
+    bool showSnackbar = true,
   }) async {
     return await request(
       url: url,
       method: 'POST',
       data: data,
       requiresAuth: requiresAuth,
+      showSnackbar: showSnackbar,
     );
   }
 
@@ -108,12 +112,14 @@ class ApiService {
     required String url,
     Map<String, dynamic>? data,
     bool requiresAuth = true,
+    bool showSnackbar = true,
   }) async {
     return await request(
       url: url,
       method: 'PUT',
       data: data,
       requiresAuth: requiresAuth,
+      showSnackbar: showSnackbar,
     );
   }
 
@@ -121,11 +127,13 @@ class ApiService {
     required String url,
     Map<String, dynamic>? data,
     bool requiresAuth = true,
+    bool showSnackbar = true,
   }) async {
     return await request(
       url: url,
       method: 'DELETE',
       requiresAuth: requiresAuth,
+      showSnackbar: showSnackbar,
     );
   }
 }

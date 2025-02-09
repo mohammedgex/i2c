@@ -66,12 +66,12 @@ class ApiEndpoint {
      String? main_category,
      String? sub_category,
      String? price,
-     String? languages,
+     String? languages_code,
      String? levels,
      String? rating,
      String? page,
   }) {
-    return '$baseUrl/search-courses?limit=$limit&currency=$currency&search=$search&main_category=$main_category&sub_category=$sub_category&price=$price&languages=$languages&levels=$levels&rating=$rating&page=$page';
+    return '$baseUrl/search-courses?limit=$limit&currency=$currency&search=$search&main_category=$main_category&sub_category=$sub_category&price=$price&languages=$languages_code&levels=$levels&rating=$rating&page=$page';
   }
 
   static String coursesUrl(

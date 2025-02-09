@@ -34,7 +34,8 @@ class QnaDataController extends GetxController {
           ApiEndpoint.qnaUrl(lesson_id: lessonId, course_slug: slug);
       print("API URL: $url");
 
-      dio.Response? response = await _apiService.getData(url: url);
+      dio.Response? response =
+          await _apiService.getData(url: url, showSnackbar: false);
 
       if (response != null && response.data != null) {
         // Parse the response data into the Course model

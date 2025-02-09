@@ -10,6 +10,7 @@ import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../controller/search_data_controller.dart';
 
 class SearchDetalsView extends StatelessWidget {
   const SearchDetalsView({super.key});
@@ -18,143 +19,154 @@ class SearchDetalsView extends StatelessWidget {
   Widget build(BuildContext context) {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
+    SearchDataController searchDataController = Get.put(SearchDataController());
     return Scaffold(
-      body: ColorfulSafeArea(
-        bottom: false,
-        color: Colors.white,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.sp),
-          child: Column(
-            textDirection: multiLangualDataController.isLTR.value
-                ? TextDirection.ltr
-                : TextDirection.rtl,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              MyCustomAppBar(
-                horizontalPadding: 0,
-                verticalPadding: 0,
-                isShowbackButton: true,
-              ),
-              // verticalGap(5.sp),
-              GlobalText(
-                text: 'Search Results',
-                style: TextStyle(
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.titleTextColor),
-                softWrap: false,
-              ),
-              verticalGap(10.sp),
-              Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    // border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(12.sp),
-                    color: AppColors.nuralItemBackgroundColor,
+      body: Obx(() {
+        if (searchDataController.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return ColorfulSafeArea(
+            bottom: false,
+            color: Colors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+              child: Column(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyCustomAppBar(
+                    horizontalPadding: 0,
+                    verticalPadding: 0,
+                    isShowbackButton: true,
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.all(3.sp),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        Container(
-                          height: 80.sp,
-                          width: 103.sp,
-                          decoration: BoxDecoration(),
-                          child: Image.asset(
-                            AppImage.image1,
-                            // fit: BoxFit.cover,
-                          ),
-                        ),
-                        horizontalGap(10.sp),
-                        SizedBox(
-                          width: 235.w,
-                          child: Column(
-                            textDirection:
-                                multiLangualDataController.isLTR.value
-                                    ? TextDirection.ltr
-                                    : TextDirection.rtl,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GlobalText(
-                                text:
-                                    'Master Laravel 11 & PHP: From Beginner to Advanced',
-                                style: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.titleTextColor),
-                                softWrap: true,
+                  // verticalGap(5.sp),
+                  GlobalText(
+                    text: 'Search Results',
+                    style: TextStyle(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.titleTextColor),
+                    softWrap: false,
+                  ),
+                  verticalGap(10.sp),
+                  Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        // border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(12.sp),
+                        color: AppColors.nuralItemBackgroundColor,
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(3.sp),
+                        child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          children: [
+                            Container(
+                              height: 80.sp,
+                              width: 103.sp,
+                              decoration: BoxDecoration(),
+                              child: Image.asset(
+                                AppImage.image1,
+                                // fit: BoxFit.cover,
                               ),
-                              verticalGap(3.sp),
-                              GlobalText(
-                                  text: 'Web Solution Us | 1000+ Students',
-                                  style: TextStyle(
-                                      fontSize: 10.sp,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.titleTextColor),
-                                  softWrap: true),
-                              verticalGap(2.sp),
-                              Row(
+                            ),
+                            horizontalGap(10.sp),
+                            SizedBox(
+                              width: 235.w,
+                              child: Column(
                                 textDirection:
                                     multiLangualDataController.isLTR.value
                                         ? TextDirection.ltr
                                         : TextDirection.rtl,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CustomRatingBar(
-                                    rating: 3.5,
-                                    maxRating: 5,
-                                    iconSize: 15.sp,
-                                    filledColor: AppColors.activeIconColor,
-                                    unfilledColor: AppColors.activeIconColor,
+                                  GlobalText(
+                                    text:
+                                        'Master Laravel 11 & PHP: From Beginner to Advanced',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.titleTextColor),
+                                    softWrap: true,
                                   ),
-                                  Spacer(),
+                                  verticalGap(3.sp),
+                                  GlobalText(
+                                      text: 'Web Solution Us | 1000+ Students',
+                                      style: TextStyle(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w300,
+                                          color: AppColors.titleTextColor),
+                                      softWrap: true),
+                                  verticalGap(2.sp),
                                   Row(
                                     textDirection:
                                         multiLangualDataController.isLTR.value
                                             ? TextDirection.ltr
                                             : TextDirection.rtl,
                                     children: [
-                                      GlobalText(
-                                        text: '100',
-                                        style: TextStyle(
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                            fontSize: 10.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.titleTextColor),
-                                        softWrap: true,
+                                      CustomRatingBar(
+                                        rating: 3.5,
+                                        maxRating: 5,
+                                        iconSize: 15.sp,
+                                        filledColor: AppColors.activeIconColor,
+                                        unfilledColor:
+                                            AppColors.activeIconColor,
                                       ),
-                                      horizontalGap(3.sp),
-                                      GlobalText(
-                                        text: r'$50',
-                                        style: TextStyle(
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.titleTextColor),
-                                        softWrap: true,
-                                      ),
-                                      horizontalGap(5.sp),
+                                      Spacer(),
+                                      Row(
+                                        textDirection:
+                                            multiLangualDataController
+                                                    .isLTR.value
+                                                ? TextDirection.ltr
+                                                : TextDirection.rtl,
+                                        children: [
+                                          GlobalText(
+                                            text: '100',
+                                            style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontSize: 10.sp,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    AppColors.titleTextColor),
+                                            softWrap: true,
+                                          ),
+                                          horizontalGap(3.sp),
+                                          GlobalText(
+                                            text: r'$50',
+                                            style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    AppColors.titleTextColor),
+                                            softWrap: true,
+                                          ),
+                                          horizontalGap(5.sp),
+                                        ],
+                                      )
                                     ],
-                                  )
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )),
-              verticalGap(10.sp),
-            ],
-          ),
-        ),
-      ),
+                      )),
+                  verticalGap(10.sp),
+                ],
+              ),
+            ),
+          );
+        }
+      }),
     );
   }
 }

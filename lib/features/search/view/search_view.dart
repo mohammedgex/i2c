@@ -10,16 +10,18 @@ import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/search/controller/search_data_controller.dart';
 import 'package:skill_grow/features/search/controller/sub_category_list_controller.dart';
 import 'package:skill_grow/widgets/dropdown_input.dart';
 import 'package:skill_grow/widgets/text_input.dart';
-
 import '../../../widgets/controller/dropdwon_input_cntroller.dart';
 import '../../categories/controller/category_itme_controller.dart';
 import '../controller/course_language_controller.dart';
 import '../controller/course_level_controller.dart';
 
+
 class SearchView extends StatelessWidget {
+  String subCategorySelectValue = "";
   TextEditingController searchController = TextEditingController();
   DropdownController categorySelectedController = DropdownController();
   DropdownController subCategorySelectedController = DropdownController();
@@ -27,6 +29,7 @@ class SearchView extends StatelessWidget {
   DropdownController levelSelectedController = DropdownController();
   DropdownController priceSelectedController = DropdownController();
   DropdownController ratingSelectedController = DropdownController();
+  SearchDataController searchDataController = Get.put(SearchDataController());
 
   SearchView({super.key});
 
@@ -42,6 +45,7 @@ class SearchView extends StatelessWidget {
         Get.put(MainCategoryController());
     final SubCategoryListController subCategoryListController =
         Get.put(SubCategoryListController());
+
 
     return Scaffold(
       extendBody: false,
@@ -203,6 +207,11 @@ class SearchView extends StatelessWidget {
                   .toList(),
               onItemSelected: (value) {
                 // Handle subcategory selection
+                for (var element in subCategoryListController.subCategories) {
+                  if (element.name == value) {
+                    subCategorySelectValue = element.slug;
+                  }
+                }
               },
               controller: subCategorySelectedController,
             );
@@ -443,7 +452,13 @@ class SearchView extends StatelessWidget {
             ),
             horizontalGap(10.sp),
             GlobalButton(
-                height: 50.sp, width: 220.sp, text: "Search", onTap: () {})
+                height: 50.sp,
+                width: 220.sp,
+                text: "Search",
+                onTap: () {
+                  searchDataController.fetchCourseLanguages(searchController.text.trim(), categorySelectedController.selectedValue.value, subCategorySelectedController.selectedValue.value, priceSelectedController.selectedValue.value, languageSelectedController.selectedValue.value, levelSelectedController.selectedValue.value, ratingSelectedController.selectedValue.value);
+                  
+                })
           ],
         ),
         verticalGap(20.sp),

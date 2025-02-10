@@ -5,18 +5,16 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:skill_grow/core/Global/error_handler.dart';
 import '../../../core/Global/sharedPref.dart';
-import '../model/search_result_model.dart';
+import '../model/search_result_model.dart'; // Ensure this file contains the updated model
 import '../view/search_detals.dart';
 
 class SearchDataController extends getx.GetxController {
   final ApiService _apiService = ApiService();
-  var searchResults =
-      <SearchResultModel>[].obs; // Observable list to store courses
+  var searchResults = <Course>[].obs; // Observable list to store courses
   var isLoading = false.obs; // Observable to manage loading state
   var errorMessage = ''.obs; // Observable for error messages
 
   // Fetch courses data from API
-
   Future<void> fetchCourseLanguages(
       String search,
       String main_category,
@@ -46,15 +44,20 @@ class SearchDataController extends getx.GetxController {
       dio.Response? response =
           await _apiService.getData(url: url, requiresAuth: false);
 
+      Get.to(() => SearchDetalsView());
+
       if (response != null &&
           response.statusCode == 200 &&
           response.data != null) {
-        // Parse the response data into a list of SearchResultModel
-        List<dynamic> data = response.data;
-        searchResults.value =
-            data.map((json) => SearchResultModel.fromJson(json)).toList();
+        // Parse the response data into SearchResultResponseModel
+        final responseData = response.data;
+        final searchResultResponse =
+            SearchResultResponseModel.fromJson(responseData);
 
-        Get.to(() => SearchDetalsView());
+        // Update the observable list with the courses
+        searchResults.value = searchResultResponse.data;
+
+        // Navigate to the search details view
       } else {
         errorMessage.value = 'Failed to fetch data: ${response?.statusCode}';
       }

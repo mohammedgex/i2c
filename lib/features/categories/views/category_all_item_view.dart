@@ -10,6 +10,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../../search/controller/search_data_controller.dart';
 import '../controller/category_itme_controller.dart';
 
 class CategoryAllItemView extends StatelessWidget {
@@ -18,6 +19,7 @@ class CategoryAllItemView extends StatelessWidget {
   final MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
   final MainCategoryController controller = Get.put(MainCategoryController());
+  SearchDataController searchDataController = Get.put(SearchDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -113,55 +115,57 @@ class CategoryAllItemView extends StatelessWidget {
 
   Widget _buildCategoryGrid() {
     return Expanded(
-  child: GridView.builder(
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 4,
-      mainAxisSpacing: 20.sp,
-      crossAxisSpacing: 20.sp,
-      childAspectRatio: 1,
-    ),
-    itemCount: controller.categories.length,
-    itemBuilder: (context, index) {
-      final category = controller.categories[index];
-      return Bounceable(
-        onTap: () {},
-        child: Column(
-          children: [
-            Container(
-              height: 50.sp,
-              width: 50.sp,
-              padding: EdgeInsets.all(10.sp),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                color: AppColors.nuralItemBackgroundColor,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Image.network(
-                  ApiEndpoint.imageUrl + category.icon,
-                  errorBuilder: (context, error, stackTrace) => Icon(
-                    Icons.image_not_supported,
-                    color: AppColors.smallTextColor,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          mainAxisSpacing: 20.sp,
+          crossAxisSpacing: 20.sp,
+          childAspectRatio: 1,
+        ),
+        itemCount: controller.categories.length,
+        itemBuilder: (context, index) {
+          final category = controller.categories[index];
+          return Bounceable(
+            onTap: () {
+              searchDataController.fetchCourseLanguages(
+                  main_category: controller.categories[index].slug);
+            },
+            child: Column(
+              children: [
+                Container(
+                  height: 50.sp,
+                  width: 50.sp,
+                  padding: EdgeInsets.all(10.sp),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    color: AppColors.nuralItemBackgroundColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Image.network(
+                      ApiEndpoint.imageUrl + category.icon,
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.image_not_supported,
+                        color: AppColors.smallTextColor,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(height: 3.sp),
+                GlobalText(
+                  text: category.name,
+                  style: TextStyle(
+                    color: AppColors.smallTextColor,
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  softWrap: false,
+                ),
+              ],
             ),
-            SizedBox(height: 3.sp),
-            GlobalText(
-              text: category.name,
-              style: TextStyle(
-                color: AppColors.smallTextColor,
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w600,
-              ),
-              softWrap: false,
-            ),
-          ],
-        ),
-      );
-    },
-  ),
-);
-
+          );
+        },
+      ),
+    );
   }
 }

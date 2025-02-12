@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/images/app_image.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
@@ -88,12 +89,19 @@ class SearchDetalsView extends StatelessWidget {
                                               : TextDirection.rtl,
                                       children: [
                                         Container(
-                                          height: 80.sp,
+                                          height: 60.sp,
                                           width: 103.sp,
                                           decoration: BoxDecoration(),
-                                          child: Image.asset(
-                                            AppImage.image1,
-                                            // fit: BoxFit.cover,
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(5.r),
+                                            child: Image.network(
+                                              ApiEndpoint.imageUrl +
+                                                  searchDataController
+                                                      .searchResults[index]
+                                                      .thumbnail,
+                                              fit: BoxFit.cover,
+                                            ),
                                           ),
                                         ),
                                         horizontalGap(10.sp),

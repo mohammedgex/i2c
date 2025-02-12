@@ -15,18 +15,19 @@ class SearchDataController extends getx.GetxController {
   var errorMessage = ''.obs; // Observable for error messages
 
   // Fetch courses data from API
-  Future<void> fetchCourseLanguages(
-      String search,
-      String main_category,
-      String sub_category,
-      String price,
-      String languages_code,
-      String levels,
-      String rating) async {
+  Future<void> fetchCourseLanguages({
+    String search = "",
+    required String main_category,
+    String? sub_category = "",
+    String price = "",
+    String languages_code = "",
+    String levels = "",
+    String rating = "",
+  }) async {
     var currencyCode = await SharedPrefUtil.get('currency_code', 'USD');
     isLoading.value = true;
     errorMessage.value = ''; // Clear any previous error messages
-
+    Get.to(() => SearchDetalsView());
     try {
       // Example URL - Replace with actual API endpoint
       String url = ApiEndpoint.searchCoursesUrl(
@@ -43,8 +44,6 @@ class SearchDataController extends getx.GetxController {
       // Fetch data using GET method
       dio.Response? response =
           await _apiService.getData(url: url, requiresAuth: false);
-
-      Get.to(() => SearchDetalsView());
 
       if (response != null &&
           response.statusCode == 200 &&

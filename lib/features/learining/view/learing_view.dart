@@ -14,10 +14,10 @@ import '../../../core/colors/app_colors.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class LearingView extends StatelessWidget {
-  LearingView({super.key});
+  bool isShowbackButton;
+  LearingView({super.key, required this.isShowbackButton});
 
-  final ScrollController _scrollController =
-      ScrollController(); // Added ScrollController
+  final ScrollController _scrollController =  ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +58,10 @@ class LearingView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MyCustomAppBar(
+                      
                         verticalPadding: 0,
                         horizontalPadding: 0,
-                        isShowbackButton: false),
+                        isShowbackButton: isShowbackButton),
                     GlobalText(
                       text: "My Learnings",
                       softWrap: true,

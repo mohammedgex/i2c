@@ -19,7 +19,6 @@ import '../../categories/controller/category_itme_controller.dart';
 import '../controller/course_language_controller.dart';
 import '../controller/course_level_controller.dart';
 
-
 class SearchView extends StatelessWidget {
   String subCategorySelectValue = "";
   TextEditingController searchController = TextEditingController();
@@ -45,7 +44,6 @@ class SearchView extends StatelessWidget {
         Get.put(MainCategoryController());
     final SubCategoryListController subCategoryListController =
         Get.put(SubCategoryListController());
-
 
     return Scaffold(
       extendBody: false,
@@ -456,8 +454,18 @@ class SearchView extends StatelessWidget {
                 width: 220.sp,
                 text: "Search",
                 onTap: () {
-                  searchDataController.fetchCourseLanguages(searchController.text.trim(), categorySelectedController.selectedValue.value, subCategorySelectedController.selectedValue.value, priceSelectedController.selectedValue.value, languageSelectedController.selectedValue.value, levelSelectedController.selectedValue.value, ratingSelectedController.selectedValue.value);
-                  
+                  searchDataController.fetchCourseLanguages(
+                    search: searchController.text.trim(),
+                    main_category:
+                        categorySelectedController.selectedValue.value,
+                    sub_category:
+                        subCategorySelectedController.selectedValue.value,
+                    price: priceSelectedController.selectedValue.value,
+                    languages_code:
+                        languageSelectedController.selectedValue.value,
+                    levels: levelSelectedController.selectedValue.value,
+                    rating: ratingSelectedController.selectedValue.value,
+                  );
                 })
           ],
         ),

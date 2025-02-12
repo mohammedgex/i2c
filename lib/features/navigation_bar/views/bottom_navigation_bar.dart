@@ -24,7 +24,9 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
   final List<Widget> _screens = [
     HomeScreen(),
     SearchView(),
-    LearingView(),
+    LearingView(
+      isShowbackButton: false,
+    ),
     ProfileView(),
   ];
 

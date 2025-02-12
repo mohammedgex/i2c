@@ -8,7 +8,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
-import 'package:skill_grow/core/widgets/wrapper_with_max_line.dart';
+import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
@@ -21,7 +21,7 @@ class CategorySection extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 5.5.sp),
+      padding: EdgeInsets.symmetric(horizontal: 15.sp),
       child: Obx(() {
         if (categoryItmeController.isLoading.value) {
           return Wrap(
@@ -61,53 +61,58 @@ class CategorySection extends StatelessWidget {
             }),
           );
         } else {
-          return WrapWithMaxLines(
-            itemWidth: 45.sp,
-            maxLines: 2,
-            spacing: 20.sp,
-            runSpacing: 20.sp,
-            children: List.generate(
-                categoryItmeController.categories.length < 10
-                    ? categoryItmeController.categories.length
-                    : 10, (index) {
+          return GridView.builder(
+            shrinkWrap: true, // Allows GridView to take only necessary space
+            physics:
+                NeverScrollableScrollPhysics(), // Prevents double scrolling
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              mainAxisSpacing: 20.sp,
+              crossAxisSpacing: 20.sp,
+              childAspectRatio: 1,
+            ),
+            itemCount: categoryItmeController.categories.length,
+            itemBuilder: (context, index) {
               return Bounceable(
-                  onTap: () {},
-                  child: Column(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    children: [
-                      Container(
-                        height: 45.sp,
-                        width: 45.sp,
-                        padding: EdgeInsets.all(10.sp),
-                        decoration: BoxDecoration(
-                          color: AppColors.nuralItemBackgroundColor,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1.sp,
-                          ),
-                        ),
-                        child: Center(
-                          child: Image.network(
-                            ApiEndpoint.imageUrl +
-                                categoryItmeController.categories[index].icon,
-                          ),
+                onTap: () {},
+                child: Column(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  children: [
+                    Container(
+                      height: 45.sp,
+                      width: 45.sp,
+                      padding: EdgeInsets.all(10.sp),
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1.sp,
                         ),
                       ),
-                      verticalGap(3.sp),
-                      Text(
-                        categoryItmeController.categories[index].name,
-                        style: TextStyle(
-                          color: AppColors.smallTextColor,
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w600,
+                      child: Center(
+                        child: Image.network(
+                          ApiEndpoint.imageUrl +
+                              categoryItmeController.categories[index].icon,
                         ),
                       ),
-                    ],
-                  ));
-            }),
+                    ),
+                    verticalGap(3.sp),
+                    GlobalText(
+                      softWrap: false,
+                      text: categoryItmeController.categories[index].name,
+                      style: TextStyle(
+                        color: AppColors.smallTextColor,
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         }
       }),

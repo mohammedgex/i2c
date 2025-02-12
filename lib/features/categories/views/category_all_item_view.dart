@@ -72,92 +72,96 @@ class CategoryAllItemView extends StatelessWidget {
   }
 
   Widget _buildShimmerLoading() {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        mainAxisSpacing: 20.sp,
-        crossAxisSpacing: 20.sp,
-        childAspectRatio: 1,
+    return Flexible(
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            mainAxisSpacing: 20.sp,
+            crossAxisSpacing: 20.sp,
+            childAspectRatio: 1),
+        itemCount: controller.categories.length,
+        itemBuilder: (context, index) {
+          return Shimmer.fromColors(
+            baseColor: AppColors.nuralItemBackgroundColor,
+            highlightColor: AppColors.shimmerBackgroundColor,
+            child: Column(
+              children: [
+                Container(
+                  height: 50.sp,
+                  width: 50.sp,
+                  decoration: BoxDecoration(
+                    color: AppColors.nuralItemBackgroundColor,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+                SizedBox(height: 3.sp),
+                Container(
+                  height: 12.sp,
+                  width: 50.sp,
+                  decoration: BoxDecoration(
+                    color: AppColors.nuralItemBackgroundColor,
+                    borderRadius: BorderRadius.circular(5.sp),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
       ),
-      itemCount: 9,
-      itemBuilder: (context, index) {
-        return Shimmer.fromColors(
-          baseColor: AppColors.nuralItemBackgroundColor,
-          highlightColor: AppColors.shimmerBackgroundColor,
-          child: Column(
-            children: [
-              Container(
-                height: 50.sp,
-                width: 50.sp,
-                decoration: BoxDecoration(
-                  color: AppColors.nuralItemBackgroundColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              SizedBox(height: 3.sp),
-              Container(
-                height: 12.sp,
-                width: 50.sp,
-                decoration: BoxDecoration(
-                  color: AppColors.nuralItemBackgroundColor,
-                  borderRadius: BorderRadius.circular(5.sp),
-                ),
-              )
-            ],
-          ),
-        );
-      },
     );
   }
 
   Widget _buildCategoryGrid() {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4, // Ensures the same number of items per row
-        mainAxisSpacing: 20.sp,
-        crossAxisSpacing: 20.sp,
-        childAspectRatio: 1,
-      ),
-      itemCount: controller.categories.length,
-      itemBuilder: (context, index) {
-        final category = controller.categories[index];
-        return Bounceable(
-          onTap: () {},
-          child: Column(
-            children: [
-              Container(
-                height: 50.sp,
-                width: 50.sp,
-                padding: EdgeInsets.all(10.sp),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  color: AppColors.nuralItemBackgroundColor,
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Image.network(
-                    ApiEndpoint.imageUrl + category.icon,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      Icons.image_not_supported,
-                      color: AppColors.smallTextColor,
-                    ),
+    return Expanded(
+  child: GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 4,
+      mainAxisSpacing: 20.sp,
+      crossAxisSpacing: 20.sp,
+      childAspectRatio: 1,
+    ),
+    itemCount: controller.categories.length,
+    itemBuilder: (context, index) {
+      final category = controller.categories[index];
+      return Bounceable(
+        onTap: () {},
+        child: Column(
+          children: [
+            Container(
+              height: 50.sp,
+              width: 50.sp,
+              padding: EdgeInsets.all(10.sp),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                color: AppColors.nuralItemBackgroundColor,
+                shape: BoxShape.circle,
+              ),
+              child: Center(
+                child: Image.network(
+                  ApiEndpoint.imageUrl + category.icon,
+                  errorBuilder: (context, error, stackTrace) => Icon(
+                    Icons.image_not_supported,
+                    color: AppColors.smallTextColor,
                   ),
                 ),
               ),
-              SizedBox(height: 3.sp),
-              GlobalText(
-                text: category.name,
-                style: TextStyle(
-                  color: AppColors.smallTextColor,
-                  fontSize: 11.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-                softWrap: false,
+            ),
+            SizedBox(height: 3.sp),
+            GlobalText(
+              text: category.name,
+              style: TextStyle(
+                color: AppColors.smallTextColor,
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w600,
               ),
-            ],
-          ),
-        );
-      },
-    );
+              softWrap: false,
+            ),
+          ],
+        ),
+      );
+    },
+  ),
+);
+
   }
 }

@@ -114,76 +114,138 @@ class PopularCoursesSection extends StatelessWidget {
             ),
           );
         } else {
-          return Container(
-              // height: 220.sp,
-              constraints: BoxConstraints(
-                minHeight: 190.sp,
-                maxHeight: 200.sp,
-              ),
-              child: ListView.builder(
-                  // shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: popularCourseItemController.courses.length >= 4
+          return Flexible(
+              child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                  popularCourseItemController.courses.length >= 4
                       ? 4
-                      : popularCourseItemController.courses.length,
-                  itemBuilder: (context, index) {
-                    return Bounceable(
-                      onTap: () {
-                        Get.to(() => CourseDetailsView(
-                              slug: popularCourseItemController
-                                  .courses[index].slug,
-                            ));
-                      },
-                      child: Container(
-                        width: 200.sp,
-                        height: 190.sp,
-                        margin: EdgeInsets.only(left: 7.5.sp, right: 7.5.sp),
-                        padding: EdgeInsets.all(5.sp),
-                        decoration: BoxDecoration(
-                          color: AppColors.nuralItemBackgroundColor,
-                          borderRadius: BorderRadius.circular(10.sp),
+                      : popularCourseItemController.courses.length, (index) {
+                return Bounceable(
+                  onTap: () {
+                    Get.to(() => CourseDetailsView(
+                          slug: popularCourseItemController.courses[index].slug,
+                        ));
+                  },
+                  child: Container(
+                    width: 200.sp,
+                    margin: EdgeInsets.only(left: 7.5.sp, right: 7.5.sp),
+                    padding: EdgeInsets.all(5.sp),
+                    decoration: BoxDecoration(
+                      color: AppColors.nuralItemBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Column(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          // height: 150.sp,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            // color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(10.sp),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.sp),
+                            child: Container(
+                              constraints: BoxConstraints(minHeight: 80.sp),
+                              child: Image.network(
+                                ApiEndpoint.imageUrl +
+                                    popularCourseItemController
+                                        .courses[index].thumbnail,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
-                        child: Column(
+                        verticalGap(3.sp),
+                        GlobalText(
+                          text: popularCourseItemController.courses[index].title
+                              .toString(),
+                          style: TextStyle(
+                            color: AppColors.titleTextColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            height: 14.sp / 13.sp,
+                          ),
+                          softWrap: true,
+                        ),
+                        verticalGap(5.sp),
+                        Row(
                           textDirection: multiLangualDataController.isLTR.value
                               ? TextDirection.ltr
                               : TextDirection.rtl,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              // height: 150.sp,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                // color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(10.sp),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10.sp),
-                                child: Container(
-                                  constraints: BoxConstraints(minHeight: 80.sp),
-                                  child: Image.network(
-                                    ApiEndpoint.imageUrl +
-                                        popularCourseItemController
-                                            .courses[index].thumbnail,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            verticalGap(3.sp),
                             GlobalText(
                               text: popularCourseItemController
-                                  .courses[index].title
+                                  .courses[index].instructor.name
                                   .toString(),
                               style: TextStyle(
-                                color: AppColors.titleTextColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w600,
-                                height: 14.sp / 13.sp,
+                                color: AppColors.smallTextColor,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 11.sp / 9.sp,
                               ),
-                              softWrap: true,
+                              softWrap: false,
                             ),
-                            verticalGap(5.sp),
+                            horizontalGap(2.sp),
+                            GlobalText(
+                              text: "|",
+                              style: TextStyle(
+                                color: AppColors.smallTextColor,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 11.sp / 9.sp,
+                              ),
+                              softWrap: false,
+                            ),
+                            horizontalGap(2.sp),
+                            GlobalText(
+                              text: popularCourseItemController
+                                  .courses[index].students
+                                  .toString(),
+                              style: TextStyle(
+                                color: AppColors.smallTextColor,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 11.sp / 9.sp,
+                              ),
+                              softWrap: false,
+                            ),
+                            GlobalText(
+                              text: "Students",
+                              style: TextStyle(
+                                color: AppColors.smallTextColor,
+                                fontSize: 11.sp,
+                                fontWeight: FontWeight.w500,
+                                height: 11.sp / 9.sp,
+                              ),
+                              softWrap: false,
+                            ),
+                          ],
+                        ),
+                        verticalGap(5.sp),
+                        Wrap(
+                          spacing: 10.sp,
+                          runSpacing: 1.sp,
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          children: [
+                            CustomRatingBar(
+                              rating: popularCourseItemController
+                                  .courses[index].averageRating
+                                  .toDouble(),
+                              maxRating: 5,
+                              iconSize: 15.sp,
+                              filledColor: AppColors.activeIconColor,
+                              unfilledColor: AppColors.activeIconColor,
+                            ),
                             Row(
                               textDirection:
                                   multiLangualDataController.isLTR.value
@@ -192,112 +254,41 @@ class PopularCoursesSection extends StatelessWidget {
                               children: [
                                 GlobalText(
                                   text: popularCourseItemController
-                                      .courses[index].instructor.name
+                                      .courses[index].discount
                                       .toString(),
                                   style: TextStyle(
-                                    color: AppColors.smallTextColor,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 11.sp / 9.sp,
-                                  ),
+                                      color: AppColors.smallTextColor,
+                                      fontSize: 11.sp,
+                                      fontWeight: FontWeight.w400,
+                                      height: 11.sp / 9.sp,
+                                      decoration: TextDecoration.lineThrough),
                                   softWrap: false,
                                 ),
-                                horizontalGap(2.sp),
-                                GlobalText(
-                                  text: "|",
-                                  style: TextStyle(
-                                    color: AppColors.smallTextColor,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 11.sp / 9.sp,
-                                  ),
-                                  softWrap: false,
-                                ),
-                                horizontalGap(2.sp),
+                                horizontalGap(5.sp),
                                 GlobalText(
                                   text: popularCourseItemController
-                                      .courses[index].students
+                                      .courses[index].price
                                       .toString(),
                                   style: TextStyle(
                                     color: AppColors.smallTextColor,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 11.sp / 9.sp,
-                                  ),
-                                  softWrap: false,
-                                ),
-                                GlobalText(
-                                  text: "Students",
-                                  style: TextStyle(
-                                    color: AppColors.smallTextColor,
-                                    fontSize: 11.sp,
-                                    fontWeight: FontWeight.w500,
-                                    height: 11.sp / 9.sp,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w600,
+                                    height: 15.sp / 14.sp,
+                                    // decoration: TextDecoration.lineThrough
                                   ),
                                   softWrap: false,
                                 ),
                               ],
-                            ),
-                            verticalGap(5.sp),
-                            Wrap(
-                              spacing: 10.sp,
-                              runSpacing: 1.sp,
-                              textDirection:
-                                  multiLangualDataController.isLTR.value
-                                      ? TextDirection.ltr
-                                      : TextDirection.rtl,
-                              children: [
-                                CustomRatingBar(
-                                  rating: popularCourseItemController
-                                      .courses[index].averageRating
-                                      .toDouble(),
-                                  maxRating: 5,
-                                  iconSize: 15.sp,
-                                  filledColor: AppColors.activeIconColor,
-                                  unfilledColor: AppColors.activeIconColor,
-                                ),
-                                Row(
-                                  textDirection:
-                                      multiLangualDataController.isLTR.value
-                                          ? TextDirection.ltr
-                                          : TextDirection.rtl,
-                                  children: [
-                                    GlobalText(
-                                      text: popularCourseItemController
-                                          .courses[index].discount
-                                          .toString(),
-                                      style: TextStyle(
-                                          color: AppColors.smallTextColor,
-                                          fontSize: 11.sp,
-                                          fontWeight: FontWeight.w400,
-                                          height: 11.sp / 9.sp,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                      softWrap: false,
-                                    ),
-                                    horizontalGap(5.sp),
-                                    GlobalText(
-                                      text: popularCourseItemController
-                                          .courses[index].price
-                                          .toString(),
-                                      style: TextStyle(
-                                        color: AppColors.smallTextColor,
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.w600,
-                                        height: 15.sp / 14.sp,
-                                        // decoration: TextDecoration.lineThrough
-                                      ),
-                                      softWrap: false,
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
+                            )
                           ],
                         ),
-                      ),
-                    );
-                  }));
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ));
         }
       }),
     );

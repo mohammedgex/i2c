@@ -79,7 +79,8 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
 
     return Bounceable(
       onTap: () => _controller.updateIndex(index),
-      child: SizedBox(
+      child: Container(
+        color: Colors.transparent,
         width: 70.sp,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -33,18 +33,66 @@ class GlobalErrorHandler {
   static String _getApiErrorMessage(Response response) {
     try {
       if (response.data is Map<String, dynamic>) {
-        if (response.data.containsKey('message')) {
-          return response.data['message'] ?? 'An error occurred.';
-        } else if (response.data.containsKey('error')) {
-          return response.data['error'] ?? 'An error occurred.';
-        } else if (response.data.containsKey('detail')) {
-          return response.data['detail'] ?? 'An error occurred.';
+        var data = response.data;
+
+        // Check if the message is in the 'message' or 'error' field
+        if (data.containsKey('message')) {
+          var message = data['message'];
+
+          // Handle if the message is a Map or List
+          if (message is Map<String, dynamic>) {
+            // Recursively process if the message is a nested structure
+            return _extractErrorMessage(message);
+          } else if (message is List) {
+            return message.isNotEmpty ? message.first : 'An error occurred.';
+          } else {
+            return message ?? 'An error occurred.';
+          }
+        }
+
+        // Handle other common fields for error messages
+        if (data.containsKey('error')) {
+          var error = data['error'];
+          return error ?? 'An error occurred.';
+        }
+
+        if (data.containsKey('detail')) {
+          var detail = data['detail'];
+          return detail ?? 'An error occurred.';
         }
       }
     } catch (e) {
       return 'Error parsing API error message.';
     }
+
     return 'An unknown API error occurred.';
+  }
+
+  static String _extractErrorMessage(dynamic message) {
+    // If message is a Map, recursively look for key with error message
+    if (message is Map<String, dynamic>) {
+      for (var key in message.keys) {
+        var value = message[key];
+
+        // If the value is a string, return it as the error message
+        if (value is String) {
+          return value;
+        }
+
+        // If the value is a list, return the first element if it's a string
+        if (value is List && value.isNotEmpty && value.first is String) {
+          return value.first;
+        }
+
+        // If it's a nested map, recursively extract the error message
+        if (value is Map) {
+          var nestedMessage = _extractErrorMessage(value);
+          if (nestedMessage.isNotEmpty) return nestedMessage;
+        }
+      }
+    }
+
+    return 'An unknown error occurred.';
   }
 
   // Handle Dio-specific errors

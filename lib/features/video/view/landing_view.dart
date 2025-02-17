@@ -70,6 +70,7 @@ class LandingViewForVideo extends StatelessWidget {
                       child: Obx(() {
                         if (videoPlayController.isLoading.value) {
                           return InitialTumbnailUI(
+                              isShowWishIcon: false,
                               thumbnailImage: learningDataController
                                   .course.value!.data.thumbnail,
                               wishOntap: () {},
@@ -94,6 +95,7 @@ class LandingViewForVideo extends StatelessWidget {
                                     .videoFile.value!.data.filePath);
                           } else {
                             return InitialTumbnailUI(
+                                isShowWishIcon: false,
                                 thumbnailImage: learningDataController
                                     .course.value!.data.thumbnail,
                                 wishOntap: () {},

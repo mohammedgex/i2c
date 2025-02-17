@@ -171,8 +171,8 @@ class ApiEndpoint {
 
   // Dashboard Wishlist URLs
   static String dashboardWishlistUrl({
-    required int limit,
-    required String page,
+     int? limit,
+     String? page,
   }) {
     return "$baseUrl/wishlist-courses?limit=$limit&page=$page";
   }

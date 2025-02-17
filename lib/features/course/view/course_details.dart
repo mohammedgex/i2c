@@ -12,12 +12,14 @@ import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/cart/controller/add_to_cart_controller.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
+import 'package:skill_grow/features/course/controller/toggle_wish_controller.dart';
 import 'package:skill_grow/features/course/widget/course_info.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/course/widget/toggle_widget.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../video/view/widget/initial_tumbnail_ui.dart';
 import '../../video_player/view/view_player_view.dart';
+import '../controller/wish_list_controller.dart';
 
 class CourseDetailsView extends StatelessWidget {
   final String slug;
@@ -30,6 +32,8 @@ class CourseDetailsView extends StatelessWidget {
     AddToCartController addToCartController = Get.put(AddToCartController());
     CourseDetalisController courseDetalisController =
         Get.put(CourseDetalisController(slug));
+    WishListController wishListController = Get.put(WishListController());
+    ToggleWishController toggleWishController = Get.put(ToggleWishController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -77,9 +81,13 @@ class CourseDetailsView extends StatelessWidget {
                                 videoUrl: "youtube");
                           } else {
                             return InitialTumbnailUI(
+                                isShowWishIcon: true,
                                 thumbnailImage: courseDetalisController
                                     .course.value!.thumbnail,
-                                wishOntap: () {},
+                                wishOntap: () {
+                                  toggleWishController.sendStatus(
+                                      slug: courseDetalisController.slug);
+                                },
                                 playOntap: () {
                                   isShowVideo(true);
                                 });

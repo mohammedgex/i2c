@@ -7,14 +7,16 @@ import '../../../../core/Global/api_endpoint.dart';
 import '../../../../core/icons/app_icon.dart';
 
 class InitialTumbnailUI extends StatelessWidget {
-  final String thumbnailImage;
+   final String thumbnailImage;
   final VoidCallback wishOntap;
   final VoidCallback playOntap;
+  final bool isShowWishIcon;
   const InitialTumbnailUI(
       {super.key,
+      required this.isShowWishIcon,
       required this.thumbnailImage,
       required this.wishOntap,
-      required this.playOntap});
+      required this.playOntap,});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class InitialTumbnailUI extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.sp),
               color: const Color.fromARGB(90, 0, 0, 0)),
         ),
-        Positioned(
+       if(isShowWishIcon) Positioned(
           // alignment: Alignment.topRight,
           right: 10.sp,
           top: 10.sp,

@@ -16,7 +16,11 @@ customSnackbar(
     {required String title,
     required String message,
     required CustomSnackbarType type}) {
-  ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+  ScaffoldMessenger.of(Get.context!).showSnackBar(
+    
+    SnackBar(
+      
+    
     content: CustomSnackbarContent(
       title: title,
       message: message,

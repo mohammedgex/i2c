@@ -62,18 +62,108 @@ class ApiService {
 
       return response;
     } on DioException catch (e) {
-      print("API Error: \${e.response?.statusCode} -> \${e.response?.data}");
+      // Use GlobalErrorHandler to manage the error message
       GlobalErrorHandler.handleError(e, showSnackbar: showSnackbar);
     } on SocketException {
+      // Handle no internet connection
       print("Network Error: No internet connection.");
       GlobalErrorHandler.handleError(
           'No internet connection. Please try again.', showSnackbar: showSnackbar);
     } catch (e) {
-      print("Unexpected Error: \$e");
+      // Handle unexpected errors
+      print("Unexpected Error: $e");
       GlobalErrorHandler.handleError(e.toString(), showSnackbar: showSnackbar);
     }
 
     return null;
+  }
+
+  Future<Response?> requests({
+    required String url,
+    required String method,
+    FormData? data,
+    Map<String, dynamic>? queryParameters,
+    bool requiresAuth = true,
+    bool showSnackbar = true,
+  }) async {
+    try {
+      // Set Authorization Header
+      if (requiresAuth) {
+        String token = await SharedPrefUtil.get("token", '');
+        _dio.options.headers['Authorization'] = 'Bearer $token';
+      } else {
+        _dio.options.headers.remove('Authorization');
+      }
+
+      // Make the request based on the method
+      Response response;
+      switch (method.toUpperCase()) {
+        case 'GET':
+          response = await _dio.get(url,
+              queryParameters: queryParameters,
+              options: Options(contentType: "application/json"));
+          break;
+        case 'POST':
+          response = await _dio.post(url,
+              data: data, options: Options(contentType: "application/json"));
+          break;
+        case 'PUT':
+          response = await _dio.put(url,
+              data: data, options: Options(contentType: "application/json"));
+          break;
+        case 'DELETE':
+          response = await _dio.delete(url,
+              data: data, options: Options(contentType: "application/json"));
+          break;
+        default:
+          throw UnsupportedError('HTTP method not supported: $method');
+      }
+
+      // Log the response
+      print("API Response (${response.statusCode}): ${response.data}");
+
+      return response;
+    } on DioException catch (e) {
+      // Use GlobalErrorHandler to manage the error message
+      GlobalErrorHandler.handleError(e, showSnackbar: showSnackbar);
+    } on SocketException {
+      // Handle no internet connection
+      print("Network Error: No internet connection.");
+      GlobalErrorHandler.handleError(
+          'No internet connection. Please try again.', showSnackbar: showSnackbar);
+    } catch (e) {
+      // Handle unexpected errors
+      print("Unexpected Error: $e");
+      GlobalErrorHandler.handleError(e.toString(), showSnackbar: showSnackbar);
+    }
+
+    return null;
+  }
+
+  Future<Response?> uploadImage({
+    required String url,
+    required File imageFile,
+    bool requiresAuth = true,
+    bool showSnackbar = true,
+  }) async {
+    try {
+      String fileName = imageFile.path.split('/').last;
+
+      FormData formData = FormData.fromMap({
+        "image": await MultipartFile.fromFile(imageFile.path, filename: fileName),
+      });
+
+      return await requests(
+        url: url,
+        method: 'POST',
+        data: formData,
+        requiresAuth: requiresAuth,
+        showSnackbar: showSnackbar,
+      );
+    } catch (e) {
+      GlobalErrorHandler.handleError(e.toString(), showSnackbar: showSnackbar);
+      return null;
+    }
   }
 
   // Example: GET API

@@ -13,6 +13,7 @@ analyzer:
     collection_methods_unrelated_type: ignore
     deprecated_member_use: ignore
     file_names: ignore
+    invalid_use_of_protected_member: ignore
     library_private_types_in_public_api: ignore
     must_be_immutable: ignore
     non_constant_identifier_names: ignore

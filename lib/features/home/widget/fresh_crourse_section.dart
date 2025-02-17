@@ -115,8 +115,7 @@ class FreshCourseSection extends StatelessWidget {
             ),
           );
         } else {
-          return Flexible(
-              child: SingleChildScrollView(
+          return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children:
@@ -289,7 +288,7 @@ class FreshCourseSection extends StatelessWidget {
                 );
               }),
             ),
-          ));
+          );
         }
       }),
     );

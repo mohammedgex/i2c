@@ -240,33 +240,29 @@ class CourseDetailsView extends StatelessWidget {
                                   crossAxisAlignment: WrapCrossAlignment.end,
                                   children: [
                                     FittedBox(
-                                      child: Flexible(
-                                        child: GlobalText(
-                                          text: courseDetalisController
-                                                  .course.value?.price ??
-                                              "N/A",
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 18.sp,
-                                            fontWeight: FontWeight.w800,
-                                          ),
+                                      child: GlobalText(
+                                        text: courseDetalisController
+                                                .course.value?.price ??
+                                            "N/A",
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.w800,
                                         ),
                                       ),
                                     ),
                                     horizontalGap(5.sp),
-                                    Flexible(
-                                      child: FittedBox(
-                                        child: GlobalText(
-                                          text: courseDetalisController
-                                                  .course.value?.discount ??
-                                              "N/A",
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w400,
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                          ),
+                                    FittedBox(
+                                      child: GlobalText(
+                                        text: courseDetalisController
+                                                .course.value?.discount ??
+                                            "N/A",
+                                        softWrap: true,
+                                        style: TextStyle(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w400,
+                                          decoration:
+                                              TextDecoration.lineThrough,
                                         ),
                                       ),
                                     ),

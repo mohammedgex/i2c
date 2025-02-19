@@ -33,8 +33,8 @@ class MyCustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding ?? 25.sp,
-          vertical: verticalPadding ?? 10.sp),
+          horizontal: horizontalPadding ?? 15.sp,
+          vertical: verticalPadding ?? 0.sp),
       child: Row(
         textDirection: multiLangualDataController.isLTR.value
             ? TextDirection.ltr
@@ -48,7 +48,7 @@ class MyCustomAppBar extends StatelessWidget {
                 Get.back();
               },
               child: Container(
-                padding: EdgeInsets.all(10.sp),
+                padding: EdgeInsets.all(12.sp),
                 height: 50.sp,
                 width: 45.sp,
                 decoration: BoxDecoration(color: Colors.transparent),

@@ -60,8 +60,8 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildNavItem(0, AppIcon.lockIcon, "Home"),
-                _buildNavItem(1, AppIcon.announcements, "Search"),
+                _buildNavItem(0, AppIcon.homeIcon, "Home"),
+                _buildNavItem(1, AppIcon.searchIcon, "Search"),
                 _buildNavItem(2, AppIcon.playIcon, "Learning"),
                 _buildNavItem(3, AppIcon.userIcon, "Profile"),
               ],

@@ -24,6 +24,7 @@ class CartView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     CartListController cartListController = Get.put(CartListController());
+
     return Obx(() {
       if (cartListController.isLoading.value) {
         return Scaffold(

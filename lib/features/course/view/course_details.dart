@@ -31,9 +31,10 @@ class CourseDetailsView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     AddToCartController addToCartController = Get.put(AddToCartController());
-     ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
-    CourseDetalisController courseDetalisController =
-        Get.put(CourseDetalisController(slug, profileDataCotroller.userDataResponse.value!.data.id.toString()));
+    ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
+    CourseDetalisController courseDetalisController = Get.put(
+        CourseDetalisController(slug,
+            profileDataCotroller.userDataResponse.value!.data.id.toString()));
     WishListController wishListController = Get.put(WishListController());
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
     RxBool isShowVideo = false.obs;
@@ -55,7 +56,7 @@ class CourseDetailsView extends StatelessWidget {
                 ),
               );
             } else {
-              if(courseDetalisController.course.value!.isWishlist == true){
+              if (courseDetalisController.course.value!.isWishlist == true) {
                 toggleWishController.isWishActive.value = true;
               }
               return SingleChildScrollView(
@@ -294,6 +295,7 @@ class CourseDetailsView extends StatelessWidget {
                                   height: 40.sp,
                                   width: double.infinity,
                                   decoration: BoxDecoration(
+                                    color: AppColors.primaryColor,
                                     border: Border.all(
                                         color: AppColors.primaryColor,
                                         width: 1.5.sp),
@@ -305,7 +307,7 @@ class CourseDetailsView extends StatelessWidget {
                                       softWrap: true,
                                       style: TextStyle(
                                         fontSize: 13.sp,
-                                        color: AppColors.primaryColor,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -316,30 +318,6 @@ class CourseDetailsView extends StatelessWidget {
                           }),
                         ),
                         horizontalGap(10.sp),
-                        Expanded(
-                          child: Bounceable(
-                            onTap: () {},
-                            child: Container(
-                              height: 40.sp,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryColor,
-                                borderRadius: BorderRadius.circular(5.sp),
-                              ),
-                              child: Center(
-                                child: GlobalText(
-                                  text: "Buy Now",
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: 13.sp,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                     ToggleWidget(

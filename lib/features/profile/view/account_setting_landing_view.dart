@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
+import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
@@ -75,6 +76,7 @@ class AccountSettingLandingView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 60,
+                            foregroundColor: AppColors.primaryColor,
                             backgroundImage:
                                 imagePickerController.profileImage.value != null
                                     ? FileImage(imagePickerController

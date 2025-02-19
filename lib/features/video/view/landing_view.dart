@@ -114,10 +114,7 @@ class LandingViewForVideo extends StatelessWidget {
                           }
                         }
                       })
-                      // child: universalVideoPlayer(a
-                      //     source: "mp4",
-                      //     url:
-                      //         "https://videos.pexels.com/video-files/9806389/9806389-uhd_2560_1440_25fps.mp4"),
+                    
                       ),
                   verticalGap(5.sp),
                   GlobalText(

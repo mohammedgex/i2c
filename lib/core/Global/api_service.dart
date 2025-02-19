@@ -58,7 +58,7 @@ class ApiService {
       }
 
       // Log the response
-      print("API Response (${response.statusCode}): ${response.data}");
+      // print("API Response (${response.statusCode}): ${response.data}");
 
       return response;
     } on DioException catch (e) {
@@ -120,7 +120,7 @@ class ApiService {
       }
 
       // Log the response
-      print("API Response (${response.statusCode}): ${response.data}");
+      // print("API Response (${response.statusCode}): ${response.data}");
 
       return response;
     } on DioException catch (e) {

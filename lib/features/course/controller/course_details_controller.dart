@@ -8,7 +8,8 @@ import '../../../core/Global/sharedPref.dart';
 
 class CourseDetalisController extends GetxController {
   final String slug;
-  CourseDetalisController(this.slug);
+  final String userId;
+  CourseDetalisController(this.slug, this.userId);
 
   // Observable state
   var course = Rxn<CourseDetailsResponseModel>();
@@ -31,7 +32,7 @@ class CourseDetalisController extends GetxController {
 
     try {
       dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.coursesUrl(slug: slug, currency: currency_code),
+        url: ApiEndpoint.coursesUrl(slug: slug, currency: currency_code, userId: userId),
       );
 
       if (response!.data != null) {

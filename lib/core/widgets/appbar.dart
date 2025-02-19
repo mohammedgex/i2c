@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/features/cart/view/cart_view.dart';
+import 'package:skill_grow/features/course/view/wish_list_view.dart';
 
 import '../../features/cart/controller/cart_list_controller.dart';
 import '../../features/mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -47,15 +48,15 @@ class MyCustomAppBar extends StatelessWidget {
                 Get.back();
               },
               child: Container(
-                padding: EdgeInsets.all(4.sp),
+                padding: EdgeInsets.all(10.sp),
                 height: 50.sp,
-                width: 30.sp,
+                width: 45.sp,
+                decoration: BoxDecoration(color: Colors.transparent),
                 child: SvgPicture.asset(
                   AppIcon.arrowBackIcon,
                 ),
               ),
             ),
-          if (isShowbackButton) horizontalGap(10.sp),
           if (isShowNotification == false) horizontalGap(100.sp),
           Image.asset(
             AppImage.logo,
@@ -63,6 +64,24 @@ class MyCustomAppBar extends StatelessWidget {
             height: 20.98.sp,
           ),
           Spacer(),
+          if (isShowNotification == true)
+            SizedBox(
+              child: Bounceable(
+                onTap: () {
+                  Get.to(() => WishListView());
+                },
+                child: SizedBox(
+                  height: 40.sp,
+                  child: SvgPicture.asset(
+                    AppIcon.addwishIcon,
+                    color: AppColors.primaryColor,
+                    width: 19.98.sp,
+                    height: 20.sp,
+                  ),
+                ),
+              ),
+            ),
+          if (isShowNotification == true) horizontalGap(10.sp),
           if (isShowNotification == true)
             SizedBox(
               child: Bounceable(

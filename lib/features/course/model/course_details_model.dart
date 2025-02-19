@@ -2,6 +2,7 @@ class CourseDetailsResponseModel {
   final String demoVideo;
   final String thumbnail;
   final bool isWishlist;
+  final String videoSource;
   final String title;
   final String slug;
   final Instructor instructor;
@@ -23,6 +24,7 @@ class CourseDetailsResponseModel {
     required this.demoVideo,
     required this.thumbnail,
     required this.isWishlist,
+    required this.videoSource,
     required this.title,
     required this.slug,
     required this.instructor,
@@ -46,6 +48,7 @@ class CourseDetailsResponseModel {
       demoVideo: json['demo_video'] ?? '',
       thumbnail: json['thumbnail'] ?? '',
       isWishlist: json['is_wishlist'] ?? false,
+      videoSource: json['demo_video_source'] ?? '',
       title: json['title'] ?? '',
       slug: json['slug'] ?? '',
       instructor: Instructor.fromJson(json['instructor']),
@@ -132,11 +135,6 @@ class Chapter {
   }
 }
 
-
-
-
-
-
 class Lesson {
   final int id;
   final String title;
@@ -162,7 +160,6 @@ class Lesson {
     );
   }
 }
-
 
 class Quiz {
   final int id;

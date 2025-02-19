@@ -38,42 +38,92 @@ class PopularCoursesSection extends StatelessWidget {
 
   Widget _buildShimmerEffect() {
     return Shimmer.fromColors(
-      baseColor: AppColors.nuralItemBackgroundColor,
-      highlightColor: AppColors.shimmerBackgroundColor,
-      child: SizedBox(
-        height: 171.sp,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 3,
-          itemBuilder: (context, index) => _buildShimmerItem(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildShimmerItem() {
-    return Container(
-      margin: EdgeInsets.only(right: 10.sp),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(
-          5,
-          (index) => Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.sp),
-            child: Container(
-              height: 8.sp,
-              width: index == 0 ? 159.sp : index == 1 ? 150.sp : 100.sp,
-              decoration: BoxDecoration(
-                color: AppColors.nuralItemBackgroundColor,
-                borderRadius: BorderRadius.circular(10.sp),
-              ),
+            baseColor: AppColors.nuralItemBackgroundColor,
+            highlightColor: AppColors.shimmerBackgroundColor,
+            child: SizedBox(
+              height: 171.sp,
+              child: ListView.builder(
+                  // shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 3,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(right: 10.sp),
+                      child: Column(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 101.sp,
+                              width: 159.sp,
+                              decoration: BoxDecoration(
+                                color: AppColors.nuralItemBackgroundColor,
+                                borderRadius: BorderRadius.circular(10.sp),
+                              ),
+                            ),
+                            verticalGap(5.sp),
+                            Container(
+                              height: 8.sp,
+                              width: 150.sp,
+                              decoration: BoxDecoration(
+                                color: AppColors.nuralItemBackgroundColor,
+                                borderRadius: BorderRadius.circular(10.sp),
+                              ),
+                            ),
+                            verticalGap(5.sp),
+                            Container(
+                              height: 8.sp,
+                              width: 100.sp,
+                              decoration: BoxDecoration(
+                                color: AppColors.nuralItemBackgroundColor,
+                                borderRadius: BorderRadius.circular(10.sp),
+                              ),
+                            ),
+                            verticalGap(7.sp),
+                            Container(
+                              height: 8.sp,
+                              width: 150.sp,
+                              decoration: BoxDecoration(
+                                color: AppColors.nuralItemBackgroundColor,
+                                borderRadius: BorderRadius.circular(10.sp),
+                              ),
+                            ),
+                            Spacer(),
+                            Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                children: [
+                                  Container(
+                                    height: 20.sp,
+                                    width: 100.sp,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.nuralItemBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                  ),
+                                  horizontalGap(5.sp),
+                                  Container(
+                                    height: 20.sp,
+                                    width: 50.sp,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.nuralItemBackgroundColor,
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
+                                    ),
+                                  ),
+                                ])
+                          ]),
+                    );
+                  }),
             ),
-          ),
-        ),
-      ),
-    );
+          );
   }
-
   Widget _buildCourseList(MultiLangualDataController multiLangualDataController) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -190,7 +240,7 @@ class PopularCoursesSection extends StatelessWidget {
         Row(
           children: [
             GlobalText(
-              text: "\$${course.discount}",
+              text: "${course.discount}",
               style: TextStyle(
                 color: AppColors.smallTextColor,
                 fontSize: 11.sp,
@@ -201,7 +251,7 @@ class PopularCoursesSection extends StatelessWidget {
             ),
             horizontalGap(5.sp),
             GlobalText(
-              text: "\$${course.price}",
+              text: "${course.price}",
               style: TextStyle(
                 color: AppColors.smallTextColor,
                 fontSize: 15.sp,

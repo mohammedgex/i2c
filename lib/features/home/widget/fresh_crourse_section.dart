@@ -118,8 +118,8 @@ class FreshCourseSection extends StatelessWidget {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children:
-                  List.generate(freshCourseController.courses.length >= 4
+              children: List.generate(
+                  freshCourseController.courses.length >= 4
                       ? 4
                       : freshCourseController.courses.length, (index) {
                 return Bounceable(

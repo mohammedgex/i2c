@@ -17,6 +17,7 @@ import 'package:skill_grow/features/course/widget/course_info.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/course/widget/toggle_widget.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
+import '../../profile/controller/profile_data_cotroller.dart';
 import '../../video/view/widget/initial_tumbnail_ui.dart';
 import '../../video_player/view/view_player_view.dart';
 import '../controller/wish_list_controller.dart';
@@ -30,10 +31,12 @@ class CourseDetailsView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     AddToCartController addToCartController = Get.put(AddToCartController());
+     ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
     CourseDetalisController courseDetalisController =
-        Get.put(CourseDetalisController(slug));
+        Get.put(CourseDetalisController(slug, profileDataCotroller.userDataResponse.value!.data.id.toString()));
     WishListController wishListController = Get.put(WishListController());
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
+    RxBool isShowVideo = false.obs;
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -52,6 +55,9 @@ class CourseDetailsView extends StatelessWidget {
                 ),
               );
             } else {
+              if(courseDetalisController.course.value!.isWishlist == true){
+                toggleWishController.isWishActive.value = true;
+              }
               return SingleChildScrollView(
                 child: Column(
                   textDirection: multiLangualDataController.isLTR.value
@@ -73,24 +79,24 @@ class CourseDetailsView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.sp),
                         ),
                         child: Obx(() {
-                          RxBool isShowVideo = false.obs;
                           if (isShowVideo.value) {
                             return VideoScreen(
                                 videoSource: courseDetalisController
-                                    .course.value!.demoVideo,
-                                videoUrl: "youtube");
+                                    .course.value!.videoSource,
+                                videoUrl: courseDetalisController
+                                    .course.value!.demoVideo);
                           } else {
                             return InitialTumbnailUI(
-                                isShowWishIcon: true,
-                                thumbnailImage: courseDetalisController
-                                    .course.value!.thumbnail,
-                                wishOntap: () {
-                                  toggleWishController.sendStatus(
-                                      slug: courseDetalisController.slug);
-                                },
-                                playOntap: () {
-                                  isShowVideo(true);
-                                });
+                              isShowWishIcon: true,
+                              thumbnailImage: courseDetalisController
+                                  .course.value!.thumbnail,
+                              wishOntap: () {
+                                toggleWishController.sendStatus(slug: slug);
+                              },
+                              playOntap: () {
+                                isShowVideo.value = true;
+                              },
+                            );
                           }
                         })),
                     verticalGap(10.sp),

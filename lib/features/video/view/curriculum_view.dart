@@ -7,6 +7,9 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/quiz/view/quiz_question_view.dart'
+    show QuizQuestionView;
+import 'package:skill_grow/features/quiz/view/quiz_screren.dart';
 import 'package:skill_grow/features/video/controller/lesson_complete_status_update_controller.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../controller/learning_data_controller.dart';
@@ -176,39 +179,47 @@ class CurriculumView extends StatelessWidget {
                           )),
                     );
                   } else {
-                    return Container(
-                      height: 50.sp,
-                      margin: EdgeInsets.symmetric(vertical: 5.sp),
-                      child: ListTile(
-                          leading: Container(
-                            height: 20.sp,
-                            width: 20.sp,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(4.sp),
+                    return Bounceable(
+                      onTap: () {
+                        Get.to(() => QuizQuestionView(
+                              slug: learningDataController.slug,
+                              questionId: chapter.item.id.toString(),
+                            ));
+                      },
+                      child: Container(
+                        height: 50.sp,
+                        margin: EdgeInsets.symmetric(vertical: 5.sp),
+                        child: ListTile(
+                            leading: Container(
+                              height: 20.sp,
+                              width: 20.sp,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(4.sp),
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(AppIcon.successIcon),
+                              ),
                             ),
-                            child: Center(
-                              child: SvgPicture.asset(AppIcon.successIcon),
+                            title: GlobalText(
+                              text: chapter.item.title.toString(),
+                              softWrap: true,
+                              style: TextStyle(fontSize: 13.sp),
                             ),
-                          ),
-                          title: GlobalText(
-                            text: chapter.item.title.toString(),
-                            softWrap: true,
-                            style: TextStyle(fontSize: 13.sp),
-                          ),
-                          subtitle: GlobalText(
-                            text: chapter.item.duration.toString(),
-                            softWrap: true,
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                          trailing: SizedBox(
-                            height: 17.sp,
-                            width: 17.sp,
-                            child: SvgPicture.asset(
-                              AppIcon.quiz,
-                              color: AppColors.activeIconColor,
-                            ),
-                          )),
+                            // subtitle: GlobalText(
+                            //   text: chapter.item.duration.toString(),
+                            //   softWrap: true,
+                            //   style: TextStyle(fontSize: 10.sp),
+                            // ),
+                            trailing: SizedBox(
+                              height: 17.sp,
+                              width: 17.sp,
+                              child: SvgPicture.asset(
+                                AppIcon.quiz,
+                                color: AppColors.activeIconColor,
+                              ),
+                            )),
+                      ),
                     );
                   }
                 }),

@@ -12,19 +12,17 @@ class QuizQuestionDataController extends GetxController {
   var isLoading = false.obs;
   var quizData = Rxn<QuizResponseModel>();
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchQuiz();
-  }
+
 
   // Fetch quiz data
-  Future<void> fetchQuiz() async {
+  Future<void> fetchQuiz(
+      {required String course_slug, required String id}
+  ) async {
     try {
       isLoading.value = true;
       dio.Response? response = await _apiService.getData(
           url: ApiEndpoint.dashboardLearningQuizeUrl(
-              course_slug: "building-scalable-microservices", id: "36"));
+              course_slug: course_slug, id: id));
 
       if (response != null && response.statusCode == 200) {
         quizData.value = QuizResponseModel.fromJson(response.data);

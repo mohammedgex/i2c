@@ -32,12 +32,15 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-            primaryColor: AppColors.primaryColor,
-            primarySwatch: Colors.indigo,
-            scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
-          ),
+              useMaterial3: true,
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
+              primaryColor: AppColors.primaryColor,
+              primarySwatch: Colors.indigo,
+              scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
+              progressIndicatorTheme: ProgressIndicatorThemeData(
+                color: AppColors.primaryColor,
+              )),
           home: SplashScreen(),
         );
       },

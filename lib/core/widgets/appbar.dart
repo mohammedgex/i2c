@@ -48,15 +48,16 @@ class MyCustomAppBar extends StatelessWidget {
                 Get.back();
               },
               child: Container(
-                padding: EdgeInsets.all(12.sp),
+                // padding: EdgeInsets.all(12.sp),
                 height: 50.sp,
-                width: 45.sp,
+                width: 25.sp,
                 decoration: BoxDecoration(color: Colors.transparent),
                 child: SvgPicture.asset(
                   AppIcon.arrowBackIcon,
                 ),
               ),
             ),
+          if (isShowbackButton) horizontalGap(10.sp),
           if (isShowNotification == false) horizontalGap(100.sp),
           Image.asset(
             AppImage.logo,

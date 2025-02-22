@@ -6,13 +6,14 @@ import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:skill_grow/core/Global/error_handler.dart';
 import '../../../core/Global/sharedPref.dart';
 import '../model/search_result_model.dart'; // Ensure this file contains the updated model
-import '../view/search_detals.dart';
 
 class SearchDataController extends getx.GetxController {
   final ApiService _apiService = ApiService();
   var searchResults = <Course>[].obs; // Observable list to store courses
   var isLoading = false.obs; // Observable to manage loading state
   var errorMessage = ''.obs; // Observable for error messages
+  var page = 1.obs; // Current page number
+  var hasMore = true.obs; // Whether there are more items to load
 
   // Fetch courses data from API
   Future<void> fetchCourseLanguages({
@@ -23,13 +24,21 @@ class SearchDataController extends getx.GetxController {
     String languages_code = "",
     String levels = "",
     String rating = "",
+    bool loadMore = false, // Whether to load more data or refresh the list
   }) async {
+    if (isLoading.value) return; // Prevent multiple simultaneous requests
+
+    if (!loadMore) {
+      page.value = 1; // Reset page number if not loading more
+      hasMore.value = true; // Reset hasMore flag
+      searchResults.clear(); // Clear existing results
+    }
+
     var currencyCode = await SharedPrefUtil.get('currency_code', 'USD');
     isLoading.value = true;
     errorMessage.value = ''; // Clear any previous error messages
-    Get.to(() => SearchDetalsView());
+
     try {
-      // Example URL - Replace with actual API endpoint
       String url = ApiEndpoint.searchCoursesUrl(
         currency: currencyCode,
         search: search,
@@ -39,33 +48,44 @@ class SearchDataController extends getx.GetxController {
         languages_code: languages_code,
         levels: levels,
         rating: rating,
+        limit: 10, // Number of items per page
+        page: page.value.toString(), // Current page number
       );
 
-      // Fetch data using GET method
-      dio.Response? response =
-          await _apiService.getData(url: url, requiresAuth: false);
+      dio.Response? response = await _apiService.getData(
+        url: url,
+        requiresAuth: false,
+        showSnackbar: false,
+      );
 
       if (response != null &&
           response.statusCode == 200 &&
           response.data != null) {
-        // Parse the response data into SearchResultResponseModel
         final responseData = response.data;
         final searchResultResponse =
             SearchResultResponseModel.fromJson(responseData);
 
-        // Update the observable list with the courses
-        searchResults.value = searchResultResponse.data;
+        if (loadMore) {
+          searchResults.addAll(searchResultResponse.data);
+        } else {
+          searchResults.value = searchResultResponse.data;
+        }
 
-        // Navigate to the search details view
+        // Check if there are more items to load
+        if (searchResultResponse.data.length < 10) {
+          hasMore.value = false; // No more data to load
+        } else {
+          page.value++; // Increment page number for the next load
+        }
       } else {
+        hasMore.value = false;
         errorMessage.value = 'Failed to fetch data: ${response?.statusCode}';
       }
     } catch (e) {
-      errorMessage.value =
-          'Error: ${e.toString()}'; // Handle error and show message
-      GlobalErrorHandler.handleError(e); // Global error handler if required
+      errorMessage.value = 'Error: ${e.toString()}';
+      GlobalErrorHandler.handleError(e);
     } finally {
-      isLoading.value = false;
+      isLoading.value = false; // Ensure loading state is reset
     }
   }
 }

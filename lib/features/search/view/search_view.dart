@@ -12,6 +12,7 @@ import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/search/controller/search_data_controller.dart';
 import 'package:skill_grow/features/search/controller/sub_category_list_controller.dart';
+import 'package:skill_grow/features/search/view/search_detals.dart' show SearchDetalsView;
 import 'package:skill_grow/widgets/dropdown_input.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 import '../../../widgets/controller/dropdwon_input_cntroller.dart';
@@ -450,23 +451,35 @@ class SearchView extends StatelessWidget {
             ),
             horizontalGap(10.sp),
             GlobalButton(
-                height: 50.sp,
-                width: 220.sp,
-                text: "Search",
-                onTap: () {
-                  searchDataController.fetchCourseLanguages(
-                    search: searchController.text.trim(),
-                    main_category:
-                        categorySelectedController.selectedValue.value,
-                    sub_category:
-                        subCategorySelectedController.selectedValue.value,
-                    price: priceSelectedController.selectedValue.value,
-                    languages_code:
-                        languageSelectedController.selectedValue.value,
-                    levels: levelSelectedController.selectedValue.value,
-                    rating: ratingSelectedController.selectedValue.value,
-                  );
-                })
+  height: 50.sp,
+  width: 220.sp,
+  text: "Search",
+  onTap: () {
+    // Fetch data and navigate to SearchDetalsView
+    searchDataController.fetchCourseLanguages(
+      search: searchController.text.trim(),
+      main_category: categorySelectedController.selectedValue.value,
+      sub_category: subCategorySelectedController.selectedValue.value,
+      price: priceSelectedController.selectedValue.value,
+      languages_code: languageSelectedController.selectedValue.value,
+      levels: levelSelectedController.selectedValue.value,
+      rating: ratingSelectedController.selectedValue.value,
+    );
+
+    // Navigate to SearchDetalsView with search parameters
+    Get.to(
+  () => SearchDetalsView(
+    search: searchController.text.trim(),
+    main_category: categorySelectedController.selectedValue.value,
+    sub_category: subCategorySelectedController.selectedValue.value,
+    price: priceSelectedController.selectedValue.value,
+    languages_code: languageSelectedController.selectedValue.value,
+    levels: levelSelectedController.selectedValue.value,
+    rating: ratingSelectedController.selectedValue.value,
+  ),
+);
+  },
+)
           ],
         ),
         verticalGap(20.sp),

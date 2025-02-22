@@ -62,153 +62,168 @@ class WishListView extends StatelessWidget {
                     ),
                     verticalGap(10.sp),
                     Expanded(
-                      child: ListView.builder(
-                          itemCount: searchDataController.wishList.length,
-                          itemBuilder: (context, index) {
-                            return Bounceable(
-                              onTap: () {
-                                Get.to(() => CourseDetailsView(
-                                    slug: searchDataController
-                                        .wishList[index].slug));
-                              },
-                              child: Container(
-                                  margin: EdgeInsets.only(bottom: 10.sp),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    // border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(12.sp),
-                                    color: AppColors.nuralItemBackgroundColor,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(3.sp),
-                                    child: Row(
-                                      textDirection:
-                                          multiLangualDataController.isLTR.value
-                                              ? TextDirection.ltr
-                                              : TextDirection.rtl,
-                                      children: [
-                                        Container(
-                                          height: 60.sp,
-                                          width: 103.sp,
-                                          decoration: BoxDecoration(),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(5.r),
-                                            child: Image.network(
-                                              ApiEndpoint.imageUrl +
-                                                  searchDataController
-                                                      .wishList[index]
-                                                      .thumbnail,
-                                              fit: BoxFit.cover,
+                      child: RefreshIndicator(
+                        onRefresh: () {
+                          return searchDataController.fetchCourses();
+                        },
+                        child: ListView.builder(
+                            itemCount: searchDataController.wishList.length,
+                            itemBuilder: (context, index) {
+                              return Bounceable(
+                                onTap: () {
+                                  Get.to(() => CourseDetailsView(
+                                      slug: searchDataController
+                                          .wishList[index].slug));
+                                },
+                                child: Container(
+                                    margin: EdgeInsets.only(bottom: 10.sp),
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      // border: Border.all(color: Colors.grey),
+                                      borderRadius:
+                                          BorderRadius.circular(12.sp),
+                                      color: AppColors.nuralItemBackgroundColor,
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(3.sp),
+                                      child: Row(
+                                        textDirection:
+                                            multiLangualDataController
+                                                    .isLTR.value
+                                                ? TextDirection.ltr
+                                                : TextDirection.rtl,
+                                        children: [
+                                          Container(
+                                            height: 60.sp,
+                                            width: 103.sp,
+                                            decoration: BoxDecoration(),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.r),
+                                              child: Image.network(
+                                                ApiEndpoint.imageUrl +
+                                                    searchDataController
+                                                        .wishList[index]
+                                                        .thumbnail,
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        horizontalGap(10.sp),
-                                        SizedBox(
-                                          width: 235.w,
-                                          child: Column(
-                                            textDirection:
-                                                multiLangualDataController
-                                                        .isLTR.value
-                                                    ? TextDirection.ltr
-                                                    : TextDirection.rtl,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              GlobalText(
-                                                text: searchDataController
-                                                    .wishList[index].title,
-                                                style: TextStyle(
-                                                    fontSize: 12.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColors
-                                                        .titleTextColor),
-                                                softWrap: true,
-                                              ),
-                                              verticalGap(3.sp),
-                                              GlobalText(
-                                                  text:
-                                                      '${searchDataController.wishList[index].instructor.name} | ${searchDataController.wishList[index].students} Students',
+                                          horizontalGap(10.sp),
+                                          SizedBox(
+                                            width: 235.w,
+                                            child: Column(
+                                              textDirection:
+                                                  multiLangualDataController
+                                                          .isLTR.value
+                                                      ? TextDirection.ltr
+                                                      : TextDirection.rtl,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                GlobalText(
+                                                  text: searchDataController
+                                                      .wishList[index].title,
                                                   style: TextStyle(
-                                                      fontSize: 10.sp,
+                                                      fontSize: 12.sp,
                                                       fontWeight:
-                                                          FontWeight.w300,
+                                                          FontWeight.w600,
                                                       color: AppColors
                                                           .titleTextColor),
-                                                  softWrap: true),
-                                              verticalGap(2.sp),
-                                              Row(
-                                                textDirection:
-                                                    multiLangualDataController
-                                                            .isLTR.value
-                                                        ? TextDirection.ltr
-                                                        : TextDirection.rtl,
-                                                children: [
-                                                  CustomRatingBar(
-                                                    rating: searchDataController
-                                                        .wishList[index]
-                                                        .averageRating
-                                                        .toDouble(),
-                                                    maxRating: 5,
-                                                    iconSize: 15.sp,
-                                                    filledColor: AppColors
-                                                        .activeIconColor,
-                                                    unfilledColor: AppColors
-                                                        .activeIconColor,
-                                                  ),
-                                                  Spacer(),
-                                                  Row(
-                                                    textDirection:
-                                                        multiLangualDataController
-                                                                .isLTR.value
-                                                            ? TextDirection.ltr
-                                                            : TextDirection.rtl,
-                                                    children: [
-                                                      GlobalText(
-                                                        text:
-                                                            searchDataController
-                                                                .wishList[index]
-                                                                .discount,
-                                                        style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            fontSize: 10.sp,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .titleTextColor),
-                                                        softWrap: true,
-                                                      ),
-                                                      horizontalGap(3.sp),
-                                                      GlobalText(
-                                                        text:
-                                                            searchDataController
-                                                                .wishList[index]
-                                                                .price,
-                                                        style: TextStyle(
-                                                            fontSize: 15.sp,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .titleTextColor),
-                                                        softWrap: true,
-                                                      ),
-                                                      horizontalGap(5.sp),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ],
+                                                  softWrap: true,
+                                                ),
+                                                verticalGap(3.sp),
+                                                GlobalText(
+                                                    text:
+                                                        '${searchDataController.wishList[index].instructor.name} | ${searchDataController.wishList[index].students} Students',
+                                                    style: TextStyle(
+                                                        fontSize: 10.sp,
+                                                        fontWeight:
+                                                            FontWeight.w300,
+                                                        color: AppColors
+                                                            .titleTextColor),
+                                                    softWrap: true),
+                                                verticalGap(2.sp),
+                                                Row(
+                                                  textDirection:
+                                                      multiLangualDataController
+                                                              .isLTR.value
+                                                          ? TextDirection.ltr
+                                                          : TextDirection.rtl,
+                                                  children: [
+                                                    CustomRatingBar(
+                                                      rating:
+                                                          searchDataController
+                                                              .wishList[index]
+                                                              .averageRating
+                                                              .toDouble(),
+                                                      maxRating: 5,
+                                                      iconSize: 15.sp,
+                                                      filledColor: AppColors
+                                                          .activeIconColor,
+                                                      unfilledColor: AppColors
+                                                          .activeIconColor,
+                                                    ),
+                                                    Spacer(),
+                                                    Row(
+                                                      textDirection:
+                                                          multiLangualDataController
+                                                                  .isLTR.value
+                                                              ? TextDirection
+                                                                  .ltr
+                                                              : TextDirection
+                                                                  .rtl,
+                                                      children: [
+                                                        GlobalText(
+                                                          text:
+                                                              searchDataController
+                                                                  .wishList[
+                                                                      index]
+                                                                  .discount,
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              fontSize: 10.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColors
+                                                                  .titleTextColor),
+                                                          softWrap: true,
+                                                        ),
+                                                        horizontalGap(3.sp),
+                                                        GlobalText(
+                                                          text:
+                                                              searchDataController
+                                                                  .wishList[
+                                                                      index]
+                                                                  .price,
+                                                          style: TextStyle(
+                                                              fontSize: 15.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColors
+                                                                  .titleTextColor),
+                                                          softWrap: true,
+                                                        ),
+                                                        horizontalGap(5.sp),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            );
-                          }),
+                                        ],
+                                      ),
+                                    )),
+                              );
+                            }),
+                      ),
                     ),
                   ],
                 ),

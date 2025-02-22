@@ -9,7 +9,6 @@ import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/quiz/view/quiz_question_view.dart'
     show QuizQuestionView;
-import 'package:skill_grow/features/quiz/view/quiz_screren.dart';
 import 'package:skill_grow/features/video/controller/lesson_complete_status_update_controller.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../controller/learning_data_controller.dart';

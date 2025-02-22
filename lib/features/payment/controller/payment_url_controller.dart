@@ -9,7 +9,9 @@ import '../model/payment_url_model.dart';
 import '../view/error_view.dart';
 
 class PaymentUrlController extends GetxController {
-  var isLoading = false.obs;
+  // Track loading state for each payment method
+  var isLoadingMap = <String, bool>{}.obs;
+
   var errorMessage = ''.obs;
 
   final dio.Dio _dio = dio.Dio(
@@ -21,13 +23,15 @@ class PaymentUrlController extends GetxController {
   );
 
   Future<void> initiatePayment(String method) async {
-    isLoading.value = true;
+    // Set loading state for the specific payment method
+    isLoadingMap[method] = true;
     errorMessage.value = '';
+    String currency_code = await SharedPrefUtil.get('currency_code', 'USD');
     String token = await SharedPrefUtil.get("token", '');
     try {
       dio.Response? response = await _dio.get(
         ApiEndpoint.paymentApiUrl(
-            method: method.toLowerCase(), currency: 'BDT'),
+            method: method.toLowerCase(), currency: currency_code),
         options: dio.Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -36,11 +40,13 @@ class PaymentUrlController extends GetxController {
         ),
       );
 
-      print("Response: \${response.data}");
+      print("Response: ${response.data}");
 
-      if (response.statusCode == 200 && response.data != null) {
+      if ((response.statusCode == 200 || response.statusCode == 201) &&
+          response.data != null) {
         var paymentData = PaymentUrlResponseModel.fromJson(response.data);
         _launchURL(paymentData.url);
+        print("Payment URL: ${paymentData.url}");
       } else {
         _handleErrorResponse(response);
       }
@@ -48,7 +54,7 @@ class PaymentUrlController extends GetxController {
       String errorMsg = e.response?.data['message'] ?? "Something went wrong";
       String? supportCurrency = e.response?.data['supportCurrency'];
       _handleErrorOrNavigate(errorMsg, supportCurrency);
-      print("Error: \${e.response?.data}");
+      print("Error: ${e.response?.data}");
     } on SocketException {
       _handleErrorOrNavigate("No internet connection.",
           "Please check your connection and try again.");
@@ -56,9 +62,10 @@ class PaymentUrlController extends GetxController {
     } catch (e) {
       _handleErrorOrNavigate(
           "An unexpected error occurred.", "Please try again later.");
-      print("Error: \$e");
+      print("Error: $e");
     } finally {
-      isLoading.value = false;
+      // Reset loading state for the specific payment method
+      isLoadingMap[method] = false;
     }
   }
 

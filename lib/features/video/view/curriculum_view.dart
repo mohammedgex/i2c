@@ -63,7 +63,7 @@ class CurriculumView extends StatelessWidget {
                 text: curriculums.title,
                 softWrap: true,
                 style:
-                    TextStyle(fontSize: 13.sp, color: AppColors.titleTextColor),
+                    TextStyle(fontSize: 13.sp, color:  AppColors.titleTextColor),
               ),
               content: Column(
                 textDirection: multiLangualDataController.isLTR.value
@@ -177,7 +177,7 @@ class CurriculumView extends StatelessWidget {
                             color: AppColors.activeIconColor,
                           )),
                     );
-                  } else {
+                  } else if (chapter.type == "quiz") {
                     return Bounceable(
                       onTap: () {
                         Get.to(() => QuizQuestionView(
@@ -205,11 +205,6 @@ class CurriculumView extends StatelessWidget {
                               softWrap: true,
                               style: TextStyle(fontSize: 13.sp),
                             ),
-                            // subtitle: GlobalText(
-                            //   text: chapter.item.duration.toString(),
-                            //   softWrap: true,
-                            //   style: TextStyle(fontSize: 10.sp),
-                            // ),
                             trailing: SizedBox(
                               height: 17.sp,
                               width: 17.sp,
@@ -219,6 +214,33 @@ class CurriculumView extends StatelessWidget {
                               ),
                             )),
                       ),
+                    );
+                  } else {
+                    return Bounceable(
+                      onTap: () {},
+                      child: Container(
+                          height: 50.sp,
+                          margin: EdgeInsets.symmetric(vertical: 5.sp),
+                          child: ListTile(
+                            leading: SvgPicture.asset(
+                              AppIcon.downloadIcon,
+                              color: AppColors.primaryColor,
+                            ),
+                            title: GlobalText(
+                              text: chapter.item.title.toString(),
+                              softWrap: true,
+                              style: TextStyle(fontSize: 13.sp),
+                            ),
+                            trailing: SizedBox(
+                              height: 20.sp,
+                              width: 20.sp,
+                              child: SvgPicture.asset(
+                                AppIcon.fileIcon,
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            // subtitle: GlobalText(
+                          )),
                     );
                   }
                 }),

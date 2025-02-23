@@ -4,17 +4,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/features/video/view/announcements_view.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import '../../../core/Global/sharedPref.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class MoreView extends StatelessWidget {
   String slug;
-   MoreView({super.key, required this.slug});
+  MoreView({super.key, required this.slug});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,15 @@ class MoreView extends StatelessWidget {
               ),
             ),
             Bounceable(
-              onTap: () {},
+              onTap: () async {
+                String token = await SharedPrefUtil.get("token", '');
+                // launchUrl(Uri.parse(""));
+                // Get.to(() => DownloadPage(
+                //       slug: slug,
+                //     ));
+                launchUrl(Uri.parse(
+                    "${ApiEndpoint.baseUrl}/download-certificate/$slug?bearer_token=$token"));
+              },
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value
                     ? TextDirection.ltr

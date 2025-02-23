@@ -163,10 +163,9 @@ class ApiEndpoint {
   }
 
   static String downloadCertificateUrl({
-    required int limit,
-    required String page,
+    required String course_slug,
   }) {
-    return "$baseUrl/download-certificate?limit=$limit&page=$page";
+    return "$baseUrl/download-certificate/$course_slug";
   }
 
   // Dashboard Wishlist URLs

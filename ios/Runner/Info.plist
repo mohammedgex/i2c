@@ -57,6 +57,11 @@
 <key>NSCameraUsageDescription</key>
 <string>Need camera access to take photos</string>
 
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>We need to save files to your Photos Gallery</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need to save files to your Photos Gallery</string>
+
 
 </dict>
 </plist>

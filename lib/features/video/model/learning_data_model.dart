@@ -12,7 +12,6 @@ class EnrolledCourseResponseModel {
   }
 }
 
-
 class LearningCourseData {
   final String thumbnail;
   final String title;
@@ -37,10 +36,13 @@ class LearningCourseData {
       thumbnail: json['thumbnail'],
       title: json['title'],
       instructor: Instructor.fromJson(json['instructor']),
-      curriculums: List<Curriculum>.from(json['curriculums'].map((x) => Curriculum.fromJson(x))),
+      curriculums: List<Curriculum>.from(
+          json['curriculums'].map((x) => Curriculum.fromJson(x))),
       currentProgress: Progress.fromJson(json['current_progress']),
-      alreadyWatchedLectures: List<int>.from(json['already_watched_lectures'].map((x) => x)),
-      alreadyCompletedQuiz: List<int>.from(json['already_completed_quiz'].map((x) => x)),
+      alreadyWatchedLectures:
+          List<int>.from(json['already_watched_lectures'].map((x) => x)),
+      alreadyCompletedQuiz:
+          List<int>.from(json['already_completed_quiz'].map((x) => x)),
     );
   }
 }
@@ -62,15 +64,18 @@ class Instructor {
 }
 
 class Curriculum {
+  final int id;
   final String title;
   final List<Chapter> chapters;
 
-  Curriculum({required this.title, required this.chapters});
+  Curriculum({required this.id ,required this.title, required this.chapters});
 
   factory Curriculum.fromJson(Map<String, dynamic> json) {
     return Curriculum(
+      id: json['id'],
       title: json['title'],
-      chapters: List<Chapter>.from(json['chapters'].map((x) => Chapter.fromJson(x))),
+      chapters:
+          List<Chapter>.from(json['chapters'].map((x) => Chapter.fromJson(x))),
     );
   }
 }
@@ -140,9 +145,3 @@ class Progress {
     );
   }
 }
-
-
-
-
-
-

@@ -13,7 +13,8 @@ import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class MoreView extends StatelessWidget {
-  const MoreView({super.key});
+  String slug;
+   MoreView({super.key, required this.slug});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,9 @@ class MoreView extends StatelessWidget {
             ),
             Bounceable(
               onTap: () {
-                Get.to(() => AnnouncementsView());
+                Get.to(() => AnnouncementsView(
+                      slug: slug,
+                    ));
               },
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value

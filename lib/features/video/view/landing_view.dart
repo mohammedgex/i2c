@@ -288,7 +288,7 @@ class LandingViewForVideo extends StatelessWidget {
                         ),
                       ));
                     } else {
-                      return MoreView();
+                      return MoreView(slug: slug);
                     }
                   })
                 ],

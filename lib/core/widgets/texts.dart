@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:html/parser.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:html/parser.dart' show parse;
 
 class OnboardingTitleText extends StatelessWidget {
   final String text;
@@ -198,16 +200,17 @@ class HtmlGlobalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Parse and clean the text for translation
-    var document = parse(text);
+    dom.Document document = parse(text);
     String cleanText = document.body?.text ?? '';
     String translatedText =
         multiLangualDataController.multiLangualData[cleanText] ?? cleanText;
 
+    // Use the translated text as HTML content
     return Html(
       data: translatedText,
       style: {
         "body": Style(
-          fontSize: FontSize(style?.fontSize?.sign ?? 12.sp),
+          fontSize: FontSize(style?.fontSize ?? 12),
           fontWeight: style?.fontWeight,
           color: style?.color,
           textAlign: textAlign ?? TextAlign.start,

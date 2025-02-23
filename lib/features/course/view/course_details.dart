@@ -200,6 +200,8 @@ class CourseDetailsView extends StatelessWidget {
                         courseDetalisController: courseDetalisController),
                     verticalGap(15.sp),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       textDirection: multiLangualDataController.isLTR.value
                           ? TextDirection.ltr
                           : TextDirection.rtl,
@@ -216,7 +218,7 @@ class CourseDetailsView extends StatelessWidget {
                                   multiLangualDataController.isLTR.value
                                       ? TextDirection.ltr
                                       : TextDirection.rtl,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 RichText(

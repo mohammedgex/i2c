@@ -10,6 +10,8 @@ import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/quiz/view/quiz_question_view.dart'
     show QuizQuestionView;
 import 'package:skill_grow/features/video/controller/lesson_complete_status_update_controller.dart';
+import 'package:skill_grow/features/video/controller/lesson_resource_file_download_controller.dart';
+import 'package:skill_grow/features/video/widget/bottom_sheet.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../controller/learning_data_controller.dart';
 import '../controller/qna_data_controller.dart';
@@ -21,6 +23,8 @@ class CurriculumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LessonResourceFileDownloadController lessonResourceFileDownloadController =
+        Get.put(LessonResourceFileDownloadController());
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     LessonCompleteStatusUpdateController lessonCompleteStatuseUpdateController =
@@ -63,7 +67,7 @@ class CurriculumView extends StatelessWidget {
                 text: curriculums.title,
                 softWrap: true,
                 style:
-                    TextStyle(fontSize: 13.sp, color:  AppColors.titleTextColor),
+                    TextStyle(fontSize: 13.sp, color: AppColors.titleTextColor),
               ),
               content: Column(
                 textDirection: multiLangualDataController.isLTR.value
@@ -178,46 +182,100 @@ class CurriculumView extends StatelessWidget {
                           )),
                     );
                   } else if (chapter.type == "quiz") {
-                    return Bounceable(
-                      onTap: () {
-                        Get.to(() => QuizQuestionView(
-                              slug: learningDataController.slug,
-                              questionId: chapter.item.id.toString(),
-                            ));
-                      },
-                      child: Container(
-                        height: 50.sp,
-                        margin: EdgeInsets.symmetric(vertical: 5.sp),
-                        child: ListTile(
-                            leading: Container(
-                              height: 20.sp,
-                              width: 20.sp,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(4.sp),
-                              ),
-                              child: Center(
-                                child: SvgPicture.asset(AppIcon.successIcon),
-                              ),
-                            ),
-                            title: GlobalText(
+                    return Container(
+                      height: 50.sp,
+                      margin: EdgeInsets.symmetric(vertical: 5.sp),
+                      child: ListTile(
+                          onTap: () {
+                            Get.to(() => QuizQuestionView(
+                                  questionId: chapter.item.id.toString(),
+                                  slug: learningDataController.slug,
+                                ));
+                            fetchQNA(
+                                chapter.item.id, learningDataController.slug);
+                          },
+                          leading:
+                              GetBuilder<LessonCompleteStatusUpdateController>(
+                            id: 'lessonStatus', // Only updates when this tag is triggered
+                            builder: (controller) {
+                              if (learningDataController
+                                  .course.value!.data.alreadyWatchedLectures
+                                  .contains(chapter.item.id.toString())) {
+                                return Bounceable(
+                                  onTap: () {
+                                    lessonCompleteStatuseUpdateController
+                                        .sendStatus(
+                                      lessonId: chapter.item.id.toString(),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 20.sp,
+                                    width: 20.sp,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius:
+                                            BorderRadius.circular(4.sp),
+                                        color: AppColors.primaryColor),
+                                    child: Center(
+                                      child:
+                                          SvgPicture.asset(AppIcon.successIcon),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Bounceable(
+                                  onTap: () {
+                                    lessonCompleteStatuseUpdateController
+                                        .sendStatus(
+                                      lessonId: chapter.item.id.toString(),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 20.sp,
+                                    width: 20.sp,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius:
+                                            BorderRadius.circular(4.sp),
+                                        color: Colors.transparent),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                          title: Obx(() {
+                            return GlobalText(
                               text: chapter.item.title.toString(),
                               softWrap: true,
-                              style: TextStyle(fontSize: 13.sp),
-                            ),
-                            trailing: SizedBox(
-                              height: 17.sp,
-                              width: 17.sp,
-                              child: SvgPicture.asset(
-                                AppIcon.quiz,
-                                color: AppColors.activeIconColor,
-                              ),
-                            )),
-                      ),
+                              style: videoPlayController
+                                          .initialVideoDetails['id']
+                                          .toString() ==
+                                      chapter.item.id.toString()
+                                  ? TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.bold)
+                                  : TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.titleTextColor),
+                            );
+                          }),
+                          trailing: SvgPicture.asset(
+                            height: 16.sp,
+                            width: 16.sp,
+                            AppIcon.quiz,
+                            color: AppColors.activeIconColor,
+                          )),
                     );
                   } else {
                     return Bounceable(
-                      onTap: () {},
+                      onTap: () {
+                        lessonResourceFileDownloadController.fetchResource(
+                            slug: learningDataController.slug,
+                            type: "document",
+                            lessonId: chapter.item.id.toString());
+                        Get.bottomSheet(ResourceDownloadBottomSheet());
+                      },
                       child: Container(
                           height: 50.sp,
                           margin: EdgeInsets.symmetric(vertical: 5.sp),

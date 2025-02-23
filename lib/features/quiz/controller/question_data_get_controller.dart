@@ -12,12 +12,9 @@ class QuizQuestionDataController extends GetxController {
   var isLoading = false.obs;
   var quizData = Rxn<QuizResponseModel>();
 
-
-
   // Fetch quiz data
   Future<void> fetchQuiz(
-      {required String course_slug, required String id}
-  ) async {
+      {required String course_slug, required String id}) async {
     try {
       isLoading.value = true;
       dio.Response? response = await _apiService.getData(
@@ -27,10 +24,12 @@ class QuizQuestionDataController extends GetxController {
       if (response != null && response.statusCode == 200) {
         quizData.value = QuizResponseModel.fromJson(response.data);
       } else {
-        Get.snackbar("Error", "Failed to load quiz data");
+        // Get.snackbar("Error", "Failed to load quiz data");
+        print("Failed to load quiz data");
       }
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      // Get.snackbar("Error", e.toString());
+      print(e.toString());
     } finally {
       isLoading.value = false;
     }

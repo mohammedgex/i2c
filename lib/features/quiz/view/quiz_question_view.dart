@@ -38,20 +38,23 @@ class QuizQuestionView extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         } else {
           if (quizQuestionDataController.quizData.value == null) {
-            return Column(
-              children: [
-                MyCustomAppBar(
-                  verticalPadding: 0,
-                  horizontalPadding: 0,
-                  isShowbackButton: true,
-                ),
-                Spacer(),
-                GlobalText(
-                  text: "No data available",
-                  softWrap: true,
-                ),
-                Spacer(),
-              ],
+            return ColorfulSafeArea(
+              color: AppColors.scaffoldBackgroundColor,
+              child: Column(
+                children: [
+                  MyCustomAppBar(
+                    verticalPadding: 0,
+                    horizontalPadding: 15.sp,
+                    isShowbackButton: true,
+                  ),
+                  Spacer(),
+                  GlobalText(
+                    text: "No data available",
+                    softWrap: true,
+                  ),
+                  Spacer(),
+                ],
+              ),
             );
           } else {
             var data = quizQuestionDataController.quizData.value!.data;

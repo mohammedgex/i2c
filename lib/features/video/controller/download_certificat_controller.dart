@@ -3,10 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:open_file/open_file.dart'; 
-import 'package:permission_handler/permission_handler.dart'; 
-import 'package:skill_grow/core/Global/api_endpoint.dart';
-import '../../../core/Global/sharedPref.dart';
+import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DownloadController extends GetxController {
   final Dio _dio = Dio();
@@ -19,17 +17,13 @@ class DownloadController extends GetxController {
   var errorMessage = ''.obs;
 
   // Download file function
-  Future<void> downloadFile(String slug) async {
-    String token = await SharedPrefUtil.get("token", '');
-    String url = ApiEndpoint.downloadCertificateUrl(course_slug: slug);
-
+  Future<void> downloadFile({required String url, required String name}) async {
     print('DEBUG: Downloading from -> $url');
-    print('DEBUG: Authorization Token -> Bearer $token');
 
     try {
       isDownloading.value = true;
       isDownloadComplete.value = false;
-      errorMessage.value = ''; 
+      errorMessage.value = '';
 
       // Request permission for storage access
       if (await _requestStoragePermission() == false) {
@@ -46,7 +40,9 @@ class DownloadController extends GetxController {
         return;
       }
 
-      String fileName = "${slug.replaceAll(' ', '_')}.pdf"; // Ensure valid filename
+      // Extract file extension from the URL
+      String fileExtension = _getFileExtensionFromUrl(url);
+      String fileName = "${DateTime.now().millisecondsSinceEpoch} ${name.replaceAll(' ', '_')}$fileExtension"; // Include file extension in the name
       String savePath = join(downloadsDir.path, fileName);
 
       print('DEBUG: Saving to -> $savePath');
@@ -56,7 +52,6 @@ class DownloadController extends GetxController {
         url,
         savePath,
         options: Options(
-          headers: {'Authorization': 'Bearer $token'},
           responseType: ResponseType.bytes,
           validateStatus: (status) => status != null && status < 500,
         ),
@@ -85,6 +80,23 @@ class DownloadController extends GetxController {
       isDownloading.value = false;
       errorMessage.value = 'An unexpected error occurred: $e';
       print('Unexpected Error: $e');
+    }
+  }
+
+  // Extract file extension from the URL
+  String _getFileExtensionFromUrl(String url) {
+    try {
+      // Extract the file name from the URL
+      String fileName = url.split('/').last;
+
+      // Extract the file extension (e.g., ".pdf", ".mp4")
+      String fileExtension = fileName.split('.').last;
+
+      // Return the file extension with a dot (e.g., ".pdf")
+      return '.$fileExtension';
+    } catch (e) {
+      // If the URL doesn't contain a file extension, default to ".pdf"
+      return '.pdf';
     }
   }
 

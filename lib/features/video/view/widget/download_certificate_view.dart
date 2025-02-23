@@ -59,7 +59,7 @@ class DownloadPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                _downloadController.downloadFile(slug);
+                // _downloadController.downloadFile(slug);
               },
               child: Text('Download Certificate'),
             ),

@@ -7,14 +7,15 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/course/view/course_details.dart';
+import 'package:skill_grow/features/search/controller/search_data_controller.dart';
 
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
-import '../controller/search_data_controller.dart';
 
-class SearchDetalsView extends StatelessWidget {
+
+class CategoryResultView extends StatelessWidget {
   final String search;
   final String main_category;
   final String sub_category;
@@ -23,15 +24,15 @@ class SearchDetalsView extends StatelessWidget {
   final String levels;
   final String rating;
 
-  const SearchDetalsView({
+  const CategoryResultView({
     super.key,
-    required this.search,
+     this.search = "",
     required this.main_category,
-    required this.sub_category,
-    required this.price,
-    required this.languages_code,
-    required this.levels,
-    required this.rating,
+     this.sub_category= "",
+     this.price= "",
+     this.languages_code= "",
+     this.levels= "",
+     this.rating= "",
   });
 
   @override
@@ -115,7 +116,7 @@ class SearchDetalsView extends StatelessWidget {
                     isShowbackButton: true,
                   ),
                   GlobalText(
-                    text: 'Search Results',
+                    text: 'Category Results',
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,

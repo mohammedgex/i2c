@@ -10,8 +10,8 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/categories/controller/category_itme_controller.dart';
+import 'package:skill_grow/features/categories/views/category_result_view.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
-import '../../search/controller/search_data_controller.dart';
 
 class CategorySection extends StatelessWidget {
   CategorySection({super.key});
@@ -19,7 +19,7 @@ class CategorySection extends StatelessWidget {
       Get.put(MainCategoryController());
   @override
   Widget build(BuildContext context) {
-    SearchDataController searchDataController = Get.put(SearchDataController());
+
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     return Padding(
@@ -77,7 +77,8 @@ class CategorySection extends StatelessWidget {
             itemBuilder: (context, index) {
               return Bounceable(
                 onTap: () {
-searchDataController.fetchCourseLanguages(main_category: categoryItmeController.categories[index].slug);
+                  Get.to(() => CategoryResultView(main_category: categoryItmeController.categories[index].slug));
+                  
                 },
                 child: Column(
                   textDirection: multiLangualDataController.isLTR.value

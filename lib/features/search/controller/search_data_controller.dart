@@ -16,7 +16,7 @@ class SearchDataController extends getx.GetxController {
   var hasMore = true.obs; // Whether there are more items to load
 
   // Fetch courses data from API
-  Future<void> fetchCourseLanguages({
+  Future<void> fetchSearchData({
     String search = "",
     required String main_category,
     String? sub_category = "",

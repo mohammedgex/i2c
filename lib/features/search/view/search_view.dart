@@ -456,7 +456,7 @@ class SearchView extends StatelessWidget {
   text: "Search",
   onTap: () {
     // Fetch data and navigate to SearchDetalsView
-    searchDataController.fetchCourseLanguages(
+    searchDataController.fetchSearchData(
       search: searchController.text.trim(),
       main_category: categorySelectedController.selectedValue.value,
       sub_category: subCategorySelectedController.selectedValue.value,

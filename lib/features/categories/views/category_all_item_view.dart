@@ -9,6 +9,7 @@ import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/categories/views/category_result_view.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../search/controller/search_data_controller.dart';
 import '../controller/category_itme_controller.dart';
@@ -127,8 +128,8 @@ class CategoryAllItemView extends StatelessWidget {
           final category = controller.categories[index];
           return Bounceable(
             onTap: () {
-              searchDataController.fetchCourseLanguages(
-                  main_category: controller.categories[index].slug);
+              Get.to(() => CategoryResultView(main_category: category.slug));
+           
             },
             child: Column(
               children: [

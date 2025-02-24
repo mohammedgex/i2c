@@ -64,15 +64,15 @@ class Instructor {
 }
 
 class Curriculum {
-  final int id;
+
   final String title;
   final List<Chapter> chapters;
 
-  Curriculum({required this.id ,required this.title, required this.chapters});
+  Curriculum({required this.title, required this.chapters});
 
   factory Curriculum.fromJson(Map<String, dynamic> json) {
     return Curriculum(
-      id: json['id'],
+  
       title: json['title'],
       chapters:
           List<Chapter>.from(json['chapters'].map((x) => Chapter.fromJson(x))),

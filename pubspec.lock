@@ -9,14 +9,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.6.0"
-  android_intent_plus:
-    dependency: "direct main"
-    description:
-      name: android_intent_plus
-      sha256: dfc1fd3a577205ae8f11e990fb4ece8c90cceabbee56fcf48e463ecf0bd6aae3
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.3.0"
   animations:
     dependency: "direct main"
     description:
@@ -480,14 +472,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
-  intent_launcher:
-    dependency: "direct main"
-    description:
-      name: intent_launcher
-      sha256: "3acb9b746f4e1e3b4ccd26811bb4bff301713d28dd08af610bfe95e81419be45"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   json_annotation:
     dependency: transitive
     description:

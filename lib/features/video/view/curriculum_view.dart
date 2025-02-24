@@ -1,4 +1,3 @@
-import 'package:accordion/accordion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,75 +16,148 @@ import '../controller/learning_data_controller.dart';
 import '../controller/qna_data_controller.dart';
 import '../controller/video_play_controller.dart';
 
-class CurriculumView extends StatelessWidget {
-  LearningDataController learningDataController;
-  CurriculumView({super.key, required this.learningDataController});
+class CurriculumView extends StatefulWidget {
+  final LearningDataController learningDataController;
+  const CurriculumView({super.key, required this.learningDataController});
+
+  @override
+  State<CurriculumView> createState() => _CurriculumViewState();
+}
+
+class _CurriculumViewState extends State<CurriculumView> {
+  final ScrollController _scrollController = ScrollController();
+  final Map<int, bool> _isExpandedMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    // Automatically expand the selected curriculum and scroll to it
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _expandAndScrollToSelectedCurriculum();
+    });
+  }
+
+  void _expandAndScrollToSelectedCurriculum() {
+    final selectedChapterId = widget
+        .learningDataController.course.value!.data.currentProgress.chapterId;
+    // final selectedLessonId =
+    //     widget.learningDataController.course.value!.data.currentProgress.lessonId;
+
+    // Find the index of the selected curriculum
+    for (var i = 0;
+        i < widget.learningDataController.course.value!.data.curriculums.length;
+        i++) {
+      if (widget.learningDataController.course.value!.data.curriculums[i].id ==
+          selectedChapterId) {
+        // Expand the selected curriculum
+        setState(() {
+          _isExpandedMap[i] = true;
+        });
+
+        // Scroll to the selected curriculum
+        _scrollController.animateTo(
+          i * 100.0, // Adjust this value based on your item height
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+        break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    LessonResourceFileDownloadController lessonResourceFileDownloadController =
+    final LessonResourceFileDownloadController
+        lessonResourceFileDownloadController =
         Get.put(LessonResourceFileDownloadController());
-    MultiLangualDataController multiLangualDataController =
+    final MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
-    LessonCompleteStatusUpdateController lessonCompleteStatuseUpdateController =
+    final LessonCompleteStatusUpdateController
+        lessonCompleteStatuseUpdateController =
         Get.put(LessonCompleteStatusUpdateController());
-    CreateQuestionController createQuestionController =
+    final CreateQuestionController createQuestionController =
         Get.put(CreateQuestionController());
-    QnaDataController qnaDataController = Get.put(QnaDataController());
+    final QnaDataController qnaDataController = Get.put(QnaDataController());
+    final VideoPlayController videoPlayController =
+        Get.put(VideoPlayController());
 
-    VideoPlayController videoPlayController = Get.put(VideoPlayController());
-
-    fetchQNA(lesson_id, slug) {
+    void fetchQNA(lesson_id, slug) {
       createQuestionController.lessonId = lesson_id.toString();
       createQuestionController.slug = slug;
       qnaDataController.fetchQnaData(
           lessonId: lesson_id.toString(), slug: slug);
     }
 
-    return Column(
-      children: List.generate(
-          learningDataController.course.value!.data.curriculums.length,
-          (index) {
-        var curriculums =
-            learningDataController.course.value!.data.curriculums[index];
-        return Accordion(
-          disableScrolling: true,
-          contentVerticalPadding: 0,
-          paddingListTop: 0,
-          paddingListBottom: 0,
-          rightIcon: SvgPicture.asset(
-            AppIcon.arrowDownIcon,
-            color: Colors.black,
-          ),
+    return ListView.builder(
+      controller: _scrollController,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount:
+          widget.learningDataController.course.value!.data.curriculums.length,
+      itemBuilder: (context, index) {
+        final curriculums =
+            widget.learningDataController.course.value!.data.curriculums[index];
+        final isSelectedCurriculum = widget.learningDataController.course.value!
+                .data.currentProgress.chapterId ==
+            curriculums.id;
+
+        return Column(
           children: [
-            AccordionSection(
-              headerPadding: EdgeInsets.all(10.sp),
-              headerBackgroundColor: AppColors.nuralItemBackgroundColor,
-              contentBackgroundColor: AppColors.nuralItemBackgroundColor,
-              contentBorderColor: Colors.transparent,
-              header: GlobalText(
-                text: curriculums.title,
-                softWrap: true,
-                style:
-                    TextStyle(fontSize: 13.sp, color: AppColors.titleTextColor),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isExpandedMap[index] = !(_isExpandedMap[index] ?? false);
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.all(10.sp),
+                color: AppColors.nuralItemBackgroundColor,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GlobalText(
+                        text: curriculums.title,
+                        softWrap: true,
+                        style: isSelectedCurriculum
+                            ? TextStyle(
+                                fontSize: 13.sp,
+                                color: AppColors.primaryColor,
+                                fontWeight: FontWeight.bold)
+                            : TextStyle(
+                                fontSize: 13.sp,
+                                color: AppColors.titleTextColor),
+                      ),
+                    ),
+                    Icon(
+                      _isExpandedMap[index] == true
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: Colors.black,
+                    ),
+                  ],
+                ),
               ),
-              content: Column(
+            ),
+            AnimatedCrossFade(
+              duration: const Duration(milliseconds: 300),
+              crossFadeState: _isExpandedMap[index] == true
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              firstChild: Column(
                 textDirection: multiLangualDataController.isLTR.value
                     ? TextDirection.ltr
                     : TextDirection.rtl,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: List.generate(curriculums.chapters.length, (index) {
-                  var chapter = curriculums.chapters[index];
+                  final chapter = curriculums.chapters[index];
                   if (chapter.type == "lesson") {
-                    if (chapter.type == "lesson") {
-                      if (videoPlayController.initialVideoDetails.isEmpty) {
-                        videoPlayController.initialVideoDetails.value = {
-                          "id": chapter.item.id,
-                          "slug": learningDataController.slug,
-                          "type": "lesson"
-                        };
-                      }
+                    if (videoPlayController.initialVideoDetails.isEmpty) {
+                      videoPlayController.initialVideoDetails.value = {
+                        "id": chapter.item.id,
+                        "slug": widget.learningDataController.slug,
+                        "type": "lesson"
+                      };
                     }
                     return Container(
                       height: 50.sp,
@@ -94,23 +166,24 @@ class CurriculumView extends StatelessWidget {
                           onTap: () {
                             videoPlayController.initialVideoDetails.value = {
                               "id": chapter.item.id,
-                              "slug": learningDataController.slug,
+                              "slug": widget.learningDataController.slug,
                               "type": "lesson"
                             };
                             videoPlayController.fetchVideoFile(
-                                slug: learningDataController.slug,
-                                type: "lesson",
-                                id: chapter.item.id.toString());
+                              slug: widget.learningDataController.slug,
+                              type: "lesson",
+                              id: chapter.item.id.toString(),
+                            );
 
-                            fetchQNA(
-                                chapter.item.id, learningDataController.slug);
+                            fetchQNA(chapter.item.id,
+                                widget.learningDataController.slug);
                           },
                           leading:
                               GetBuilder<LessonCompleteStatusUpdateController>(
                             id: 'lessonStatus', // Only updates when this tag is triggered
                             builder: (controller) {
-                              if (learningDataController
-                                  .course.value!.data.alreadyWatchedLectures
+                              if (widget.learningDataController.course.value!
+                                  .data.alreadyWatchedLectures
                                   .contains(chapter.item.id.toString())) {
                                 return Bounceable(
                                   onTap: () {
@@ -158,10 +231,9 @@ class CurriculumView extends StatelessWidget {
                             return GlobalText(
                               text: chapter.item.title.toString(),
                               softWrap: true,
-                              style: videoPlayController
-                                          .initialVideoDetails['id']
-                                          .toString() ==
-                                      chapter.item.id.toString()
+                              style: widget.learningDataController.course.value!
+                                          .data.currentProgress.lessonId ==
+                                      chapter.item.id
                                   ? TextStyle(
                                       fontSize: 13.sp,
                                       color: AppColors.primaryColor,
@@ -189,17 +261,17 @@ class CurriculumView extends StatelessWidget {
                           onTap: () {
                             Get.to(() => QuizQuestionView(
                                   questionId: chapter.item.id.toString(),
-                                  slug: learningDataController.slug,
+                                  slug: widget.learningDataController.slug,
                                 ));
-                            fetchQNA(
-                                chapter.item.id, learningDataController.slug);
+                            fetchQNA(chapter.item.id,
+                                widget.learningDataController.slug);
                           },
                           leading:
                               GetBuilder<LessonCompleteStatusUpdateController>(
                             id: 'lessonStatus', // Only updates when this tag is triggered
                             builder: (controller) {
-                              if (learningDataController
-                                  .course.value!.data.alreadyWatchedLectures
+                              if (widget.learningDataController.course.value!
+                                  .data.alreadyWatchedLectures
                                   .contains(chapter.item.id.toString())) {
                                 return Bounceable(
                                   onTap: () {
@@ -247,10 +319,9 @@ class CurriculumView extends StatelessWidget {
                             return GlobalText(
                               text: chapter.item.title.toString(),
                               softWrap: true,
-                              style: videoPlayController
-                                          .initialVideoDetails['id']
-                                          .toString() ==
-                                      chapter.item.id.toString()
+                              style: widget.learningDataController.course.value!
+                                          .data.currentProgress.lessonId ==
+                                      chapter.item.id
                                   ? TextStyle(
                                       fontSize: 13.sp,
                                       color: AppColors.primaryColor,
@@ -271,7 +342,7 @@ class CurriculumView extends StatelessWidget {
                     return Bounceable(
                       onTap: () {
                         lessonResourceFileDownloadController.fetchResource(
-                            slug: learningDataController.slug,
+                            slug: widget.learningDataController.slug,
                             type: "document",
                             lessonId: chapter.item.id.toString());
                         Get.bottomSheet(ResourceDownloadBottomSheet());
@@ -287,7 +358,16 @@ class CurriculumView extends StatelessWidget {
                             title: GlobalText(
                               text: chapter.item.title.toString(),
                               softWrap: true,
-                              style: TextStyle(fontSize: 13.sp),
+                              style: widget.learningDataController.course.value!
+                                          .data.currentProgress.lessonId ==
+                                      chapter.item.id
+                                  ? TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.bold)
+                                  : TextStyle(
+                                      fontSize: 13.sp,
+                                      color: AppColors.titleTextColor),
                             ),
                             trailing: SizedBox(
                               height: 20.sp,
@@ -297,16 +377,16 @@ class CurriculumView extends StatelessWidget {
                                 color: AppColors.primaryColor,
                               ),
                             ),
-                            // subtitle: GlobalText(
                           )),
                     );
                   }
                 }),
               ),
+              secondChild: const SizedBox.shrink(),
             ),
           ],
         );
-      }),
+      },
     );
   }
 }

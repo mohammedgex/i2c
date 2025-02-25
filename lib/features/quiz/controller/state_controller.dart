@@ -1,12 +1,5 @@
 import 'dart:async';
-import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
-import 'package:skill_grow/core/widgets/snackbar.dart';
-
-import '../../../core/Global/api_endpoint.dart';
-import '../../../core/Global/api_service.dart';
-import '../model/answer_submit_model.dart';
-
 class CountdownController extends GetxController {
   var hours = 0.obs;
   var minutes = 0.obs;
@@ -60,49 +53,81 @@ class CountdownController extends GetxController {
 }
 
 class CheckBoxController extends GetxController {
-  final ApiService _apiService = ApiService();
   var selectedAnswers = <int, int>{}.obs; // {questionId: selectedAnswerId}
   var isLoading = false.obs;
   var submittedQuestions = <int>{}.obs; // To track submitted questions
 
-  void selectAnswer(int questionId, int answerId, int quizId) async {
-    // Don't allow selecting the same question once it's submitted
-    if (submittedQuestions.contains(questionId)) {
-      customSnackbar(
-          title: "Info",
-          message: "You can't change your answer for this question.",
-          type: CustomSnackbarType.info);
-      return;
-    }
+  // To store structured answers for submission
+  List<Map<String, dynamic>> answerList = [];
 
+  void selectAnswer(int questionId, int answerId, int quizId) async {
+    // Update the answer for the selected question
     selectedAnswers[questionId] = answerId;
-    await submitAnswer(questionId, answerId, quizId);
+
+    // Check if the question has already been submitted
+    if (!submittedQuestions.contains(questionId)) {
+      // Submit the answer if it has not been submitted yet
+      await submitAnswer(questionId, answerId, quizId);
+    } else {
+      // If the question has already been submitted, update the existing answer
+      await updateAnswer(questionId, answerId);
+
+      // Notify the user about the resubmission
+   
+    }
   }
 
   Future<void> submitAnswer(int questionId, int answerId, int quizId) async {
     isLoading.value = true;
 
-    List<AnswerRequest> answerList = [
-      AnswerRequest(questionId: questionId, answerId: answerId)
-    ];
-    AnswerSbumitRequestModel requestModel =
-        AnswerSbumitRequestModel(answers: answerList);
+    // Check if the answer for the question is already present
+    bool answerExists =
+        answerList.any((answer) => answer["question_id"] == questionId);
 
-    try {
-      dio.Response? response = await _apiService.postData(
-        url: ApiEndpoint.dashboardLearningQuizeUrl(
-            course_slug: "building-scalable-microservices",
-            id: "36"), // Replace with actual API endpoint
-        data: requestModel.toJson(),
-        requiresAuth: true,
-      );
-      print(response!.data);
-
-      submittedQuestions.add(questionId); // Mark this question as submitted
-    } catch (e) {
-      Get.snackbar("Error", "Failed to submit answer. Please try again.");
-    } finally {
-      isLoading.value = false;
+    if (!answerExists) {
+      // If not, add a new entry
+      answerList.add({
+        "question_id": questionId,
+        "answer_id": answerId,
+      });
+    } else {
+      // If it exists, update the existing entry
+      updateAnswer(questionId, answerId);
     }
+
+    Map<String, dynamic> requestModel = {
+      "answers": answerList,
+    };
+
+    print(requestModel); // For debugging: print the request model
+
+    // Add the questionId to submitted questions
+    submittedQuestions.add(questionId);
+
+    // Simulate a delay or API call here if needed
+    await Future.delayed(Duration(seconds: 1));
+
+    isLoading.value = false;
+  }
+
+  Future<void> updateAnswer(int questionId, int answerId) async {
+    // Update the existing answer in the answerList
+    for (var answer in answerList) {
+      if (answer["question_id"] == questionId) {
+        answer["answer_id"] = answerId; // Update the answer ID
+        print("Updated Answer: $answer"); // Print updated answer for debugging
+        break;
+      }
+    }
+
+    // Print the updated request model
+    print({"answers": answerList});
+  }
+
+  void printSelectedAnswers() {
+    print("Selected Answers:");
+    selectedAnswers.forEach((questionId, answerId) {
+      print("Question ID: $questionId, Selected Answer ID: $answerId");
+    });
   }
 }

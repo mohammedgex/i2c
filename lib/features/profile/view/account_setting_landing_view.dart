@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
+import 'package:skill_grow/core/widgets/snackbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controller/image_picker_controller.dart';
 import 'edit_option_button_list_view.dart';
@@ -29,11 +33,7 @@ class AccountSettingLandingView extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.blueAccent, Colors.purpleAccent],
-              ),
+              color: AppColors.primaryColor,
             ),
           ),
           SafeArea(
@@ -62,7 +62,7 @@ class AccountSettingLandingView extends StatelessWidget {
                       GestureDetector(
                         onTap: () => Get.to(() => EditOptionButtonListView()),
                         child: const Icon(
-                          Icons.edit,
+                          Icons.edit_outlined,
                           color: Colors.white,
                         ),
                       ),
@@ -75,7 +75,7 @@ class AccountSettingLandingView extends StatelessWidget {
                   child: Obx(() => Stack(
                         children: [
                           CircleAvatar(
-                            radius: 60,
+                            radius: 56.r,
                             foregroundColor: AppColors.primaryColor,
                             backgroundImage:
                                 imagePickerController.profileImage.value != null
@@ -93,11 +93,12 @@ class AccountSettingLandingView extends StatelessWidget {
                             child: Container(
                               padding: EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: Colors.blue,
+                                color: AppColors.primaryColor,
                                 shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white),
                               ),
                               child: const Icon(
-                                Icons.edit,
+                                Icons.edit_outlined,
                                 color: Colors.white,
                                 size: 20,
                               ),
@@ -135,57 +136,63 @@ class AccountSettingLandingView extends StatelessWidget {
                         topRight: Radius.circular(30),
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        verticalGap(16.sp),
-                        _buildInfoRow(
-                            Icons.email,
-                            "Email",
-                            profileDataCotroller
-                                    .userDataResponse.value?.data.email ??
-                                'No Email'),
-                        _buildInfoRow(
-                            Icons.phone,
-                            "Phone",
-                            profileDataCotroller
-                                    .userDataResponse.value?.data.phone ??
-                                'No Phone'),
-                        _buildInfoRow(Icons.location_city, "Location",
-                            "${profileDataCotroller.userDataResponse.value?.data.city ?? 'No City'}, ${profileDataCotroller.userDataResponse.value?.data.state ?? 'No State'}"),
-                        _buildInfoRow(
-                            Icons.cake,
-                            "Age",
-                            profileDataCotroller
-                                    .userDataResponse.value?.data.age
-                                    .toString() ??
-                                'No Age'),
-                        verticalGap(16.sp),
-                        GlobalText(
-                          text: "About Me",
-                          softWrap: true,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        verticalGap(8.sp),
-                        GlobalText(
-                          softWrap: true,
-                          text: profileDataCotroller
-                                  .userDataResponse.value?.data.bio ??
-                              'No Bio Available',
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.grey[700]),
-                          textAlign: TextAlign.justify,
-                        ),
-                        verticalGap(16.sp),
-                        Wrap(
-                          textDirection: multiLangualDataController.isLTR.value
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                          spacing: 16,
-                          children: _buildSocialLinks(),
-                        ),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          verticalGap(16.sp),
+                          _buildInfoRow(
+                              Icons.email_outlined,
+                              "Email",
+                              profileDataCotroller
+                                      .userDataResponse.value?.data.email ??
+                                  'No Email'),
+                          _buildInfoRow(
+                              Icons.phone_outlined,
+                              "Phone",
+                              profileDataCotroller
+                                      .userDataResponse.value?.data.phone ??
+                                  'No Phone'),
+                          _buildInfoRow(
+                              Icons.location_city_outlined,
+                              "Location",
+                              "${profileDataCotroller.userDataResponse.value?.data.city ?? 'No City'}, ${profileDataCotroller.userDataResponse.value?.data.state ?? 'No State'}"),
+                          _buildInfoRow(
+                              Icons.cake_outlined,
+                              "Age",
+                              profileDataCotroller
+                                      .userDataResponse.value?.data.age
+                                      .toString() ??
+                                  'No Age'),
+                          verticalGap(16.sp),
+                          GlobalText(
+                            text: "About Me",
+                            softWrap: true,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                          verticalGap(8.sp),
+                          GlobalText(
+                            softWrap: true,
+                            text: profileDataCotroller
+                                    .userDataResponse.value?.data.bio ??
+                                'No Bio Available',
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey[700]),
+                            textAlign: TextAlign.justify,
+                          ),
+                          verticalGap(16.sp),
+                          Divider(),
+                          Column(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            // spacing: 16.sp,
+                            children: _buildSocialLinks(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -205,13 +212,15 @@ class AccountSettingLandingView extends StatelessWidget {
             ? TextDirection.ltr
             : TextDirection.rtl,
         children: [
-          Icon(icon, color: Colors.blueAccent),
+          Icon(icon, color: AppColors.primaryColor),
           horizontalGap(10.sp),
           Expanded(
             child: GlobalText(
               softWrap: true,
               text: "$title: $value",
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 14.sp,
+              ),
             ),
           ),
         ],
@@ -224,19 +233,78 @@ class AccountSettingLandingView extends StatelessWidget {
     if (userData == null) return [];
 
     List<Map<String, dynamic>> socialLinks = [
-      {"icon": Icons.web, "url": userData.website},
-      {"icon": Icons.link, "url": userData.linkedin},
-      {"icon": Icons.code, "url": userData.github},
+      {
+        "icon": FontAwesomeIcons.facebook,
+        "url": userData.facebook,
+        "name": "Facebook"
+      },
+      {
+        "icon": FontAwesomeIcons.linkedinIn,
+        "url": userData.linkedin,
+        "name": "Linkedin"
+      },
+      {
+        "icon": FontAwesomeIcons.github,
+        "url": userData.github,
+        "name": "Github"
+      },
+      {"icon": FontAwesomeIcons.x, "url": userData.twitter, "name": "Twitter"},
+      {
+        "icon": FontAwesomeIcons.globe,
+        "url": userData.website,
+        "name": "Website"
+      },
     ];
 
     return socialLinks
         .where((link) => link["url"] != null && link["url"].isNotEmpty)
         .map(
-          (link) => IconButton(
-            icon: Icon(link["icon"], size: 30, color: Colors.blueAccent),
-            onPressed: () {
-              // Implement URL launch logic
+          (link) => Bounceable(
+            onTap: () {
+              if (link["url"] != null && link["url"].isNotEmpty) {
+                launchUrl(
+                  Uri.parse(link["url"]),
+                  mode: LaunchMode.externalApplication,
+                );
+              } else {
+                customSnackbar(
+                    title: "Error",
+                    message: "Invalid URL",
+                    type: CustomSnackbarType.failed);
+              }
             },
+            child: Container(
+              // height: 5.sp,
+              margin: EdgeInsets.symmetric(vertical: 8.sp),
+              padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 15.sp),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.sp),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: Row(
+                children: [
+                  Icon(link["icon"],
+                      size: 20.sp, color: AppColors.primaryColor),
+                  horizontalGap(10.sp),
+                  Expanded(
+                    child: GlobalText(
+                      softWrap: true,
+                      text: link["name"],
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16.sp,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+            ),
           ),
         )
         .toList();

@@ -130,7 +130,7 @@ class GlobalText extends StatelessWidget {
     required this.text,
     this.style,
     this.textAlign,
-    required this.softWrap,
+     this.softWrap = true,
     this.overflow = TextOverflow.fade,
     this.maxLines,
     this.locale,

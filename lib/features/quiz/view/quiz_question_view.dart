@@ -8,8 +8,8 @@ import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/quiz/controller/submit_answer_controller.dart';
 import 'package:skill_grow/features/quiz/model/quiz_question_model.dart';
-import 'package:skill_grow/features/quiz/view/result_view.dart';
 import 'package:skill_grow/features/quiz/widgets/question_view.dart';
 
 import '../../../core/colors/app_colors.dart';
@@ -32,6 +32,7 @@ class QuizQuestionView extends StatelessWidget {
         Get.put(MultiLangualDataController());
     final CountdownController countdownController =
         Get.put(CountdownController());
+       
 
     quizQuestionDataController.fetchQuiz(course_slug: slug, id: questionId);
 
@@ -75,6 +76,7 @@ class QuizQuestionView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController,
     CountdownController countdownController,
   ) {
+     QuizSubmissionController quizSubmissionController = Get.put(QuizSubmissionController());
     return ColorfulSafeArea(
       bottom: true,
       color: AppColors.scaffoldBackgroundColor,
@@ -119,22 +121,10 @@ class QuizQuestionView extends StatelessWidget {
                 width: 320.sp,
                 text: "Submint",
                 onTap: () {
-                  Get.to(() => ResultView(
-                        resultData: {
-                          "status": "success",
-                          "data": {
-                            "user_id": 1000,
-                            "quiz_id": 36,
-                            "result":
-                                "{\"36\":{\"answer\":142,\"correct\":false},\"491\":{\"answer\":1964,\"correct\":true}}",
-                            "user_grade": 1,
-                            "status": "failed",
-                            "updated_at": "2025-02-24T09:08:53.000000Z",
-                            "created_at": "2025-02-24T09:08:53.000000Z",
-                            "id": 22
-                          }
-                        },
-                      ));
+                  quizSubmissionController.submitAnswers(
+                    quizId: questionId,
+                    slug: slug,
+                  );
                 }),
           ),
         ],

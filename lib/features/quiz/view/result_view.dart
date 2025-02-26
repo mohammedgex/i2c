@@ -2,26 +2,49 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
+import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/quiz/controller/question_data_get_controller.dart';
 
-class ResultView extends StatelessWidget {
+class SubmittedAnswersView extends StatelessWidget {
   final Map<String, dynamic> resultData;
 
-  const ResultView({super.key, required this.resultData});
+  const SubmittedAnswersView({super.key, required this.resultData});
 
   @override
   Widget build(BuildContext context) {
-    // Parse the result string into a Map
-    Map<String, dynamic> results = parseResult(resultData['data']['result']);
+    final MultiLangualDataController multiLangualDataController =
+        Get.find<MultiLangualDataController>();
+    final QuizQuestionDataController quizQuestionDataController =
+        Get.find<QuizQuestionDataController>();
+
+    // Extract the result field
+    final dynamic resultField = resultData['data']['result'];
+    Map<String, dynamic> results = {};
+
+    if (resultField is Map<String, dynamic>) {
+      results = resultField; // Use directly if it's a Map
+    } else if (resultField is String) {
+      try {
+        results = Map<String, dynamic>.from(
+            jsonDecode(resultField)); // Parse if it's a String
+      } catch (e) {
+        print('Error parsing result: $e');
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz Results'),
+        title: const Text('Submitted Answers'),
       ),
       body: SingleChildScrollView(
         child: Column(
+          textDirection: multiLangualDataController.isLTR.value
+              ? TextDirection.ltr
+              : TextDirection.rtl,
           children: [
             // Display overall status
             Container(
@@ -61,51 +84,105 @@ class ResultView extends StatelessWidget {
               ),
             ),
             // Display individual results
-            ...results.entries.map((entry) {
-              String questionId = entry.key;
-              Map<String, dynamic> answerData = entry.value;
-              bool isCorrect = answerData['correct'];
+            ...quizQuestionDataController.quizData.value!.data.quiz.questions
+                .map((question) {
+              final String questionId = question.id.toString();
+              final Map<String, dynamic>? questionResult = results[questionId];
+              final int? selectedAnswerId = questionResult?['answer'];
+              final bool isCorrect = questionResult?['correct'] ?? false;
+
+              // Find the correct answer for this question
 
               return Container(
-                margin: EdgeInsets.all(10.sp),
-                padding: EdgeInsets.all(16.sp),
+                margin: EdgeInsets.only(bottom: 10.sp),
+                padding: EdgeInsets.all(15.sp),
                 decoration: BoxDecoration(
-                  color: isCorrect
-                      ? Colors.green.withOpacity(0.2)
-                      : Colors.red.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10.r),
+                  color: AppColors.nuralItemBackgroundColor,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
-                    GlobalText(
-                      softWrap: true,
-                      text: 'Question ID: $questionId',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.titleTextColor,
-                      ),
+                    // Question Title
+                    Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GlobalText(
+                          text: "Q${question.id}. ",
+                          softWrap: true,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.titleTextColor,
+                          ),
+                        ),
+                        Expanded(
+                          child: GlobalText(
+                            text: question.title,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.titleTextColor,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     verticalGap(10.sp),
-                    GlobalText(
-                      softWrap: true,
-                      text: 'Selected Answer: ${answerData['answer']}',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.titleTextColor,
-                      ),
-                    ),
-                    verticalGap(10.sp),
-                    GlobalText(
-                      softWrap: true,
-                      text: 'Status: ${isCorrect ? 'Correct' : 'Incorrect'}',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: isCorrect ? Colors.green : Colors.red,
-                      ),
-                    ),
+                    // Display all answer options
+                    ...question.answers.map((answer) {
+                      final bool isSelected = answer.id == selectedAnswerId;
+
+                      // Determine border color
+                      Color borderColor = Colors.grey; // Default color
+                      if (isSelected) {
+                        borderColor = isCorrect ? Colors.green : Colors.red;
+                      }
+
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 10.sp),
+                        width: double.infinity,
+                        padding: EdgeInsets.all(11.sp),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: borderColor,
+                          ),
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // Icon for selected and correct/incorrect answers
+                            if (isSelected)
+                              Icon(
+                                isCorrect ? Icons.check : Icons.close,
+                                color: isCorrect ? Colors.green : Colors.red,
+                              ),
+
+                            horizontalGap(10.sp),
+                            Expanded(
+                              child: GlobalText(
+                                text: answer.title,
+                                softWrap: true,
+                                style: TextStyle(
+                                  fontSize: 13.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.titleTextColor,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
                   ],
                 ),
               );
@@ -114,10 +191,5 @@ class ResultView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  // Helper function to parse the result string into a Map
-  Map<String, dynamic> parseResult(String resultString) {
-    return Map<String, dynamic>.from(jsonDecode(resultString));
   }
 }

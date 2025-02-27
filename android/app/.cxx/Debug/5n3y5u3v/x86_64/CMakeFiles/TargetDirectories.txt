@@ -1,0 +1,2 @@
+D:/skillgro_mobile_app/android/app/.cxx/Debug/5n3y5u3v/x86_64/CMakeFiles/edit_cache.dir
+D:/skillgro_mobile_app/android/app/.cxx/Debug/5n3y5u3v/x86_64/CMakeFiles/rebuild_cache.dir

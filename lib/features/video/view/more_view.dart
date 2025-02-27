@@ -9,6 +9,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/features/video/view/announcements_view.dart';
+import 'package:skill_grow/features/video/view/widget/course_description_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/Global/sharedPref.dart';
 import '../../../core/widgets/texts.dart';
@@ -38,7 +39,9 @@ class MoreView extends StatelessWidget {
           spacing: 10.sp,
           children: [
             Bounceable(
-              onTap: () {},
+              onTap: () {
+                Get.to(()=> CourseDescriptionView());
+              },
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value
                     ? TextDirection.ltr

@@ -17,6 +17,7 @@ class LearningCourseDetailsModel {
 class CourseData {
   final String thumbnail;
   final String title;
+  final String description;
   final Instructor instructor;
   final List<Curriculum> curriculums;
   final CurrentProgress currentProgress;
@@ -26,6 +27,7 @@ class CourseData {
   CourseData({
     required this.thumbnail,
     required this.title,
+    required this.description,
     required this.instructor,
     required this.curriculums,
     required this.currentProgress,
@@ -37,6 +39,7 @@ class CourseData {
     return CourseData(
       thumbnail: json['thumbnail'],
       title: json['title'],
+      description: json['description'],
       instructor: Instructor.fromJson(json['instructor']),
       curriculums: (json['curriculums'] as List)
           .map((e) => Curriculum.fromJson(e))

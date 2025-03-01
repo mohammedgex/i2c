@@ -10,6 +10,7 @@ import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/custom_rating_bar.dart';
 import 'package:skill_grow/features/course/controller/course_details_controller.dart';
 import 'package:skill_grow/features/course/controller/toggle_controller.dart';
+import 'package:skill_grow/features/video/controller/video_play_controller.dart';
 import '../../../core/colors/app_colors.dart';
 import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
@@ -22,6 +23,8 @@ class ToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final VideoPlayController videoPlayController =
+        Get.put(VideoPlayController());
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     ToggleController toggleController = ToggleController();
@@ -238,26 +241,70 @@ class ToggleWidget extends StatelessWidget {
                                   curriculums.chapters.length, (index) {
                                 var chapter = curriculums.chapters[index];
                                 if (chapter.type == "lesson") {
-                                  return Container(
-                                    height: 50.sp,
-                                    margin:
-                                        EdgeInsets.symmetric(vertical: 5.sp),
-                                    child: ListTile(
-                                        title: GlobalText(
-                                          text:
-                                              chapter.lesson!.title.toString(),
-                                          softWrap: true,
-                                        ),
-                                        subtitle: GlobalText(
-                                          text: "1h 30m",
-                                          softWrap: true,
-                                          style: TextStyle(fontSize: 10.sp),
-                                        ),
-                                        trailing: SvgPicture.asset(
-                                          AppIcon.playIcon,
-                                          color: AppColors.activeIconColor,
-                                        )),
-                                  );
+                                  if (chapter.lesson!.isFree == true) {
+                                    return Bounceable(
+                                      onTap: () {
+                                        videoPlayController
+                                            .initialVideoDetails.value = {
+                                          "id": chapter.lesson!.id.toString(),
+                                          "slug": courseDetalisController.slug,
+                                          "type": "lesson"
+                                        };
+                                        videoPlayController.fetchVideoFile(
+                                          slug: courseDetalisController.slug,
+                                          type: "lesson",
+                                          id: chapter.lesson!.id.toString(),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 50.sp,
+                                        margin: EdgeInsets.symmetric(
+                                            vertical: 5.sp),
+                                        child: ListTile(
+                                            title: GlobalText(
+                                              text: chapter.lesson!.title
+                                                  .toString(),
+                                              softWrap: true,
+                                            ),
+                                            subtitle: GlobalText(
+                                              text: chapter.lesson!.duration
+                                                  .toString(),
+                                              softWrap: true,
+                                              style: TextStyle(fontSize: 10.sp),
+                                            ),
+                                            trailing: SvgPicture.asset(
+                                              AppIcon.playIcon,
+                                              color: AppColors.activeIconColor,
+                                            )),
+                                      ),
+                                    );
+                                  } else {
+                                    return Container(
+                                      height: 50.sp,
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 5.sp),
+                                      child: ListTile(
+                                          title: GlobalText(
+                                            text: chapter.lesson!.title
+                                                .toString(),
+                                            softWrap: true,
+                                          ),
+                                          subtitle: GlobalText(
+                                            text: chapter.lesson!.duration
+                                                .toString(),
+                                            softWrap: true,
+                                            style: TextStyle(fontSize: 10.sp),
+                                          ),
+                                          trailing: SizedBox(
+                                            height: 17.sp,
+                                            width: 17.sp,
+                                            child: SvgPicture.asset(
+                                              AppIcon.lockIcon,
+                                              color: AppColors.activeIconColor,
+                                            ),
+                                          )),
+                                    );
+                                  }
                                 } else {
                                   return Container(
                                     height: 50.sp,
@@ -270,7 +317,7 @@ class ToggleWidget extends StatelessWidget {
                                           style: TextStyle(fontSize: 13.sp),
                                         ),
                                         subtitle: GlobalText(
-                                          text: "1h 30m",
+                                          text: '',
                                           softWrap: true,
                                           style: TextStyle(fontSize: 10.sp),
                                         ),

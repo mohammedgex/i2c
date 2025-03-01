@@ -104,14 +104,14 @@ class MyCustomAppBar extends StatelessWidget {
                       top: 5.sp,
                       right: 3.sp,
                       child: Container(
-                        height: 10.sp,
-                        width: 10.sp,
+                        height: 12.sp,
+                        width: 12.sp,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppColors.mainRedColor,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(1.sp),
+                          padding: EdgeInsets.all(0.3.sp),
                           child: Obx(() {
                             if (cartListController.isLoading.value) {
                               return SizedBox();

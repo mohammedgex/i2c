@@ -16,6 +16,7 @@ import 'package:skill_grow/features/course/controller/toggle_wish_controller.dar
 import 'package:skill_grow/features/course/widget/course_info.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
 import 'package:skill_grow/features/course/widget/toggle_widget.dart';
+import 'package:skill_grow/features/video/controller/video_play_controller.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../profile/controller/profile_data_cotroller.dart';
 import '../../video/view/widget/initial_tumbnail_ui.dart';
@@ -37,6 +38,7 @@ class CourseDetailsView extends StatelessWidget {
             profileDataCotroller.userDataResponse.value!.data.id.toString()));
     WishListController wishListController = Get.put(WishListController());
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
+    VideoPlayController videoPlayController = Get.put(VideoPlayController());
     RxBool isShowVideo = false.obs;
 
     return Scaffold(
@@ -80,24 +82,50 @@ class CourseDetailsView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.sp),
                         ),
                         child: Obx(() {
-                          if (isShowVideo.value) {
-                            return VideoScreen(
-                                videoSource: courseDetalisController
-                                    .course.value!.videoSource,
-                                videoUrl: courseDetalisController
-                                    .course.value!.demoVideo);
-                          } else {
+                          if (videoPlayController.isLoading.value) {
                             return InitialTumbnailUI(
-                              isShowWishIcon: true,
-                              thumbnailImage: courseDetalisController
-                                  .course.value!.thumbnail,
-                              wishOntap: () {
-                                toggleWishController.sendStatus(slug: slug);
-                              },
-                              playOntap: () {
-                                isShowVideo.value = true;
-                              },
-                            );
+                                isShowWishIcon: false,
+                                thumbnailImage: courseDetalisController
+                                    .course.value!.thumbnail,
+                                wishOntap: () {},
+                                playOntap: () {
+                                  videoPlayController.fetchVideoFile(
+                                      slug: videoPlayController
+                                          .initialVideoDetails['slug']
+                                          .toString(),
+                                      type: videoPlayController
+                                          .initialVideoDetails['type']
+                                          .toString(),
+                                      id: videoPlayController
+                                          .initialVideoDetails['id']
+                                          .toString());
+                                });
+                          } else {
+                            if (videoPlayController.videoFile.value != null) {
+                              return VideoScreen(
+                                  videoSource: videoPlayController
+                                      .videoFile.value!.data.storage,
+                                  videoUrl: videoPlayController
+                                      .videoFile.value!.data.filePath);
+                            } else {
+                              return InitialTumbnailUI(
+                                  isShowWishIcon: false,
+                                  thumbnailImage: courseDetalisController
+                                      .course.value!.thumbnail,
+                                  wishOntap: () {},
+                                  playOntap: () {
+                                    videoPlayController.fetchVideoFile(
+                                        slug: videoPlayController
+                                            .initialVideoDetails['slug']
+                                            .toString(),
+                                        type: videoPlayController
+                                            .initialVideoDetails['type']
+                                            .toString(),
+                                        id: videoPlayController
+                                            .initialVideoDetails['id']
+                                            .toString());
+                                  });
+                            }
                           }
                         })),
                     verticalGap(10.sp),

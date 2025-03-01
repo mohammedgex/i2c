@@ -82,8 +82,8 @@ class LandingViewForVideo extends StatelessWidget {
                                     type: videoPlayController
                                         .initialVideoDetails['type']
                                         .toString(),
-                                    id: videoPlayController
-                                        .initialVideoDetails['id']
+                                    id: learningDataController.course.value!
+                                        .data.currentProgress.chapterId
                                         .toString());
                               });
                         } else {
@@ -107,15 +107,13 @@ class LandingViewForVideo extends StatelessWidget {
                                       type: videoPlayController
                                           .initialVideoDetails['type']
                                           .toString(),
-                                      id: videoPlayController
-                                          .initialVideoDetails['id']
-                                          .toString());
+                                      id: learningDataController.course.value!
+                                        .data.currentProgress.chapterId
+                                        .toString());
                                 });
                           }
                         }
-                      })
-                    
-                      ),
+                      })),
                   verticalGap(5.sp),
                   GlobalText(
                     text: learningDataController.course.value!.data.title,

@@ -22,7 +22,7 @@ class FAQController extends GetxController {
 
   Future<void> fetchData(langCode) async {
     try {
-      isLoading(true);
+      isLoading.value = true;
       dio.Response? response = await _apiService.getData(
         url: ApiEndpoint.faqUrl(languageCode: langCode),
 
@@ -30,13 +30,14 @@ class FAQController extends GetxController {
 
       if (response != null && response.statusCode == 200) {
         faqResponse.value = FaqResponseModel.fromJson(response.data);
+        print(faqResponse.value!.data);
       } else {
         GlobalErrorHandler.handleError("Failed to fetch data");
       }
     } catch (e) {
       GlobalErrorHandler.handleError(e.toString());
     } finally {
-      isLoading(false);
+      isLoading.value = false;
     }
   }
 

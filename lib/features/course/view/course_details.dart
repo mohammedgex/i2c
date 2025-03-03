@@ -84,7 +84,7 @@ class CourseDetailsView extends StatelessWidget {
                         child: Obx(() {
                           if (videoPlayController.isLoading.value) {
                             return InitialTumbnailUI(
-                                isShowWishIcon: false,
+                                isShowWishIcon: true,
                                 thumbnailImage: courseDetalisController
                                     .course.value!.thumbnail,
                                 wishOntap: () {},
@@ -93,11 +93,15 @@ class CourseDetailsView extends StatelessWidget {
                                       slug: videoPlayController
                                           .initialVideoDetails['slug']
                                           .toString(),
-                                      type: videoPlayController
-                                          .initialVideoDetails['type']
+                                      type: courseDetalisController
+                                          .course
+                                          .value!
+                                          .curriculums[0]
+                                          .chapters[0]
+                                          .type
                                           .toString(),
-                                      id: videoPlayController
-                                          .initialVideoDetails['id']
+                                      id: courseDetalisController.course.value!
+                                          .curriculums[0].chapters[0].lesson!.id
                                           .toString());
                                 });
                           } else {
@@ -109,21 +113,34 @@ class CourseDetailsView extends StatelessWidget {
                                       .videoFile.value!.data.filePath);
                             } else {
                               return InitialTumbnailUI(
-                                  isShowWishIcon: false,
+                                  isShowWishIcon: true,
                                   thumbnailImage: courseDetalisController
                                       .course.value!.thumbnail,
                                   wishOntap: () {},
                                   playOntap: () {
-                                    videoPlayController.fetchVideoFile(
-                                        slug: videoPlayController
-                                            .initialVideoDetails['slug']
-                                            .toString(),
-                                        type: videoPlayController
-                                            .initialVideoDetails['type']
-                                            .toString(),
-                                        id: videoPlayController
-                                            .initialVideoDetails['id']
-                                            .toString());
+                                  for (int i = 0; i < courseDetalisController.course.value!.curriculums.length; i++) {
+  for (int j = 0; j < courseDetalisController.course.value!.curriculums[i].chapters.length; j++) {
+    if (courseDetalisController.course.value!.curriculums[i].chapters[j].type == "lesson") {
+      videoPlayController.initialVideoDetails.value = {
+        "id": courseDetalisController.course.value!.curriculums[i].chapters[j].lesson!.id.toString(),
+        "slug": courseDetalisController.slug,
+        "type": "lesson"
+      };
+      videoPlayController.fetchVideoFile(
+        slug: courseDetalisController.slug,
+        type: "lesson",
+        id: courseDetalisController.course.value!.curriculums[i].chapters[j].lesson!.id.toString(),
+      );
+      break; // Exit the inner loop once a lesson of type "lesson" is found
+    } else {
+      print("not lesson");
+    }
+  }
+  // If you want to break the outer loop as well once a lesson is found, you can add a flag and break here.
+  if (videoPlayController.initialVideoDetails.value["type"] == "lesson") {
+    break; // Exit the outer loop once a lesson of type "lesson" is found
+  }
+}
                                   });
                             }
                           }

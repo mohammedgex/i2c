@@ -305,14 +305,14 @@ class ToggleWidget extends StatelessWidget {
                                           )),
                                     );
                                   }
-                                } else {
+                                } else if (chapter.type == "quiz") {
                                   return Container(
                                     height: 50.sp,
                                     margin:
                                         EdgeInsets.symmetric(vertical: 5.sp),
                                     child: ListTile(
                                         title: GlobalText(
-                                          text: chapter.quiz!.title.toString(),
+                                          text: chapter.quiz!.title,
                                           softWrap: true,
                                           style: TextStyle(fontSize: 13.sp),
                                         ),
@@ -325,7 +325,33 @@ class ToggleWidget extends StatelessWidget {
                                           height: 17.sp,
                                           width: 17.sp,
                                           child: SvgPicture.asset(
-                                            AppIcon.quiz,
+                                                  AppIcon.lockIcon,
+                                                  color:
+                                                      AppColors.activeIconColor,
+                                                ),
+                                        )),
+                                  );
+                                } else {
+                                  return Container(
+                                    height: 50.sp,
+                                    margin:
+                                        EdgeInsets.symmetric(vertical: 5.sp),
+                                    child: ListTile(
+                                        title: GlobalText(
+                                          text: chapter.lesson!.title,
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 13.sp),
+                                        ),
+                                        subtitle: GlobalText(
+                                          text: '',
+                                          softWrap: true,
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                        trailing: SizedBox(
+                                          height: 17.sp,
+                                          width: 17.sp,
+                                          child: SvgPicture.asset(
+                                            AppIcon.lockIcon,
                                             color: AppColors.activeIconColor,
                                           ),
                                         )),

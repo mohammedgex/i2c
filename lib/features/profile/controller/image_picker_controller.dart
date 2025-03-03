@@ -126,6 +126,7 @@ class ImagePickerController extends GetxController {
         String successMessage = response.data["message"] ?? 'Image uploaded successfully!';
         Get.snackbar('Success', successMessage, snackPosition: SnackPosition.TOP);
         print("Uploaded Image URL: $imageUrl");
+        Get.back();
       } 
       // Handle validation failure like image size
       else if (response.statusCode == 422) {

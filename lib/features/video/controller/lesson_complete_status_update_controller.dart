@@ -46,3 +46,49 @@ class LessonCompleteStatusUpdateController extends GetxController {
     }
   }
 }
+
+
+
+class QuizCompleteStatusUpdateController extends GetxController {
+  Future<void> sendStatus({required String quizId}) async {
+    String url =
+        ApiEndpoint.dashboardLearningLessonCompleteUrl(lesson_id: quizId);
+    LearningDataController learningDataController =
+        Get.find<LearningDataController>();
+
+    print("📡 Updating quiz status for Quiz ID: $quizId");
+
+    var response = await ApiService().getData(
+      url: url,
+      requiresAuth: true,
+    );
+
+    if (response != null) {
+      print("✅ API Response Received!");
+
+      if (learningDataController.course.value != null) {
+        var completedQuizzes =
+            learningDataController.course.value!.data.alreadyCompletedQuiz;
+        String quizIntId = quizId;
+
+        // Toggle quiz status without refreshing entire course
+        if (completedQuizzes.contains(quizIntId)) {
+          completedQuizzes.remove(quizIntId);
+          print("❌ Quiz ID $quizIntId marked as incomplete.");
+        } else {
+          completedQuizzes.add(quizIntId);
+          print("✅ Quiz ID $quizIntId marked as complete.");
+        }
+
+        // 🔥 Update only the specific completed quizzes list to avoid closing accordion
+        update([
+          'quizStatus'
+        ]); // Update only UI elements tagged with 'quizStatus'
+      } else {
+        print("⚠️ Warning: `learningDataController.course.value` is null.");
+      }
+    } else {
+      print("❌ Error: API response is null. Check endpoint or authentication.");
+    }
+  }
+}

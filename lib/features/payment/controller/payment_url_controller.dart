@@ -1,14 +1,20 @@
+// ignore_for_file: empty_statements
+
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/widgets/snackbar.dart';
+import 'package:skill_grow/features/cart/controller/cart_list_controller.dart';
+import 'package:skill_grow/features/cart/model/cart_list_model.dart';
+import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/Global/sharedPref.dart';
 import '../model/payment_url_model.dart';
 import '../view/error_view.dart';
 
 class PaymentUrlController extends GetxController {
+  CartListController cartListController = Get.put(CartListController());
   // Track loading state for each payment method
   var isLoadingMap = <String, bool>{}.obs;
 
@@ -45,8 +51,11 @@ class PaymentUrlController extends GetxController {
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data != null) {
         var paymentData = PaymentUrlResponseModel.fromJson(response.data);
+        cartListController.cartData.value = CartData(totalQty: 0, totalAmount: '', cartCourses: []); // Assuming cartData is a List
+        cartListController.cartData.close();
         _launchURL(paymentData.url);
         print("Payment URL: ${paymentData.url}");
+        Get.offAll(() => CustomPersistentBottomNavBar());
       } else {
         _handleErrorResponse(response);
       }

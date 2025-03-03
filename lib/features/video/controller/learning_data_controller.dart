@@ -13,7 +13,7 @@ class LearningDataController extends GetxController {
   var isLoading = false.obs; // Tracks loading state
   var errorMessage = ''.obs; // Stores error messages
   var alreadyWatchedLectures = <String>[].obs; // Tracks watched lectures
-  var alreadyCompletedQuiz = <int>[].obs; // Tracks completed quizzes
+  var alreadyCompletedQuiz = <String>[].obs; // Tracks completed quizzes
 
   final ApiService _apiService = ApiService();
 
@@ -71,7 +71,7 @@ class LearningDataController extends GetxController {
   // Mark a quiz as completed
   void markQuizAsCompleted(int quizId) {
     if (!alreadyCompletedQuiz.contains(quizId)) {
-      alreadyCompletedQuiz.add(quizId);
+      alreadyCompletedQuiz.add(quizId.toString());
     }
   }
 }

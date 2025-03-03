@@ -6,8 +6,7 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
-import 'package:skill_grow/features/quiz/view/quiz_question_view.dart'
-    show QuizQuestionView;
+import 'package:skill_grow/features/quiz/view/quiz_question_view.dart';
 import 'package:skill_grow/features/video/controller/lesson_complete_status_update_controller.dart';
 import 'package:skill_grow/features/video/controller/lesson_resource_file_download_controller.dart';
 import 'package:skill_grow/features/video/widget/bottom_sheet.dart';
@@ -75,6 +74,9 @@ class _CurriculumViewState extends State<CurriculumView> {
     final LessonCompleteStatusUpdateController
         lessonCompleteStatuseUpdateController =
         Get.put(LessonCompleteStatusUpdateController());
+    final QuizCompleteStatusUpdateController
+        quizCompleteStatusUpdateController =
+        Get.put(QuizCompleteStatusUpdateController());
     final CreateQuestionController createQuestionController =
         Get.put(CreateQuestionController());
     final QnaDataController qnaDataController = Get.put(QnaDataController());
@@ -260,85 +262,85 @@ class _CurriculumViewState extends State<CurriculumView> {
                       height: 50.sp,
                       margin: EdgeInsets.symmetric(vertical: 5.sp),
                       child: ListTile(
-                          onTap: () {
-                            Get.to(() => QuizQuestionView(
-                                  questionId: chapter.item.id.toString(),
-                                  slug: widget.learningDataController.slug,
-                                ));
-                            fetchQNA(chapter.item.id,
-                                widget.learningDataController.slug);
+                        onTap: () {
+                          Get.to(() => QuizQuestionView(
+                                questionId: chapter.item.id.toString(),
+                                slug: widget.learningDataController.slug,
+                              ));
+                          fetchQNA(chapter.item.id,
+                              widget.learningDataController.slug);
+                        },
+                        leading: GetBuilder<QuizCompleteStatusUpdateController>(
+                          id: 'quizStatus', // Match this with the update() call in the controller
+                          builder: (controller) {
+                            if (widget.learningDataController.course.value!.data
+                                .alreadyCompletedQuiz
+                                .contains(chapter.item.id.toString())) {
+                              return Bounceable(
+                                onTap: () {
+                                  quizCompleteStatusUpdateController.sendStatus(
+                                    quizId: chapter.item.id.toString(),
+                                  );
+                                },
+                                child: Container(
+                                  height: 20.sp,
+                                  width: 20.sp,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.sp),
+                                    color: AppColors.primaryColor,
+                                  ),
+                                  child: Center(
+                                    child:
+                                        SvgPicture.asset(AppIcon.successIcon),
+                                  ),
+                                ),
+                              );
+                            } else {
+                              return Bounceable(
+                                onTap: () {
+                                  quizCompleteStatusUpdateController.sendStatus(
+                                    quizId: chapter.item.id.toString(),
+                                  );
+                                },
+                                child: Container(
+                                  height: 20.sp,
+                                  width: 20.sp,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.sp),
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                              );
+                            }
                           },
-                          leading:
-                              GetBuilder<LessonCompleteStatusUpdateController>(
-                            id: 'lessonStatus', // Only updates when this tag is triggered
-                            builder: (controller) {
-                              if (widget.learningDataController.course.value!
-                                  .data.alreadyWatchedLectures
-                                  .contains(chapter.item.id.toString())) {
-                                return Bounceable(
-                                  onTap: () {
-                                    lessonCompleteStatuseUpdateController
-                                        .sendStatus(
-                                      lessonId: chapter.item.id.toString(),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 20.sp,
-                                    width: 20.sp,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(4.sp),
-                                        color: AppColors.primaryColor),
-                                    child: Center(
-                                      child:
-                                          SvgPicture.asset(AppIcon.successIcon),
-                                    ),
+                        ),
+                        title: Obx(() {
+                          return GlobalText(
+                            text: chapter.item.title.toString(),
+                            softWrap: true,
+                            style: widget.learningDataController.course.value!
+                                        .data.currentProgress.lessonId ==
+                                    chapter.item.id
+                                ? TextStyle(
+                                    fontSize: 13.sp,
+                                    color: AppColors.primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  )
+                                : TextStyle(
+                                    fontSize: 13.sp,
+                                    color: AppColors.titleTextColor,
                                   ),
-                                );
-                              } else {
-                                return Bounceable(
-                                  onTap: () {
-                                    lessonCompleteStatuseUpdateController
-                                        .sendStatus(
-                                      lessonId: chapter.item.id.toString(),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 20.sp,
-                                    width: 20.sp,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(4.sp),
-                                        color: Colors.transparent),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                          title: Obx(() {
-                            return GlobalText(
-                              text: chapter.item.title.toString(),
-                              softWrap: true,
-                              style: widget.learningDataController.course.value!
-                                          .data.currentProgress.lessonId ==
-                                      chapter.item.id
-                                  ? TextStyle(
-                                      fontSize: 13.sp,
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.bold)
-                                  : TextStyle(
-                                      fontSize: 13.sp,
-                                      color: AppColors.titleTextColor),
-                            );
-                          }),
-                          trailing: SvgPicture.asset(
-                            height: 16.sp,
-                            width: 16.sp,
-                            AppIcon.quiz,
-                            color: AppColors.activeIconColor,
-                          )),
+                          );
+                        }),
+                        trailing: SvgPicture.asset(
+                          height: 16.sp,
+                          width: 16.sp,
+                          AppIcon.quiz,
+                          color: AppColors.activeIconColor,
+                        ),
+                      ),
                     );
                   } else {
                     return Bounceable(

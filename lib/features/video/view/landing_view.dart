@@ -83,7 +83,7 @@ class LandingViewForVideo extends StatelessWidget {
                                         .initialVideoDetails['type']
                                         .toString(),
                                     id: learningDataController.course.value!
-                                        .data.currentProgress.chapterId
+                                        .data.currentProgress.lessonId
                                         .toString());
                               });
                         } else {
@@ -108,7 +108,7 @@ class LandingViewForVideo extends StatelessWidget {
                                           .initialVideoDetails['type']
                                           .toString(),
                                       id: learningDataController.course.value!
-                                        .data.currentProgress.chapterId
+                                        .data.currentProgress.lessonId
                                         .toString());
                                 });
                           }

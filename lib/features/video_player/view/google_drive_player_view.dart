@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:video_player/video_player.dart';
 
 class DriveVideoPlayer extends StatefulWidget {
@@ -25,7 +26,6 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
       debugPrint("Invalid Google Drive URL");
       return;
     }
-
     // Correct direct download link
     String directUrl = "https://drive.google.com/uc?export=download&id=$fileId";
 
@@ -35,9 +35,6 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
       autoPlay: true, // Auto-play the video
       autoInitialize: true, // Automatically initialize the video
     );
-
-    // Set looping
-    // _flickManager.flickControlManager?.setLooping(true);
 
     // Set initial volume
     _flickManager.flickControlManager?.setVolume(isMuted ? 0.0 : 1.0);
@@ -58,33 +55,35 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Video Player
-            Container(
+            SizedBox(
               height: 200.0, // Fixed height for the video player
               width: double.infinity, // Stretch width
               child: FlickVideoPlayer(
                 flickManager: _flickManager,
                 flickVideoWithControls: FlickVideoWithControls(
-                  controls: FlickPortraitControls(), // Use portrait controls
+                  iconThemeData: IconThemeData(
+                    color: AppColors.primaryColor, // Change icon color
+                  ),
+                  controls: FlickPortraitControls(
+                    // : Colors.blue, // Change icon color
+                    progressBarSettings: FlickProgressBarSettings(
+                      playedColor: AppColors
+                          .primaryColor, // Change progress bar played color
+                      handleColor: AppColors
+                          .primaryColor, // Change progress bar handle color
+                      backgroundColor: const Color.fromARGB(255, 164, 164,
+                          164), // Change progress bar background color
+                      bufferedColor: const Color.fromARGB(
+                          255, 219, 219, 219), // Change buffered color
+                    ),
+                  ),
+                  textStyle: TextStyle(
+                    color: AppColors.primaryColor, // Change timer text color
+                    fontSize: 12, // Optional: Adjust font size
+                  ),
                 ),
               ),
             ),
-
-            // Mute Button
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: IconButton(
-            //     onPressed: () {
-            //       setState(() {
-            //         isMuted = !isMuted;
-            //         _flickManager.flickControlManager?.setVolume(isMuted ? 0.0 : 1.0);
-            //       });
-            //     },
-            //     icon: Icon(
-            //       isMuted ? Icons.volume_off : Icons.volume_up,
-            //       color: Colors.white,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -95,6 +94,6 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
   String? extractGoogleDriveFileId(String url) {
     RegExp regExp = RegExp(r"/d/([a-zA-Z0-9_-]+)");
     var match = regExp.firstMatch(url);
-    return match != null ? match.group(1) : null;
+    return match?.group(1);
   }
 }

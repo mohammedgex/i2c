@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
@@ -84,7 +85,7 @@ class MoreView extends StatelessWidget {
             ),
             Bounceable(
               onTap: () {
-                Share.share('check out my website https://example.com');
+                Share.share('${ApiEndpoint.imageUrl}course/$slug');
               },
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value

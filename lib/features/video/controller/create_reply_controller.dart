@@ -11,8 +11,8 @@ import '../../../core/widgets/snackbar.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
 class CreateReplyController extends GetxController {
-  String lessonId = "";
-  String slug = "";
+  String? lessonId;
+  String? slug;
   // Form key
   final formKey = GlobalKey<FormState>();
 
@@ -25,12 +25,10 @@ class CreateReplyController extends GetxController {
   var isLoading = false.obs;
 
   // Email validation
-
   String? validateReply(String? value) {
     if (value == null || value.isEmpty) {
       return translatedText('Reply is required');
     }
-
     return null;
   }
 
@@ -40,31 +38,51 @@ class CreateReplyController extends GetxController {
     super.dispose();
   }
 
-  // Login function
-  Future<void> createReply(String question_id) async {
+  // Create reply function
+  Future<void> createReply({required String questionId}) async {
     isLoading.value = true;
     try {
       final requestModel = CreateReplyRequestModel(
         reply: replyController.text.trim(),
       );
 
-      String url = ApiEndpoint.addQuestionReplyUrl(question_id: question_id, lesson_id: lessonId);
+      String url = ApiEndpoint.addQuestionReplyUrl(
+        question_id: questionId,
+        lesson_id: lessonId!,
+      );
 
       final response =
           await CreateReplyService().createReply(requestModel, url);
 
+      // Check if the response is not null
       if (response.status == 'success') {
-        // Handle success, navigate to home
-        qnaDataController.update();
+        // Handle success
+        qnaDataController.update(); // Refresh the Q&A data
         customSnackbar(
-            title: "Success",
-            message: response.message.toString(),
-            type: CustomSnackbarType.success);
+          title: "Success",
+          message: response.message, // Use a fallback message
+          type: CustomSnackbarType.success,
+        );
+        qnaDataController.fetchQnaData(lessonId: lessonId!, slug: slug!);
+        // Clear the reply field and close the dialog
+
+        replyController.clear();
+        Get.back();
+      } else {
+        // Handle API error
+        customSnackbar(
+          title: "Error",
+          message: response.message, // Use a fallback message
+          type: CustomSnackbarType.failed,
+        );
       }
-      replyController.clear();
-      Get.back();
     } catch (e) {
-      log(e.toString());
+      log("Error creating reply: $e");
+      customSnackbar(
+        title: "Error",
+        message: "An unexpected error occurred. Please try again.",
+        type: CustomSnackbarType.failed,
+      );
     } finally {
       isLoading.value = false;
     }

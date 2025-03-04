@@ -7,7 +7,9 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/course/widget/loading_ui.dart';
+import 'package:skill_grow/features/video/controller/create_reply_controller.dart';
 import 'package:skill_grow/features/video/controller/learning_data_controller.dart';
+import 'package:skill_grow/features/video/controller/qna_data_controller.dart';
 import 'package:skill_grow/features/video/controller/state_controller.dart';
 import 'package:skill_grow/features/video/controller/video_play_controller.dart';
 import 'package:skill_grow/features/video/view/QNA_view.dart';
@@ -24,6 +26,19 @@ class LandingViewForVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CreateQuestionController createQuestionController =
+        Get.put(CreateQuestionController());
+       CreateReplyController createReplyController = Get.put(CreateReplyController());
+    final QnaDataController qnaDataController = Get.put(QnaDataController());
+    void fetchQNA(lesson_id, slug) {
+      createQuestionController.lessonId = lesson_id.toString();
+      createQuestionController.slug = slug;
+      createReplyController.lessonId = lesson_id.toString();
+      createReplyController.slug = slug.toString();
+      qnaDataController.fetchQnaData(
+          lessonId: lesson_id.toString(), slug: slug);
+    }
+
     VideoPlayController videoPlayController = Get.put(VideoPlayController());
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
@@ -108,8 +123,13 @@ class LandingViewForVideo extends StatelessWidget {
                                           .initialVideoDetails['type']
                                           .toString(),
                                       id: learningDataController.course.value!
-                                        .data.currentProgress.lessonId
-                                        .toString());
+                                          .data.currentProgress.lessonId
+                                          .toString());
+
+                                  fetchQNA(
+                                      learningDataController.course.value!.data
+                                          .currentProgress.lessonId,
+                                      learningDataController.slug);
                                 });
                           }
                         }

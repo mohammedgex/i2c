@@ -7,6 +7,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/quiz/view/quiz_question_view.dart';
+import 'package:skill_grow/features/video/controller/create_reply_controller.dart';
 import 'package:skill_grow/features/video/controller/lesson_complete_status_update_controller.dart';
 import 'package:skill_grow/features/video/controller/lesson_resource_file_download_controller.dart';
 import 'package:skill_grow/features/video/widget/bottom_sheet.dart';
@@ -82,10 +83,13 @@ class _CurriculumViewState extends State<CurriculumView> {
     final QnaDataController qnaDataController = Get.put(QnaDataController());
     final VideoPlayController videoPlayController =
         Get.put(VideoPlayController());
+        CreateReplyController createReplyController = Get.put(CreateReplyController());
 
     void fetchQNA(lesson_id, slug) {
       createQuestionController.lessonId = lesson_id.toString();
       createQuestionController.slug = slug;
+      createReplyController.lessonId = lesson_id.toString();
+          createReplyController.slug = slug.toString();
       qnaDataController.fetchQnaData(
           lessonId: lesson_id.toString(), slug: slug);
     }
@@ -164,98 +168,107 @@ class _CurriculumViewState extends State<CurriculumView> {
                     return Container(
                       height: 50.sp,
                       margin: EdgeInsets.symmetric(vertical: 5.sp),
-                      child: ListTile(
-                          onTap: () {
-                            videoPlayController.initialVideoDetails.value = {
-                              "id": chapter.item.id,
-                              "slug": widget.learningDataController.slug,
-                              "type": "lesson"
-                            };
-                            videoPlayController.fetchVideoFile(
-                              slug: widget.learningDataController.slug,
-                              type: "lesson",
-                              id: chapter.item.id.toString(),
-                            );
+                      child: Bounceable(
+                        onTap: () {
+                          videoPlayController.initialVideoDetails.value = {
+                            "id": chapter.item.id,
+                            "slug": widget.learningDataController.slug,
+                            "type": "lesson"
+                          };
+                          videoPlayController.fetchVideoFile(
+                            slug: widget.learningDataController.slug,
+                            type: "lesson",
+                            id: chapter.item.id.toString(),
+                          );
 
-                            fetchQNA(chapter.item.id,
-                                widget.learningDataController.slug);
-                          },
-                          leading:
-                              GetBuilder<LessonCompleteStatusUpdateController>(
-                            id: 'lessonStatus', // Only updates when this tag is triggered
-                            builder: (controller) {
-                              if (widget.learningDataController.course.value!
-                                  .data.alreadyWatchedLectures
-                                  .contains(
-                                chapter.item.id.toString(),
-                              )) {
-                                return Bounceable(
-                                  onTap: () {
-                                    lessonCompleteStatuseUpdateController
-                                        .sendStatus(
-                                      lessonId: chapter.item.id.toString(),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 20.sp,
-                                    width: 20.sp,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(4.sp),
-                                        color: AppColors.primaryColor),
-                                    child: Center(
-                                      child:
-                                          SvgPicture.asset(AppIcon.successIcon),
+                          fetchQNA(chapter.item.id,
+                              widget.learningDataController.slug);
+                        },
+                        child: ListTile(
+                            leading: GetBuilder<
+                                LessonCompleteStatusUpdateController>(
+                              id: 'lessonStatus', // Only updates when this tag is triggered
+                              builder: (controller) {
+                                if (widget.learningDataController.course.value!
+                                    .data.alreadyWatchedLectures
+                                    .contains(
+                                  chapter.item.id.toString(),
+                                )) {
+                                  return Bounceable(
+                                    onTap: () {
+                                      lessonCompleteStatuseUpdateController
+                                          .sendStatus(
+                                        lessonId: chapter.item.id.toString(),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                          color: AppColors.primaryColor),
+                                      child: Center(
+                                        child: SvgPicture.asset(
+                                            AppIcon.successIcon),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              } else {
-                                return Bounceable(
-                                  onTap: () {
-                                    lessonCompleteStatuseUpdateController
-                                        .sendStatus(
-                                      lessonId: chapter.item.id.toString(),
-                                    );
-                                  },
-                                  child: Container(
-                                    height: 20.sp,
-                                    width: 20.sp,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(4.sp),
-                                        color: Colors.transparent),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                          title: Obx(() {
-                            return GlobalText(
-                              text: chapter.item.title.toString(),
+                                  );
+                                } else {
+                                  return Bounceable(
+                                    onTap: () {
+                                      lessonCompleteStatuseUpdateController
+                                          .sendStatus(
+                                        lessonId: chapter.item.id.toString(),
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 20.sp,
+                                      width: 20.sp,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.grey),
+                                          borderRadius:
+                                              BorderRadius.circular(4.sp),
+                                          color: Colors.transparent),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
+                            title: Obx(() {
+                              return GlobalText(
+                                text: chapter.item.title.toString(),
+                                softWrap: true,
+                                style: widget
+                                            .learningDataController
+                                            .course
+                                            .value!
+                                            .data
+                                            .currentProgress
+                                            .lessonId ==
+                                        chapter.item.id
+                                    ? TextStyle(
+                                        fontSize: 13.sp,
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.bold)
+                                    : TextStyle(
+                                        fontSize: 13.sp,
+                                        color: AppColors.titleTextColor),
+                              );
+                            }),
+                            subtitle: GlobalText(
+                              text: chapter.item.duration.toString(),
                               softWrap: true,
-                              style: widget.learningDataController.course.value!
-                                          .data.currentProgress.lessonId ==
-                                      chapter.item.id
-                                  ? TextStyle(
-                                      fontSize: 13.sp,
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.bold)
-                                  : TextStyle(
-                                      fontSize: 13.sp,
-                                      color: AppColors.titleTextColor),
-                            );
-                          }),
-                          subtitle: GlobalText(
-                            text: chapter.item.duration.toString(),
-                            softWrap: true,
-                            style: TextStyle(fontSize: 10.sp),
-                          ),
-                          trailing: SvgPicture.asset(
-                            AppIcon.playIcon,
-                            color: AppColors.activeIconColor,
-                          )),
+                              style: TextStyle(fontSize: 10.sp),
+                            ),
+                            trailing: SvgPicture.asset(
+                              AppIcon.playIcon,
+                              color: AppColors.activeIconColor,
+                            )),
+                      ),
                     );
                   } else if (chapter.type == "quiz") {
                     return Container(

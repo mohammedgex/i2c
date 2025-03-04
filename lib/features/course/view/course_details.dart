@@ -21,7 +21,6 @@ import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../profile/controller/profile_data_cotroller.dart';
 import '../../video/view/widget/initial_tumbnail_ui.dart';
 import '../../video_player/view/view_player_view.dart';
-import '../controller/wish_list_controller.dart';
 
 class CourseDetailsView extends StatelessWidget {
   final String slug;
@@ -36,7 +35,7 @@ class CourseDetailsView extends StatelessWidget {
     CourseDetalisController courseDetalisController = Get.put(
         CourseDetalisController(slug,
             profileDataCotroller.userDataResponse.value!.data.id.toString()));
-    WishListController wishListController = Get.put(WishListController());
+
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
     VideoPlayController videoPlayController = Get.put(VideoPlayController());
     RxBool isShowVideo = false.obs;
@@ -116,31 +115,70 @@ class CourseDetailsView extends StatelessWidget {
                                   isShowWishIcon: true,
                                   thumbnailImage: courseDetalisController
                                       .course.value!.thumbnail,
-                                  wishOntap: () {},
+                                  wishOntap: () {
+                                    toggleWishController.sendStatus(slug: slug);
+                                  },
                                   playOntap: () {
-                                  for (int i = 0; i < courseDetalisController.course.value!.curriculums.length; i++) {
-  for (int j = 0; j < courseDetalisController.course.value!.curriculums[i].chapters.length; j++) {
-    if (courseDetalisController.course.value!.curriculums[i].chapters[j].type == "lesson") {
-      videoPlayController.initialVideoDetails.value = {
-        "id": courseDetalisController.course.value!.curriculums[i].chapters[j].lesson!.id.toString(),
-        "slug": courseDetalisController.slug,
-        "type": "lesson"
-      };
-      videoPlayController.fetchVideoFile(
-        slug: courseDetalisController.slug,
-        type: "lesson",
-        id: courseDetalisController.course.value!.curriculums[i].chapters[j].lesson!.id.toString(),
-      );
-      break; // Exit the inner loop once a lesson of type "lesson" is found
-    } else {
-      print("not lesson");
-    }
-  }
-  // If you want to break the outer loop as well once a lesson is found, you can add a flag and break here.
-  if (videoPlayController.initialVideoDetails.value["type"] == "lesson") {
-    break; // Exit the outer loop once a lesson of type "lesson" is found
-  }
-}
+                                    for (int i = 0;
+                                        i <
+                                            courseDetalisController.course
+                                                .value!.curriculums.length;
+                                        i++) {
+                                      for (int j = 0;
+                                          j <
+                                              courseDetalisController
+                                                  .course
+                                                  .value!
+                                                  .curriculums[i]
+                                                  .chapters
+                                                  .length;
+                                          j++) {
+                                        if (courseDetalisController
+                                                .course
+                                                .value!
+                                                .curriculums[i]
+                                                .chapters[j]
+                                                .type ==
+                                            "lesson") {
+                                          videoPlayController
+                                              .initialVideoDetails.value = {
+                                            "id": courseDetalisController
+                                                .course
+                                                .value!
+                                                .curriculums[i]
+                                                .chapters[j]
+                                                .lesson!
+                                                .id
+                                                .toString(),
+                                            "slug":
+                                                courseDetalisController.slug,
+                                            "type": "lesson"
+                                          };
+                                          videoPlayController.fetchVideoFile(
+                                            slug: courseDetalisController.slug,
+                                            type: "lesson",
+                                            id: courseDetalisController
+                                                .course
+                                                .value!
+                                                .curriculums[i]
+                                                .chapters[j]
+                                                .lesson!
+                                                .id
+                                                .toString(),
+                                          );
+                                          break; // Exit the inner loop once a lesson of type "lesson" is found
+                                        } else {
+                                          print("not lesson");
+                                        }
+                                      }
+                                      // If you want to break the outer loop as well once a lesson is found, you can add a flag and break here.
+                                      if (videoPlayController
+                                              .initialVideoDetails
+                                              .value["type"] ==
+                                          "lesson") {
+                                        break; // Exit the outer loop once a lesson of type "lesson" is found
+                                      }
+                                    }
                                   });
                             }
                           }

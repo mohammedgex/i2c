@@ -17,6 +17,7 @@ class QnaDataController extends GetxController {
 
   var qnaData = Rxn<QnaDataResponseModel>();
   var isLoading = false.obs;
+  var isFached = false.obs;
 
   final ApiService _apiService = ApiService();
 
@@ -28,6 +29,7 @@ class QnaDataController extends GetxController {
     print("📡 Fetching QNA data for Lesson ID: $lessonId");
     print("📡 Fetching QNA data for Course Slug: $slug");
     isLoading.value = true;
+   
 
     try {
       final String url =
@@ -41,6 +43,8 @@ class QnaDataController extends GetxController {
         // Parse the response data into the Course model
         qnaData.value = QnaDataResponseModel.fromJson(response.data);
       } else {
+        qnaData.value = null;
+        isFached.value = true;
         print("Error: Received null response from API");
       }
     } on dio.DioError catch (dioError) {
@@ -59,7 +63,7 @@ class CreateQuestionController extends GetxController {
   String slug = "";
   // Form key
   final formKey = GlobalKey<FormState>();
-
+  QnaDataController qnaDataController = Get.put(QnaDataController());
   // Text controllers
   final TextEditingController questionController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -117,6 +121,7 @@ class CreateQuestionController extends GetxController {
       questionController.clear();
       descriptionController.clear();
       Get.back();
+      qnaDataController.fetchQnaData(lessonId: lessonId, slug: slug);
     } catch (e) {
       log(e.toString());
     } finally {

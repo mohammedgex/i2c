@@ -90,16 +90,28 @@ class AddQnaModal extends StatelessWidget {
                   ),
                   horizontalGap(10.sp),
                   Flexible(
-                    child: GlobalButton(
-                        height: 40.sp,
-                        width: double.infinity,
-                        text: "Create",
-                        onTap: () {
-                          if (createQuestionController.formKey.currentState!
-                              .validate()) {
-                            createQuestionController.createQuestion();
-                          }
-                        }),
+                    child: Obx(() {
+                      if (createQuestionController.isLoading.value) {
+                        return SizedBox(
+                          height: 40.sp,
+                          width: double.infinity,
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return GlobalButton(
+                            height: 40.sp,
+                            width: double.infinity,
+                            text: "Create",
+                            onTap: () {
+                              if (createQuestionController.formKey.currentState!
+                                  .validate()) {
+                                createQuestionController.createQuestion();
+                              }
+                            });
+                      }
+                    }),
                   ),
                 ],
               )

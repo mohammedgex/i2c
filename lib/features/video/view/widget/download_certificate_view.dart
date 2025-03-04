@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skill_grow/features/video/controller/download_certificat_controller.dart';
+import 'package:skill_grow/features/video/controller/download_file_controller.dart';
 
 class DownloadPage extends StatelessWidget {
   final String slug;

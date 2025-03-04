@@ -162,6 +162,9 @@ class ApiEndpoint {
     return "$baseUrl/enrolled-courses?limit=$limit&page=$page";
   }
 
+  static String checkStatusForDownlaodCertificate({required String slug}) {
+    return "$baseUrl/learning/$slug/progress";
+  }
   static String downloadCertificateUrl({
     required String course_slug,
   }) {

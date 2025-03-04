@@ -5,7 +5,7 @@ import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/widgets/button.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
-import 'package:skill_grow/features/video/controller/download_certificat_controller.dart';
+import 'package:skill_grow/features/video/controller/download_file_controller.dart';
 import 'package:skill_grow/features/video/controller/lesson_resource_file_download_controller.dart';
 import '../../../core/constant/constant.dart';
 

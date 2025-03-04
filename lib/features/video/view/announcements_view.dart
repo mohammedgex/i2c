@@ -35,7 +35,7 @@ class AnnouncementsView extends StatelessWidget {
                 children: [
                   MyCustomAppBar(
                     verticalPadding: 0,
-                    horizontalPadding: 0,
+                    horizontalPadding: 10.sp,
                     isShowbackButton: true,
                   ),
                   Spacer(),

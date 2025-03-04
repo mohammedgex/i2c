@@ -11,6 +11,7 @@ class ToggleWishController extends GetxController {
 
     print("📡 Updating lesson status for Lesson ID: $slug");
 
+    isWishActive.value = !isWishActive.value;
     var response = await ApiService().getData(
       url: url,
       requiresAuth: true,
@@ -20,7 +21,6 @@ class ToggleWishController extends GetxController {
       print("✅ API Response Received!");
 
       if (response.statusCode == 200) {
-        isWishActive.value = !isWishActive.value;
         wishListController.fetchCourses();
         print("✅ WishList Status Updated!");
       }

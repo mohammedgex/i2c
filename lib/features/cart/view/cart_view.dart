@@ -60,207 +60,204 @@ class CartView extends StatelessWidget {
           ));
         } else {
           return Scaffold(
-            body: Builder(builder: (context) {
-              return SafeArea(
-                  child: ColorfulSafeArea(
-                bottom: false,
-                color: AppColors.scaffoldBackgroundColor,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Column(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MyCustomAppBar(
-                        verticalPadding: 0,
-                        horizontalPadding: 0,
-                        isShowbackButton: true,
-                        isShowNotification: false,
-                      ),
-                      GlobalText(
-                        text: "Cart",
-                        softWrap: true,
-                        style: TextStyle(
-                            fontSize: 15.sp, fontWeight: FontWeight.w600),
-                      ),
-                      ...cartListController.cartData.value.cartCourses.map(
-                        (cart) => Padding(
-                          padding: EdgeInsets.only(bottom: 10.sp),
-                          child: CustomSlidable(
-                            onDelete: () {
-                              cartListController.removeFromCart(cart.slug);
-                            },
-                            child: Container(
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  // border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(10.sp),
-                                  color: AppColors.nuralItemBackgroundColor,
+            body: ColorfulSafeArea(
+              bottom: false,
+              color: AppColors.scaffoldBackgroundColor,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Column(
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    MyCustomAppBar(
+                      verticalPadding: 0,
+                      horizontalPadding: 0,
+                      isShowbackButton: true,
+                      isShowNotification: false,
+                    ),
+                    GlobalText(
+                      text: "Cart",
+                      softWrap: true,
+                      style: TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.w600),
+                    ),
+                    ...cartListController.cartData.value.cartCourses.map(
+                      (cart) => Padding(
+                        padding: EdgeInsets.only(bottom: 10.sp),
+                        child: CustomSlidable(
+                          onDelete: () {
+                            cartListController.removeFromCart(cart.slug);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                // border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(10.sp),
+                                color: AppColors.nuralItemBackgroundColor,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(3.sp),
+                                child: Row(
+                                  textDirection:
+                                      multiLangualDataController.isLTR.value
+                                          ? TextDirection.ltr
+                                          : TextDirection.rtl,
+                                  children: [
+                                    Container(
+                                      height: 80.sp,
+                                      width: 103.sp,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.sp),
+                                      ),
+                                      child: Image.network(
+                                        ApiEndpoint.imageUrl + cart.thumbnail,
+                                        // fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    horizontalGap(10.sp),
+                                    SizedBox(
+                                      width: 235.w,
+                                      child: Column(
+                                        textDirection:
+                                            multiLangualDataController
+                                                    .isLTR.value
+                                                ? TextDirection.ltr
+                                                : TextDirection.rtl,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          GlobalText(
+                                            text: cart.title,
+                                            style: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                    AppColors.titleTextColor),
+                                            softWrap: true,
+                                          ),
+                                          verticalGap(3.sp),
+                                          Row(
+                                            textDirection:
+                                                multiLangualDataController
+                                                        .isLTR.value
+                                                    ? TextDirection.ltr
+                                                    : TextDirection.rtl,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            spacing: 5.sp,
+                                            children: [
+                                              GlobalText(
+                                                  text: cart.instructor.name,
+                                                  style: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: AppColors
+                                                          .titleTextColor),
+                                                  softWrap: true),
+                                              GlobalText(
+                                                  text: "|",
+                                                  style: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: AppColors
+                                                          .titleTextColor),
+                                                  softWrap: true),
+                                              Text(cart.students.toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: AppColors
+                                                          .titleTextColor),
+                                                  softWrap: true),
+                                              GlobalText(
+                                                  text: "Students",
+                                                  style: TextStyle(
+                                                      fontSize: 10.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color: AppColors
+                                                          .titleTextColor),
+                                                  softWrap: true),
+                                            ],
+                                          ),
+                                          verticalGap(2.sp),
+                                          Row(
+                                            textDirection:
+                                                multiLangualDataController
+                                                        .isLTR.value
+                                                    ? TextDirection.ltr
+                                                    : TextDirection.rtl,
+                                            children: [
+                                              CustomRatingBar(
+                                                rating: cart.averageRating,
+                                                maxRating: 5,
+                                                iconSize: 15.sp,
+                                                filledColor:
+                                                    AppColors.activeIconColor,
+                                                unfilledColor:
+                                                    AppColors.activeIconColor,
+                                              ),
+                                              Spacer(),
+                                              Row(
+                                                textDirection:
+                                                    multiLangualDataController
+                                                            .isLTR.value
+                                                        ? TextDirection.ltr
+                                                        : TextDirection.rtl,
+                                                children: [
+                                                  Text(
+                                                    cart.discount.toString(),
+                                                    style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                        fontSize: 10.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: AppColors
+                                                            .titleTextColor),
+                                                    softWrap: true,
+                                                  ),
+                                                  horizontalGap(3.sp),
+                                                  Text(
+                                                    cart.price.toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 15.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: AppColors
+                                                            .titleTextColor),
+                                                    softWrap: true,
+                                                  ),
+                                                  horizontalGap(5.sp),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.all(3.sp),
-                                  child: Row(
-                                    textDirection:
-                                        multiLangualDataController.isLTR.value
-                                            ? TextDirection.ltr
-                                            : TextDirection.rtl,
-                                    children: [
-                                      Container(
-                                        height: 80.sp,
-                                        width: 103.sp,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.sp),
-                                        ),
-                                        child: Image.network(
-                                          ApiEndpoint.imageUrl + cart.thumbnail,
-                                          // fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      horizontalGap(10.sp),
-                                      SizedBox(
-                                        width: 235.w,
-                                        child: Column(
-                                          textDirection:
-                                              multiLangualDataController
-                                                      .isLTR.value
-                                                  ? TextDirection.ltr
-                                                  : TextDirection.rtl,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            GlobalText(
-                                              text: cart.title,
-                                              style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color:
-                                                      AppColors.titleTextColor),
-                                              softWrap: true,
-                                            ),
-                                            verticalGap(3.sp),
-                                            Row(
-                                              textDirection:
-                                                  multiLangualDataController
-                                                          .isLTR.value
-                                                      ? TextDirection.ltr
-                                                      : TextDirection.rtl,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              spacing: 5.sp,
-                                              children: [
-                                                GlobalText(
-                                                    text: cart.instructor.name,
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true),
-                                                GlobalText(
-                                                    text: "|",
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true),
-                                                Text(cart.students.toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true),
-                                                GlobalText(
-                                                    text: "Students",
-                                                    style: TextStyle(
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true),
-                                              ],
-                                            ),
-                                            verticalGap(2.sp),
-                                            Row(
-                                              textDirection:
-                                                  multiLangualDataController
-                                                          .isLTR.value
-                                                      ? TextDirection.ltr
-                                                      : TextDirection.rtl,
-                                              children: [
-                                                CustomRatingBar(
-                                                  rating: cart.averageRating,
-                                                  maxRating: 5,
-                                                  iconSize: 15.sp,
-                                                  filledColor:
-                                                      AppColors.activeIconColor,
-                                                  unfilledColor:
-                                                      AppColors.activeIconColor,
-                                                ),
-                                                Spacer(),
-                                                Row(
-                                                  textDirection:
-                                                      multiLangualDataController
-                                                              .isLTR.value
-                                                          ? TextDirection.ltr
-                                                          : TextDirection.rtl,
-                                                  children: [
-                                                    Text(
-                                                      cart.discount.toString(),
-                                                      style: TextStyle(
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .lineThrough,
-                                                          fontSize: 10.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: AppColors
-                                                              .titleTextColor),
-                                                      softWrap: true,
-                                                    ),
-                                                    horizontalGap(3.sp),
-                                                    Text(
-                                                      cart.price.toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 15.sp,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          color: AppColors
-                                                              .titleTextColor),
-                                                      softWrap: true,
-                                                    ),
-                                                    horizontalGap(5.sp),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ),
+                              )),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
-              ));
-            }),
+              ),
+            ),
             bottomNavigationBar: Container(
               margin: EdgeInsets.only(bottom: 20.sp),
               width: double.infinity,

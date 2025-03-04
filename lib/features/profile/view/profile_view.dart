@@ -28,22 +28,19 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  var currencyCode = "USD".obs;
-  var language = "English".obs;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadPreferences();
-  }
-
-  void _loadPreferences() async {
-    currencyCode.value = await SharedPrefUtil.get('currency_code', 'USD');
-    language.value = await SharedPrefUtil.get('language', 'English');
-  }
-
   @override
   Widget build(BuildContext context) {
+    var currencyCode = "".obs;
+    var language = "".obs;
+
+    void loadPreferences() async {
+      currencyCode.value = await SharedPrefUtil.get('currency_code', 'USD');
+      language.value = await SharedPrefUtil.get('language', 'English');
+      print(currencyCode.value);
+      print(language.value);
+    }
+
+    loadPreferences();
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
@@ -139,7 +136,6 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         horizontalGap(10.sp),
                         GlobalText(text: "Language", softWrap: true),
-                        GlobalText(text: "($language)", softWrap: true),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -170,7 +166,6 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         horizontalGap(10.sp),
                         GlobalText(text: "Currency", softWrap: true),
-                        GlobalText(text: "($currencyCode)", softWrap: true),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -337,9 +332,7 @@ class _ProfileViewState extends State<ProfileView> {
                 verticalGap(10.sp),
                 Bounceable(
                   onTap: () {
-                    Get.to(()=> LogoutPopupMenu(
-                      
-                 ));
+                    Get.to(() => LogoutPopupMenu());
                   },
                   child: Container(
                     width: double.infinity,

@@ -9,6 +9,7 @@ import '../../../core/widgets/snackbar.dart';
 
 class UpdateProfileController extends GetxController {
   ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
+
   // Form key
   final formKey = GlobalKey<FormState>();
 
@@ -21,6 +22,19 @@ class UpdateProfileController extends GetxController {
   // State management
   var isLoading = false.obs;
 
+  @override
+  void onInit() {
+    nameController.text =
+        profileDataCotroller.userDataResponse.value!.data.name;
+    emailController.text =
+        profileDataCotroller.userDataResponse.value!.data.email;
+    phoneController.text =
+        profileDataCotroller.userDataResponse.value!.data.phone;
+    ageController.text =
+        profileDataCotroller.userDataResponse.value!.data.age.toString();
+
+    super.onInit();
+  }
   // Email validation
 
   // Login function

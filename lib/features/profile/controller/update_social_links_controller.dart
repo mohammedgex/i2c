@@ -12,16 +12,29 @@ class UpdateSocialLinksController extends GetxController {
   // Form key
   final formKey = GlobalKey<FormState>();
 
-    TextEditingController facebookController = TextEditingController();
-    TextEditingController twitterController = TextEditingController();
-    TextEditingController linkedinController = TextEditingController();
-    TextEditingController websiteController = TextEditingController();
-    TextEditingController githubController = TextEditingController();
+  TextEditingController facebookController = TextEditingController();
+  TextEditingController twitterController = TextEditingController();
+  TextEditingController linkedinController = TextEditingController();
+  TextEditingController websiteController = TextEditingController();
+  TextEditingController githubController = TextEditingController();
 
   // State management
   var isLoading = false.obs;
 
-  // Email validation
+  @override
+  void onInit() {
+    facebookController = TextEditingController(
+        text: profileDataCotroller.userDataResponse.value!.data.facebook);
+    twitterController = TextEditingController(
+        text: profileDataCotroller.userDataResponse.value!.data.twitter);
+    linkedinController = TextEditingController(
+        text: profileDataCotroller.userDataResponse.value!.data.linkedin);
+    websiteController = TextEditingController(
+        text: profileDataCotroller.userDataResponse.value!.data.website);
+    githubController = TextEditingController(
+        text: profileDataCotroller.userDataResponse.value!.data.github);
+    super.onInit();
+  }
 
   // Login function
   Future<void> updatesocialLinks() async {
@@ -35,7 +48,8 @@ class UpdateSocialLinksController extends GetxController {
         twitter: twitterController.text.trim(),
       );
 
-      final response = await UpdateSocialLinksService().updateSocialLinks(requestModel);
+      final response =
+          await UpdateSocialLinksService().updateSocialLinks(requestModel);
 
       if (response.status == 'success') {
         // Handle success, navigate to home

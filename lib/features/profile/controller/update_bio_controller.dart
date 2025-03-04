@@ -22,6 +22,16 @@ class UpdateBioController extends GetxController {
 
   // Email validation
 
+  @override
+  void onInit() {
+    jobTitleController.text =
+        profileDataCotroller.userDataResponse.value!.data.jobTitle;
+    shortBioController.text =
+        profileDataCotroller.userDataResponse.value!.data.shortBio;
+    bioController.text = profileDataCotroller.userDataResponse.value!.data.bio;
+    super.onInit();
+  }
+
   // Login function
   Future<void> updateBio() async {
     isLoading.value = true;

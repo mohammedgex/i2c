@@ -113,14 +113,29 @@ class UpdateProfileScreen extends StatelessWidget {
                     keyName: "Age",
                   ),
                   verticalGap(20.sp),
-                  GlobalButton(
-                    height: 50.sp,
-                    width: double.infinity,
-                    text: "Save",
-                    onTap: () {
-                      updateProfileController.updateProflie();
+                   Obx(
+                    () {
+                      if (updateProfileController.isLoading.value) {
+                        return SizedBox(
+                          height: 50.sp,
+                          width: double.infinity,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return GlobalButton(
+                          height: 50.sp,
+                          width: double.infinity,
+                          text: "Save",
+                          onTap: () {
+                            updateProfileController.updateProflie();
+                          },
+                        );
+                      }
                     },
-                  )
+                  ),
+                 
                 ],
               ),
             ),

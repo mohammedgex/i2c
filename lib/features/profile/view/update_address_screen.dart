@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/widgets/button.dart';
+import 'package:skill_grow/features/profile/controller/courntry_list_controller.dart';
 import 'package:skill_grow/features/profile/controller/update_address_controller.dart';
+import 'package:skill_grow/features/profile/model/country_list_model.dart';
+import 'package:skill_grow/widgets/dropdown_input.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 
 import '../../../core/colors/app_colors.dart';
@@ -16,6 +19,8 @@ class UpdateAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    CourntryListController countryListController =
+        Get.put(CourntryListController());
     UpdateAddressController updateAddressController =
         Get.put(UpdateAddressController());
 
@@ -44,6 +49,66 @@ class UpdateAddressScreen extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  verticalGap(10.sp),
+                  GlobalText(
+                    softWrap: false,
+                    text: 'Country',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
+                  ),
+                  verticalGap(5.sp),
+                  Obx(() {
+                    if (countryListController.isLoading.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else {
+                      // Get the list of countries
+                      final countries =
+                          countryListController.countryList.value!.data;
+
+                      final initialCountry = countries.firstWhere(
+                        (country) =>
+                            country.id == updateAddressController.countryId,
+                        orElse: () => CountryListModel(
+                            id: 0,
+                            name:
+                                ''), // Fallback to the first country if not found
+                      );
+
+                      // Ensure the selectedName is updated with the initial country name
+                      if (updateAddressController
+                          .countryController.selectedValue.value.isEmpty) {
+                        updateAddressController.countryController.selectedValue
+                            .value = initialCountry.name;
+                      }
+
+                      return CustomDropDownField(
+                        title: "All Country",
+                        items:
+                            countries.map((country) => country.name).toList(),
+                        // Pre-selected country name
+                        onItemSelected: (value) {
+                          if (value != null) {
+                            // Find the selected country object
+                            final selectedCountry = countries.firstWhere(
+                              (country) => country.name == value,
+                            );
+
+                            // Update both the selected country ID and name in the controller
+                            updateAddressController.countryId =
+                                selectedCountry.id;
+                            updateAddressController.countryController
+                                .selectedValue.value = selectedCountry.name;
+
+                            print(updateAddressController.countryId);
+                          }
+                        },
+                        controller: updateAddressController.countryController,
+                      );
+                    }
+                  }),
                   verticalGap(10.sp),
                   GlobalText(
                     text: "State",
@@ -102,12 +167,26 @@ class UpdateAddressScreen extends StatelessWidget {
                     minLines: 2,
                   ),
                   verticalGap(20.sp),
-                  GlobalButton(
-                    height: 50.sp,
-                    width: double.infinity,
-                    text: "Save",
-                    onTap: () {
-                      updateAddressController.updateBio();
+                  Obx(
+                    () {
+                      if (updateAddressController.isLoading.value) {
+                        return SizedBox(
+                          height: 50.sp,
+                          width: double.infinity,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return GlobalButton(
+                          height: 50.sp,
+                          width: double.infinity,
+                          text: "Save",
+                          onTap: () {
+                            updateAddressController.updateAddress();
+                          },
+                        );
+                      }
                     },
                   )
                 ],

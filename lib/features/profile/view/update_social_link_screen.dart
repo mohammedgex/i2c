@@ -130,14 +130,28 @@ class UpdateSocialLinkScreen extends StatelessWidget {
                     keyName: "Github",
                   ),
                   verticalGap(20.sp),
-                  GlobalButton(
-                    height: 50.sp,
-                    width: double.infinity,
-                    text: "Save",
-                    onTap: () {
-                      updateSocialLinksController.updatesocialLinks();
+                  Obx(
+                    () {
+                      if (updateSocialLinksController.isLoading.value) {
+                        return SizedBox(
+                          height: 50.sp,
+                          width: double.infinity,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return GlobalButton(
+                          height: 50.sp,
+                          width: double.infinity,
+                          text: "Save",
+                          onTap: () {
+                            updateSocialLinksController.updatesocialLinks();
+                          },
+                        );
+                      }
                     },
-                  )
+                  ),
                 ],
               ),
             ),

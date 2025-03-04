@@ -11,7 +11,7 @@ class UpdateSocialLinksService {
   Future<GlobalResponseModel> updateSocialLinks(
       UpdateSocialLinksRequestModel requestModel) async {
     try {
-      const String url = ApiEndpoint.dashboardProfileUpdateBioUrl;
+      const String url = ApiEndpoint.dashboardProfileUpdateSocialLinksUrl;
 
       Response? response = await _apiService.putData(
         url: url,

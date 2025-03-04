@@ -101,14 +101,28 @@ class UpdatePasswordScreen extends StatelessWidget {
                     keyName: "Confirm Password",
                   ),
                   verticalGap(20.sp),
-                  GlobalButton(
-                    height: 50.sp,
-                    width: double.infinity,
-                    text: "Save",
-                    onTap: () {
-                      updatePasswordController.updatePassword();
+                  Obx(
+                    () {
+                      if (updatePasswordController.isLoading.value) {
+                        return SizedBox(
+                          height: 50.sp,
+                          width: double.infinity,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return GlobalButton(
+                          height: 50.sp,
+                          width: double.infinity,
+                          text: "Save",
+                          onTap: () {
+                            updatePasswordController.updatePassword();
+                          },
+                        );
+                      }
                     },
-                  )
+                  ),
                 ],
               ),
             ),

@@ -69,6 +69,7 @@ dependencies:
   permission_handler: ^11.4.0
   font_awesome_flutter: ^10.8.0
   wakelock_plus: ^1.2.10
+  image_cropper: ^9.0.0
 
 
 

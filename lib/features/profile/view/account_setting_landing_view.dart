@@ -20,7 +20,8 @@ import 'edit_option_button_list_view.dart';
 class AccountSettingLandingView extends StatelessWidget {
   final MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
-  ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
+  final ProfileDataCotroller profileDataCotroller =
+      Get.put(ProfileDataCotroller());
   final ImagePickerController imagePickerController =
       Get.put(ImagePickerController());
 
@@ -107,63 +108,96 @@ class AccountSettingLandingView extends StatelessWidget {
                         ],
                       )),
                 ),
+                Obx(() {
+                  if (imagePickerController.isImageSelected.value) {
+                    if (imagePickerController.isUploading.value) {
+                      return Container(
+                        margin: EdgeInsets.only(top: 15.sp),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return Bounceable(
+                        onTap: () => imagePickerController.uploadImage(),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 15.sp),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20.sp, vertical: 8.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.sp),
+                          ),
+                          child: GlobalText(
+                            text: "Upload",
+                            style: TextStyle(color: AppColors.primaryColor),
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    return Container();
+                  }
+                }),
                 verticalGap(12.sp),
-                GlobalText(
-                  text:
-                      profileDataCotroller.userDataResponse.value?.data.name ??
+                Obx(() => GlobalText(
+                      text: profileDataCotroller
+                              .userDataResponse.value?.data.name ??
                           'No Name',
-                  softWrap: true,
-                  style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-                GlobalText(
-                  text: profileDataCotroller
-                          .userDataResponse.value?.data.jobTitle ??
-                      'No Job Title',
-                  softWrap: true,
-                  style: const TextStyle(fontSize: 16, color: Colors.white70),
-                ),
+                      softWrap: true,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    )),
+                Obx(() => GlobalText(
+                      text: profileDataCotroller
+                              .userDataResponse.value?.data.jobTitle ??
+                          'No Job Title',
+                      softWrap: true,
+                      style:
+                          const TextStyle(fontSize: 16, color: Colors.white70),
+                    )),
                 verticalGap(20.sp),
                 Expanded(
                   child: Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      ),
-                    ),
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        )),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           verticalGap(16.sp),
-                          _buildInfoRow(
+                          Obx(() => _buildInfoRow(
                               Icons.email_outlined,
                               "Email",
                               profileDataCotroller
                                       .userDataResponse.value?.data.email ??
-                                  'No Email'),
-                          _buildInfoRow(
+                                  'No Email')),
+                          Obx(() => _buildInfoRow(
                               Icons.phone_outlined,
                               "Phone",
                               profileDataCotroller
                                       .userDataResponse.value?.data.phone ??
-                                  'No Phone'),
-                          _buildInfoRow(
+                                  'No Phone')),
+                          Obx(() => _buildInfoRow(
                               Icons.location_city_outlined,
                               "Location",
-                              "${profileDataCotroller.userDataResponse.value?.data.city ?? 'No City'}, ${profileDataCotroller.userDataResponse.value?.data.state ?? 'No State'}"),
-                          _buildInfoRow(
+                              "${profileDataCotroller.userDataResponse.value?.data.city ?? 'No City'}, ${profileDataCotroller.userDataResponse.value?.data.state ?? 'No State'}")),
+                          Obx(() => _buildInfoRow(
                               Icons.cake_outlined,
                               "Age",
                               profileDataCotroller
                                       .userDataResponse.value?.data.age
                                       .toString() ??
-                                  'No Age'),
+                                  'No Age')),
                           verticalGap(16.sp),
                           GlobalText(
                             text: "About Me",
@@ -172,25 +206,24 @@ class AccountSettingLandingView extends StatelessWidget {
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           verticalGap(8.sp),
-                          GlobalText(
-                            softWrap: true,
-                            text: profileDataCotroller
-                                    .userDataResponse.value?.data.bio ??
-                                'No Bio Available',
-                            style: TextStyle(
-                                fontSize: 16, color: Colors.grey[700]),
-                            textAlign: TextAlign.justify,
-                          ),
+                          Obx(() => GlobalText(
+                                softWrap: true,
+                                text: profileDataCotroller
+                                        .userDataResponse.value?.data.bio ??
+                                    'No Bio Available',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                                textAlign: TextAlign.justify,
+                              )),
                           verticalGap(16.sp),
                           Divider(),
-                          Column(
-                            textDirection:
-                                multiLangualDataController.isLTR.value
-                                    ? TextDirection.ltr
-                                    : TextDirection.rtl,
-                            // spacing: 16.sp,
-                            children: _buildSocialLinks(),
-                          ),
+                          Obx(() => Column(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                children: _buildSocialLinks(),
+                              )),
                         ],
                       ),
                     ),
@@ -274,7 +307,6 @@ class AccountSettingLandingView extends StatelessWidget {
               }
             },
             child: Container(
-              // height: 5.sp,
               margin: EdgeInsets.symmetric(vertical: 8.sp),
               padding: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 15.sp),
               decoration: BoxDecoration(

@@ -97,14 +97,25 @@ class BioUpdateScreen extends StatelessWidget {
                     minLines: 5,
                   ),
                   verticalGap(20.sp),
-                  GlobalButton(
-                    height: 50.sp,
-                    width: double.infinity,
-                    text: "Save",
-                    onTap: () {
-                      updateBioController.updateBio();
-                    },
-                  )
+                  Obx(() {
+                    if (updateBioController.isLoading.value) {
+                      return SizedBox(
+                        height: 50.sp,
+                        width: double.infinity,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else { return GlobalButton(
+                      height: 50.sp,
+                      width: double.infinity,
+                      text: "Save",
+                      onTap: () {
+                        updateBioController.updateBio();
+                      },
+                    );}
+                   
+                  })
                 ],
               ),
             ),

@@ -27,11 +27,27 @@ class WishListView extends StatelessWidget {
           return const Center(child: ErnrollerdCourseLoaingUi());
         } else {
           if (wishListController.wishList.isEmpty) {
-            return Center(
-                child: GlobalText(
-              text: "No Data Found",
-              softWrap: true,
-            ));
+            return ColorfulSafeArea(
+              color: AppColors.scaffoldBackgroundColor,
+              child: Column(
+                children: [
+                  MyCustomAppBar(
+                    verticalPadding: 0,
+                    horizontalPadding: 10.sp,
+                    isShowbackButton: true,
+                    isShowNotification: false,
+                  ),
+                  Spacer(),
+                  Center(
+                    child: GlobalText(
+                      text: "No Data Found",
+                      softWrap: true,
+                    ),
+                  ),
+                  Spacer(),
+                ],
+              ),
+            );
           } else {
             return ColorfulSafeArea(
               bottom: false,
@@ -61,8 +77,10 @@ class WishListView extends StatelessWidget {
                       (wishItem) => Padding(
                         padding: EdgeInsets.only(bottom: 10.sp),
                         child: CustomSlidable(
+                          isLoading: wishListController.isDeleting,
                           onDelete: () {
-                            wishListController.removeFromWishlist(wishItem.slug);
+                            wishListController
+                                .removeFromWishlist(wishItem.slug);
                           },
                           child: Container(
                               width: double.infinity,

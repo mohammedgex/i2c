@@ -10,11 +10,13 @@ import 'controller/custom_slider_conroller.dart';
 class CustomSlidable extends StatelessWidget {
   final Widget child;
   final VoidCallback onDelete;
+  final RxBool isLoading;
 
   const CustomSlidable({
     super.key,
     required this.child,
     required this.onDelete,
+    required this.isLoading,
   });
 
   @override
@@ -36,10 +38,7 @@ class CustomSlidable extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Bounceable(
-                onTap: () {
-                  onDelete();
-                  // slidableController.close();
-                },
+                onTap: onDelete,
                 child: Container(
                   width: slidableController.maxSlide,
                   height: double.infinity,
@@ -48,11 +47,22 @@ class CustomSlidable extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: Center(
-                    child: SizedBox(
-                      height: 25.sp,
-                      width: 25.sp,
-                      child: SvgPicture.asset(AppIcon.binIcon),
-                    ),
+                    child: Obx(() {
+                      if (isLoading.value) {
+                        return SizedBox(
+                          height: 25.sp,
+                          width: 25.sp,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      }
+                      return SizedBox(
+                        height: 25.sp,
+                        width: 25.sp,
+                        child: SvgPicture.asset(AppIcon.binIcon),
+                      );
+                    }),
                   ),
                 ),
               ),

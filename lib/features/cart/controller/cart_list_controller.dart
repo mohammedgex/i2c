@@ -14,10 +14,11 @@ class CartListController extends GetxController {
   var isLoading = false.obs;
   var errorMessage = ''.obs;
   var currency_code = 'USD';
+  var isDeleting = false.obs;
 
   @override
   void onInit() async {
-   currency_code = await SharedPrefUtil.get('currency_code', 'USD');
+    currency_code = await SharedPrefUtil.get('currency_code', 'USD');
     super.onInit();
     fetchCartData();
   }
@@ -46,6 +47,7 @@ class CartListController extends GetxController {
   }
 
   Future<void> removeFromCart(String slug) async {
+    isDeleting.value = true;
     print("Removing Slug: $slug");
 
     try {
@@ -73,6 +75,8 @@ class CartListController extends GetxController {
       }
     } catch (e) {
       print("Error: $e");
+    } finally {
+      isDeleting.value = false;
     }
   }
 }

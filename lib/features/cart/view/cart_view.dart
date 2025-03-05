@@ -88,6 +88,7 @@ class CartView extends StatelessWidget {
                       (cart) => Padding(
                         padding: EdgeInsets.only(bottom: 10.sp),
                         child: CustomSlidable(
+                          isLoading: cartListController.isDeleting,
                           onDelete: () {
                             cartListController.removeFromCart(cart.slug);
                           },

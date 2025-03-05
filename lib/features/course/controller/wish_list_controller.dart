@@ -16,7 +16,7 @@ class WishListController extends getx.GetxController {
   var isLoading = false.obs; // Observable to manage loading state
   var errorMessage = ''.obs; // Observable for error messages
   var currencyCode = 'USD'.obs; // Observable for currency code
-
+  var isDeleting = false.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -61,6 +61,7 @@ class WishListController extends getx.GetxController {
 
   // Remove an item from the wishlist
   Future<void> removeFromWishlist(String slug) async {
+    isDeleting.value = true;
     try {
       final response = await _apiService.getData(
         url: ApiEndpoint.dashboardAddRemoveWishlistUrl(course_slug: slug),
@@ -91,6 +92,8 @@ class WishListController extends getx.GetxController {
     } catch (e) {
       errorMessage.value = 'Error: ${e.toString()}';
       GlobalErrorHandler.handleError(e);
+    }finally{
+      isDeleting.value = false;
     }
   }
 }

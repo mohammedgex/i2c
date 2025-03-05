@@ -29,6 +29,7 @@ class AnnouncementController extends GetxController {
     try {
       final dio.Response? response = await _apiService.getData(
         url: ApiEndpoint.dashboardLearningAnnouncementUrl(slug: slug),
+        showSnackbar: false,
       );
 
       if (response?.data != null) {

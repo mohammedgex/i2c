@@ -32,7 +32,6 @@ class QuizQuestionView extends StatelessWidget {
         Get.put(MultiLangualDataController());
     final CountdownController countdownController =
         Get.put(CountdownController());
-       
 
     quizQuestionDataController.fetchQuiz(course_slug: slug, id: questionId);
 
@@ -76,7 +75,8 @@ class QuizQuestionView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController,
     CountdownController countdownController,
   ) {
-     QuizSubmissionController quizSubmissionController = Get.put(QuizSubmissionController());
+    QuizSubmissionController quizSubmissionController =
+        Get.put(QuizSubmissionController());
     return ColorfulSafeArea(
       bottom: true,
       color: AppColors.scaffoldBackgroundColor,
@@ -127,6 +127,7 @@ class QuizQuestionView extends StatelessWidget {
                   );
                 }),
           ),
+          verticalGap(10.sp),
         ],
       ),
     );

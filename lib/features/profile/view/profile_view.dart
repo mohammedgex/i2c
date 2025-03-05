@@ -15,6 +15,7 @@ import 'package:skill_grow/features/profile/view/faq_view.dart';
 import 'package:skill_grow/features/profile/view/privecy_policy_view.dart';
 import 'package:skill_grow/features/profile/view/terms_and_condition_view.dart';
 import 'package:skill_grow/features/profile/view/widget/logout_popup_menu.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../core/Global/api_endpoint.dart';
 import '../../../core/Global/sharedPref.dart';
 import '../../../core/widgets/texts.dart';
@@ -212,28 +213,33 @@ class _ProfileViewState extends State<ProfileView> {
                 verticalGap(20.sp),
                 GlobalText(text: "Help and Support", softWrap: true),
                 verticalGap(10.sp),
-                Container(
-                  width: double.infinity,
-                  height: 50.sp,
-                  decoration: BoxDecoration(
-                    color: AppColors.nuralItemBackgroundColor,
-                    borderRadius: BorderRadius.circular(10.sp),
-                  ),
-                  child: Row(
-                    textDirection: multiLangualDataController.isLTR.value
-                        ? TextDirection.ltr
-                        : TextDirection.rtl,
-                    children: [
-                      horizontalGap(10.sp),
-                      GlobalText(text: "About Skillgrow", softWrap: true),
-                      Spacer(),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: AppColors.titleTextColor,
-                        size: 15.sp,
-                      ),
-                      horizontalGap(10.sp),
-                    ],
+                Bounceable(
+                  onTap: () {
+                    launchUrl(Uri.parse("${ApiEndpoint.imageUrl}about-us"));
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 50.sp,
+                    decoration: BoxDecoration(
+                      color: AppColors.nuralItemBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Row(
+                      textDirection: multiLangualDataController.isLTR.value
+                          ? TextDirection.ltr
+                          : TextDirection.rtl,
+                      children: [
+                        horizontalGap(10.sp),
+                        GlobalText(text: "About Skillgrow", softWrap: true),
+                        Spacer(),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: AppColors.titleTextColor,
+                          size: 15.sp,
+                        ),
+                        horizontalGap(10.sp),
+                      ],
+                    ),
                   ),
                 ),
                 verticalGap(10.sp),

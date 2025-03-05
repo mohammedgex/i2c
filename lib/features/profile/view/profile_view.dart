@@ -29,19 +29,35 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  RxString currencyCode = "".obs;
+  RxString language = "".obs;
+
+  Future<void> loadPreferences() async {
+    try {
+      // Fetch preferences using SharedPrefUtil
+      currencyCode.value = await SharedPrefUtil.get('currency_code', "USD");
+      language.value = await SharedPrefUtil.get('language', "English");
+
+      // Print the fetched values
+      print('Currency Code: $currencyCode');
+      print('Language: $language');
+    } catch (e) {
+      // Handle any errors that occur during preference loading
+      print('Error loading preferences: $e');
+      // Fallback to default values in case of an error
+      currencyCode.value = 'USD';
+      language.value = 'English';
+    }
+  }
+
+  @override
+  void initState() {
+    loadPreferences();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var currencyCode = "".obs;
-    var language = "".obs;
-
-    void loadPreferences() async {
-      currencyCode.value = await SharedPrefUtil.get('currency_code', 'USD');
-      language.value = await SharedPrefUtil.get('language', 'English');
-      print(currencyCode.value);
-      print(language.value);
-    }
-
-    loadPreferences();
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
@@ -137,6 +153,8 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         horizontalGap(10.sp),
                         GlobalText(text: "Language", softWrap: true),
+                        horizontalGap(10.sp),
+                        Obx(() => Text("( ${language.value} )")),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,
@@ -167,6 +185,8 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         horizontalGap(10.sp),
                         GlobalText(text: "Currency", softWrap: true),
+                        horizontalGap(10.sp),
+                        Obx(() => Text("( ${currencyCode.value} )")),
                         Spacer(),
                         Icon(
                           Icons.arrow_forward_ios,

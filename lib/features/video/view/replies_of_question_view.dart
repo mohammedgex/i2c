@@ -10,6 +10,8 @@ import 'package:skill_grow/core/icons/app_icon.dart';
 import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
+import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
+import 'package:skill_grow/features/video/controller/create_reply_controller.dart';
 import 'package:skill_grow/features/video/controller/qna_data_controller.dart';
 
 import 'package:skill_grow/features/video/widget/add_reply_modal.dart';
@@ -20,8 +22,10 @@ import '../../../core/constant/constant.dart';
 class RepliesOfQuestionView extends StatelessWidget {
   final int questionId;
   RepliesOfQuestionView({Key? key, required this.questionId});
-
+  ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
+ CreateReplyController createReplyController = Get.put(CreateReplyController());
   final QnaDataController qnaDataController = Get.put(QnaDataController());
+  DeleteQuestionAndReplyController deleteQuestionAndReplyController = Get.put(DeleteQuestionAndReplyController());
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +133,9 @@ class RepliesOfQuestionView extends StatelessWidget {
                         ),
                         verticalGap(5.sp),
                         Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
                           children: [
                             Text(
                               qnaQuestion.repliesCount.toString(),
@@ -235,15 +242,19 @@ class RepliesOfQuestionView extends StatelessWidget {
                                   ],
                                 ),
                                 Spacer(),
-                                IconButton(
-                                  onPressed: () {
-                                    // Add delete functionality if needed
-                                  },
-                                  icon: SvgPicture.asset(
-                                    AppIcon.binIcon,
-                                    color: Colors.red,
-                                  ),
-                                )
+                                if (reply.user.id ==
+                                    profileDataCotroller
+                                        .userDataResponse.value!.data.id)
+                                  IconButton(
+                                    onPressed: () {
+                                      // Add delete functionality if needed
+                                      deleteQuestionAndReplyController.deleteReplay(replyId: reply.id.toString(), lessonId: createReplyController.lessonId!, slug: createReplyController.slug!);
+                                    },
+                                    icon: SvgPicture.asset(
+                                      AppIcon.binIcon,
+                                      color: Colors.red,
+                                    ),
+                                  )
                               ],
                             ),
                             verticalGap(10.sp),

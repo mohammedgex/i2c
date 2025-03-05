@@ -45,6 +45,8 @@ class AddReplyModal extends StatelessWidget {
               ),
               verticalGap(10.sp),
               CustomTextField(
+                minLines: 2,
+                maxLines: 5,
                 controller: createReplyController.replyController,
                 hint: "Reply",
                 keyName: "Reply",

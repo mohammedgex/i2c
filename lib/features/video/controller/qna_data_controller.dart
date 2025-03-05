@@ -29,7 +29,6 @@ class QnaDataController extends GetxController {
     print("📡 Fetching QNA data for Lesson ID: $lessonId");
     print("📡 Fetching QNA data for Course Slug: $slug");
     isLoading.value = true;
-   
 
     try {
       final String url =
@@ -122,6 +121,35 @@ class CreateQuestionController extends GetxController {
       descriptionController.clear();
       Get.back();
       qnaDataController.fetchQnaData(lessonId: lessonId, slug: slug);
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}
+
+class DeleteQuestionAndReplyController extends GetxController {
+  QnaDataController qnaDataController = Get.put(QnaDataController());
+  ApiService apiService = ApiService();
+  var isLoading = false.obs;
+
+  Future<void> deleteReplay(
+      {required String replyId,
+      required String lessonId,
+      required String slug}) async {
+    isLoading.value = true;
+    try {
+      String url =
+          ApiEndpoint.deleteQuestionReplyUrl(reply_id: replyId.toString());
+      final response = await apiService.deleteData(url: url);
+      if (response != null && response.data != null) {
+        qnaDataController.fetchQnaData(lessonId: lessonId, slug: slug);
+        customSnackbar(
+            title: "Success",
+            message: response.data['message'].toString(),
+            type: CustomSnackbarType.success);
+      }
     } catch (e) {
       log(e.toString());
     } finally {

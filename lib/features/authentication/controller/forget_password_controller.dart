@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/features/authentication/model/forget_password_model.dart';
 import 'package:skill_grow/features/authentication/service/forget_password_service.dart';
+import 'package:skill_grow/features/authentication/view/reset_password_info_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import '../../../core/widgets/snackbar.dart';
-import '../view/reset_password_view.dart';
+// import '../view/reset_password_view.dart';
 
 class ForgetPasswordController extends GetxController {
   // Form key
@@ -52,7 +53,7 @@ class ForgetPasswordController extends GetxController {
             type: CustomSnackbarType.success);
       }
       emailController.clear();
-      Get.to(()=> ResetPasswordView());
+      Get.to(()=> ResetPasswordInfoView());
      
     } catch (e) {
       log(e.toString());

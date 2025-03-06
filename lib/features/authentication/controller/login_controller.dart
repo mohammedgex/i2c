@@ -67,7 +67,7 @@ class LoginController extends GetxController {
             message: response.message.toString(),
             type: CustomSnackbarType.success);
       }
-      Get.to(() => CustomPersistentBottomNavBar());
+      Get.offAll(() => CustomPersistentBottomNavBar());
       emailController.clear();
       passwordController.clear();
     } catch (e) {

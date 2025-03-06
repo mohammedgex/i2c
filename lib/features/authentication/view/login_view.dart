@@ -11,7 +11,6 @@ import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/authentication/controller/login_controller.dart';
 import 'package:skill_grow/features/authentication/view/forget_password_view.dart';
 import 'package:skill_grow/features/authentication/view/registration_view.dart';
-// import 'package:skill_grow/features/authentication/view/reset_password_info_view.dart';
 import 'package:skill_grow/widgets/text_input.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 

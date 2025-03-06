@@ -83,16 +83,22 @@ class _CurriculumViewState extends State<CurriculumView> {
     final QnaDataController qnaDataController = Get.put(QnaDataController());
     final VideoPlayController videoPlayController =
         Get.put(VideoPlayController());
-        CreateReplyController createReplyController = Get.put(CreateReplyController());
+    CreateReplyController createReplyController =
+        Get.put(CreateReplyController());
 
     void fetchQNA(lesson_id, slug) {
       createQuestionController.lessonId = lesson_id.toString();
       createQuestionController.slug = slug;
       createReplyController.lessonId = lesson_id.toString();
-          createReplyController.slug = slug.toString();
+      createReplyController.slug = slug.toString();
       qnaDataController.fetchQnaData(
           lessonId: lesson_id.toString(), slug: slug);
     }
+
+    RxString selectedIndex = widget
+        .learningDataController.course.value!.data.currentProgress.lessonId
+        .toString()
+        .obs;
 
     return ListView.builder(
       controller: _scrollController,
@@ -165,6 +171,7 @@ class _CurriculumViewState extends State<CurriculumView> {
                         "type": "lesson"
                       };
                     }
+
                     return Container(
                       height: 50.sp,
                       margin: EdgeInsets.symmetric(vertical: 5.sp),
@@ -183,6 +190,8 @@ class _CurriculumViewState extends State<CurriculumView> {
 
                           fetchQNA(chapter.item.id,
                               widget.learningDataController.slug);
+
+                          selectedIndex.value = chapter.item.id.toString();
                         },
                         child: ListTile(
                             leading: GetBuilder<
@@ -242,21 +251,17 @@ class _CurriculumViewState extends State<CurriculumView> {
                               return GlobalText(
                                 text: chapter.item.title.toString(),
                                 softWrap: true,
-                                style: widget
-                                            .learningDataController
-                                            .course
-                                            .value!
-                                            .data
-                                            .currentProgress
-                                            .lessonId ==
-                                        chapter.item.id
+                                style: selectedIndex.value ==
+                                        chapter.item.id.toString()
                                     ? TextStyle(
                                         fontSize: 13.sp,
                                         color: AppColors.primaryColor,
-                                        fontWeight: FontWeight.bold)
+                                        fontWeight: FontWeight.bold,
+                                      )
                                     : TextStyle(
                                         fontSize: 13.sp,
-                                        color: AppColors.titleTextColor),
+                                        color: AppColors.titleTextColor,
+                                      ),
                               );
                             }),
                             subtitle: GlobalText(

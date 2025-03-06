@@ -38,8 +38,10 @@ class WishListController extends getx.GetxController {
       String url = ApiEndpoint.dashboardWishlistUrl();
 
       // Fetch data using GET method
-      dio.Response? response =
-          await _apiService.getData(url: url, showSnackbar: true);
+      dio.Response? response = await _apiService.getData(
+        url: url,
+        showSnackbar: false,
+      );
 
       if (response != null && response.statusCode == 200) {
         // Parse the response data into WishListResponseModel
@@ -48,12 +50,9 @@ class WishListController extends getx.GetxController {
         wishList.value = wishListResponse.data; // Update the wishlist
       } else {
         errorMessage.value = 'Failed to fetch wishlist data';
-        GlobalErrorHandler.handleError(
-            Exception('Failed to fetch wishlist data'));
       }
     } catch (e) {
       errorMessage.value = 'Error: ${e.toString()}';
-      GlobalErrorHandler.handleError(e); // Handle error globally
     } finally {
       isLoading.value = false;
     }
@@ -92,7 +91,7 @@ class WishListController extends getx.GetxController {
     } catch (e) {
       errorMessage.value = 'Error: ${e.toString()}';
       GlobalErrorHandler.handleError(e);
-    }finally{
+    } finally {
       isDeleting.value = false;
     }
   }

@@ -116,16 +116,28 @@ class QuizQuestionView extends StatelessWidget {
           Expanded(child: QuestionView()),
           verticalGap(10.sp),
           Center(
-            child: GlobalButton(
-                height: 40.sp,
-                width: 320.sp,
-                text: "Submint",
-                onTap: () {
-                  quizSubmissionController.submitAnswers(
-                    quizId: questionId,
-                    slug: slug,
-                  );
-                }),
+            child: Obx(() {
+              if (quizSubmissionController.isLoading.value) {
+                return SizedBox(
+                  width: double.infinity,
+                  height: 40.sp,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else {
+                return GlobalButton(
+                    height: 40.sp,
+                    width: 320.sp,
+                    text: "Submint",
+                    onTap: () {
+                      quizSubmissionController.submitAnswers(
+                        quizId: questionId,
+                        slug: slug,
+                      );
+                    });
+              }
+            }),
           ),
           verticalGap(10.sp),
         ],

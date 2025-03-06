@@ -136,14 +136,14 @@ class LandingViewForVideo extends StatelessWidget {
                       })),
                   verticalGap(5.sp),
                   GlobalText(
-                    text: learningDataController.course.value!.data.title,
+                    text: learningDataController.course.value?.data.title ?? "title",
                     softWrap: true,
                     style:
                         TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
                   ),
                   GlobalText(
                     text: learningDataController
-                        .course.value!.data.instructor.name,
+                        .course.value?.data.instructor.name ?? "name",
                     softWrap: true,
                     style: TextStyle(
                         fontSize: 12.sp,

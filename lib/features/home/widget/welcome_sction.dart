@@ -61,7 +61,7 @@ class WelcomeSction extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hi,${profileDataCotroller.userDataResponse.value!.data.name} 👋",
+                          "Hi,${profileDataCotroller.userDataResponse.value?.data.name} 👋",
                           style: TextStyle(
                             color: AppColors.titleTextColor,
                             fontSize: 16.sp,

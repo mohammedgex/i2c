@@ -2,7 +2,7 @@
 
 class ApiEndpoint {
   // static const String baseUrl = 'https://360softbd.com/skillgro/api';
-  static const String baseUrl = 'https://test.shakilahmeed.com/api';
+  static const String baseUrl = '${imageUrl}api';
   // static const String imageUrl = "https://360softbd.com/skillgro/";
   static const String imageUrl = "https://test.shakilahmeed.com/";
 
@@ -60,16 +60,16 @@ class ApiEndpoint {
   }
 
   static String searchCoursesUrl({
-     int? limit,
-     String? currency,
-     String? search,
-     String? main_category,
-     String? sub_category,
-     String? price,
-     String? languages_code,
-     String? levels,
-     String? rating,
-     String? page,
+    int? limit,
+    String? currency,
+    String? search,
+    String? main_category,
+    String? sub_category,
+    String? price,
+    String? languages_code,
+    String? levels,
+    String? rating,
+    String? page,
   }) {
     return '$baseUrl/search-courses?limit=$limit&currency=$currency&search=$search&main_category=$main_category&sub_category=$sub_category&price=$price&languages=$languages_code&levels=$levels&rating=$rating&page=$page';
   }
@@ -165,6 +165,7 @@ class ApiEndpoint {
   static String checkStatusForDownlaodCertificate({required String slug}) {
     return "$baseUrl/learning/$slug/progress";
   }
+
   static String downloadCertificateUrl({
     required String course_slug,
   }) {
@@ -173,8 +174,8 @@ class ApiEndpoint {
 
   // Dashboard Wishlist URLs
   static String dashboardWishlistUrl({
-     int? limit,
-     String? page,
+    int? limit,
+    String? page,
   }) {
     return "$baseUrl/wishlist-courses?limit=$limit&page=$page";
   }

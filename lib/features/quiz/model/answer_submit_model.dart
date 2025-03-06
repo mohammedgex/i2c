@@ -64,7 +64,8 @@ class AnswerData {
     return {
       'user_id': userId,
       'quiz_id': quizId,
-      'result': jsonEncode(result.map((key, value) => MapEntry(key.toString(), value.toJson()))),
+      'result': jsonEncode(
+          result.map((key, value) => MapEntry(key.toString(), value.toJson()))),
       'user_grade': userGrade,
       'status': status,
       'updated_at': updatedAt,
@@ -97,9 +98,6 @@ class AnswerResult {
     };
   }
 }
-
-
-
 
 class AnswerSbumitRequestModel {
   final List<AnswerRequest> answers;

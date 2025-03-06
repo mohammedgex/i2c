@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:skill_grow/core/Global/api_endpoint.dart';
-import 'package:skill_grow/features/quiz/model/answer_submit_model.dart';
+import 'package:skill_grow/features/quiz/model/quiz_result_model.dart';
 import 'package:skill_grow/features/quiz/view/result_view.dart';
 import '../../../core/Global/api_service.dart';
 import '../controller/state_controller.dart';
@@ -13,8 +13,10 @@ class QuizSubmissionController extends GetxController {
   var isLoading = false.obs;
   var submissionSuccess = false.obs;
 
-  Future<void> submitAnswers(
-      {required String slug, required String quizId}) async {
+  Future<void> submitAnswers({
+    required String slug,
+    required String quizId,
+  }) async {
     if (checkBoxController.selectedAnswers.isEmpty) {
       Get.snackbar("Error", "Please select at least one answer.");
       return;
@@ -23,38 +25,30 @@ class QuizSubmissionController extends GetxController {
     isLoading.value = true;
 
     // Convert selected answers to API format
-    List<AnswerRequest> answerList = checkBoxController.selectedAnswers.entries
-        .map((entry) =>
-            AnswerRequest(questionId: entry.key, answerId: entry.value))
-        .toList();
-
-    AnswerSbumitRequestModel requestModel =
-        AnswerSbumitRequestModel(answers: answerList);
-
+    var answer = checkBoxController.answerList;
+    var answerMap = {
+      "answers": answer,
+    };
     try {
       dio.Response? response = await _apiService.postData(
         url: ApiEndpoint.dashboardLearningQuizeUrl(
           course_slug: slug,
           id: quizId,
-        ), // Replace with actual API endpoint
-        data: requestModel.toJson(),
+        ),
+        data: answerMap,
         requiresAuth: true,
       );
 
       print(response!.data);
-      if (response.statusCode == 200 ||
-          response.statusCode == 201 ||
-          response.data["status"] == "success") {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Parse the response into the QuizResult model
+        QuizResult quizResult = QuizResult.fromJson(response.data);
         submissionSuccess.value = true;
-        Get.to(() => SubmittedAnswersView(
-              resultData: response.data,
-            ));
+        Get.to(() => SubmittedAnswersView(quizResult: quizResult,));
       } else {
-        // Get.snackbar("Error", "Failed to submit quiz. Please try again.");
         print("Failed to submit quiz. Response: ${response.data}");
       }
     } catch (e) {
-      // Get.snackbar("Error", "An unexpected error occurred.");
       print("An unexpected error occurred: $e");
     } finally {
       isLoading.value = false;

@@ -128,16 +128,19 @@ class Question {
 
 class Answer {
   final int id;
+  final bool isCorrect;
   final String title;
 
   Answer({
     required this.id,
+    required this.isCorrect,
     required this.title,
   });
 
   factory Answer.fromJson(Map<String, dynamic> json) {
     return Answer(
       id: json['id'],
+      isCorrect: json['correct'],
       title: json['title'],
     );
   }

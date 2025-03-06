@@ -1,18 +1,20 @@
-import 'dart:convert';
-
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:skill_grow/core/colors/app_colors.dart';
 import 'package:skill_grow/core/constant/constant.dart';
+import 'package:skill_grow/core/widgets/appbar.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/quiz/controller/question_data_get_controller.dart';
+import 'package:skill_grow/features/quiz/model/quiz_result_model.dart';
+import 'package:skill_grow/features/quiz/widgets/circle_checkbox.dart';
 
 class SubmittedAnswersView extends StatelessWidget {
-  final Map<String, dynamic> resultData;
+  final QuizResult quizResult;
 
-  const SubmittedAnswersView({super.key, required this.resultData});
+  const SubmittedAnswersView({super.key, required this.quizResult});
 
   @override
   Widget build(BuildContext context) {
@@ -21,159 +23,91 @@ class SubmittedAnswersView extends StatelessWidget {
     final QuizQuestionDataController quizQuestionDataController =
         Get.find<QuizQuestionDataController>();
 
-    // Extract the result field
-    final dynamic resultField = resultData['data']['result'];
-    Map<String, dynamic> results = {};
-
-    if (resultField is Map<String, dynamic>) {
-      results = resultField; // Use directly if it's a Map
-    } else if (resultField is String) {
-      try {
-        results = Map<String, dynamic>.from(
-            jsonDecode(resultField)); // Parse if it's a String
-      } catch (e) {
-        print('Error parsing result: $e');
-      }
-    }
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Submitted Answers'),
-      ),
-      body: SingleChildScrollView(
+      body: ColorfulSafeArea(
         child: Column(
           textDirection: multiLangualDataController.isLTR.value
               ? TextDirection.ltr
               : TextDirection.rtl,
           children: [
-            // Display overall status
-            Container(
+            MyCustomAppBar(
+              verticalPadding: 0,
+              horizontalPadding: 10.sp,
+              isShowbackButton: true,
+            ),
+            Padding(
               padding: EdgeInsets.all(16.sp),
-              margin: EdgeInsets.all(16.sp),
-              decoration: BoxDecoration(
-                color: resultData['data']['status'] == 'passed'
-                    ? Colors.green.withOpacity(0.2)
-                    : Colors.red.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(10.r),
-              ),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Icon(
-                    resultData['data']['status'] == 'passed'
-                        ? Icons.check_circle
-                        : Icons.cancel,
-                    color: resultData['data']['status'] == 'passed'
-                        ? Colors.green
-                        : Colors.red,
+                  GlobalText(
+                    text: 'Quiz Result',
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
                   ),
-                  horizontalGap(10.sp),
-                  Expanded(
-                    child: GlobalText(
-                      softWrap: true,
-                      text: 'Quiz Status: ${resultData['data']['status']}',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: resultData['data']['status'] == 'passed'
-                            ? Colors.green
-                            : Colors.red,
-                      ),
+                  Spacer(),
+                  GlobalText(
+                    text: 'Marks: ',
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: AppColors.titleTextColor,
+                    ),
+                  ),
+                  GlobalText(
+                    text: quizResult.data.userGrade.toString(),
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: AppColors.titleTextColor,
                     ),
                   ),
                 ],
               ),
             ),
-            // Display individual results
-            ...quizQuestionDataController.quizData.value!.data.quiz.questions
-                .map((question) {
-              final String questionId = question.id.toString();
-              final Map<String, dynamic>? questionResult = results[questionId];
-              final int? selectedAnswerId = questionResult?['answer'];
-              final bool isCorrect = questionResult?['correct'] ?? false;
-
-              // Find the correct answer for this question
-
-              return Container(
-                margin: EdgeInsets.only(bottom: 10.sp),
-                padding: EdgeInsets.all(15.sp),
-                decoration: BoxDecoration(
-                  color: AppColors.nuralItemBackgroundColor,
-                ),
-                child: Column(
-                  textDirection: multiLangualDataController.isLTR.value
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  children: [
-                    // Question Title
-                    Row(
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.all(16.sp),
+                itemCount: quizQuestionDataController
+                    .quizData.value!.data.quiz.questions.length,
+                itemBuilder: (context, index) {
+                  final question = quizQuestionDataController
+                      .quizData.value!.data.quiz.questions[index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 10.sp),
+                    padding: EdgeInsets.all(15.sp),
+                    decoration: BoxDecoration(
+                      color: AppColors.nuralItemBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       textDirection: multiLangualDataController.isLTR.value
                           ? TextDirection.ltr
                           : TextDirection.rtl,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GlobalText(
-                          text: "Q${question.id}. ",
-                          softWrap: true,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.titleTextColor,
-                          ),
-                        ),
-                        Expanded(
-                          child: GlobalText(
-                            text: question.title,
-                            softWrap: true,
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.titleTextColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    verticalGap(10.sp),
-                    // Display all answer options
-                    ...question.answers.map((answer) {
-                      final bool isSelected = answer.id == selectedAnswerId;
-
-                      // Determine border color
-                      Color borderColor = Colors.grey; // Default color
-                      if (isSelected) {
-                        borderColor = isCorrect ? Colors.green : Colors.red;
-                      }
-
-                      return Container(
-                        margin: EdgeInsets.only(bottom: 10.sp),
-                        width: double.infinity,
-                        padding: EdgeInsets.all(11.sp),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: borderColor,
-                          ),
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: Row(
+                        Row(
                           textDirection: multiLangualDataController.isLTR.value
                               ? TextDirection.ltr
                               : TextDirection.rtl,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Icon for selected and correct/incorrect answers
-                            if (isSelected)
-                              Icon(
-                                isCorrect ? Icons.check : Icons.close,
-                                color: isCorrect ? Colors.green : Colors.red,
+                            GlobalText(
+                              text: "${index + 1}. ",
+                              softWrap: true,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.titleTextColor,
                               ),
-
-                            horizontalGap(10.sp),
+                            ),
                             Expanded(
                               child: GlobalText(
-                                text: answer.title,
+                                text: question.title,
                                 softWrap: true,
                                 style: TextStyle(
-                                  fontSize: 13.sp,
+                                  fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
                                   color: AppColors.titleTextColor,
                                 ),
@@ -181,12 +115,56 @@ class SubmittedAnswersView extends StatelessWidget {
                             ),
                           ],
                         ),
-                      );
-                    }),
-                  ],
-                ),
-              );
-            }),
+                        verticalGap(10.sp),
+                        ...question.answers.map((ans) {
+                          Color borderColor =
+                              AppColors.failedSnackIconBackgroundColor;
+                          if (ans.isCorrect) {
+                            borderColor =
+                                AppColors.successSnackIconBackgroundColor;
+                          }
+                          return Container(
+                            margin: EdgeInsets.only(bottom: 10.sp),
+                            width: double.infinity,
+                            padding: EdgeInsets.all(11.sp),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: borderColor, width: 2.sp),
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                            child: Row(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CustomCircleCheckbox(
+                                  questionId: question.id,
+                                  answerId: ans.id,
+                                ),
+                                horizontalGap(10.sp),
+                                Expanded(
+                                  child: GlobalText(
+                                    text: ans.title,
+                                    softWrap: true,
+                                    style: TextStyle(
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.titleTextColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

@@ -264,11 +264,20 @@ class _CurriculumViewState extends State<CurriculumView> {
                                       ),
                               );
                             }),
-                            subtitle: GlobalText(
-                              text: chapter.item.duration.toString(),
-                              softWrap: true,
-                              style: TextStyle(fontSize: 10.sp),
-                            ),
+                            subtitle: Obx(() {
+                              return GlobalText(
+                                text: chapter.item.duration.toString(),
+                                softWrap: true,
+                                style: selectedIndex.value ==
+                                        chapter.item.id.toString()
+                                    ? TextStyle(
+                                        fontSize: 10.sp,
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.bold,
+                                      )
+                                    : TextStyle(fontSize: 10.sp),
+                              );
+                            }),
                             trailing: SvgPicture.asset(
                               AppIcon.playIcon,
                               color: AppColors.activeIconColor,

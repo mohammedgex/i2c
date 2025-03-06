@@ -124,7 +124,8 @@ class LoginView extends StatelessWidget {
                           child: GlobalText(
                             text: "Register",
                             softWrap: true,
-                            style: TextStyle(fontSize: 13.sp),
+                            style: TextStyle(
+                                fontSize: 13.sp, color: AppColors.primaryColor),
                           ),
                         ),
                       ],

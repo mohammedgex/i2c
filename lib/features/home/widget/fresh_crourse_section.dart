@@ -252,18 +252,22 @@ class FreshCourseSection extends StatelessWidget {
                                       ? TextDirection.ltr
                                       : TextDirection.rtl,
                               children: [
-                                GlobalText(
-                                  text: freshCourseController
-                                      .courses[index].discount
-                                      .toString(),
-                                  style: TextStyle(
-                                      color: AppColors.smallTextColor,
-                                      fontSize: 11.sp,
-                                      fontWeight: FontWeight.w400,
-                                      height: 11.sp / 9.sp,
-                                      decoration: TextDecoration.lineThrough),
-                                  softWrap: false,
-                                ),
+                                freshCourseController.courses[index].discount ==
+                                        0
+                                    ? Container()
+                                    : GlobalText(
+                                        text: freshCourseController
+                                            .courses[index].discount
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: AppColors.smallTextColor,
+                                            fontSize: 11.sp,
+                                            fontWeight: FontWeight.w400,
+                                            height: 11.sp / 9.sp,
+                                            decoration:
+                                                TextDecoration.lineThrough),
+                                        softWrap: false,
+                                      ),
                                 horizontalGap(5.sp),
                                 GlobalText(
                                   text: freshCourseController

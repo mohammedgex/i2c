@@ -239,8 +239,11 @@ class SearchDetalsView extends StatelessWidget {
                                                       ? TextDirection.ltr
                                                       : TextDirection.rtl,
                                               children: [
-                                                GlobalText(
-                                                  text: result.discount,
+                                               result.discount ==
+                                        0
+                                    ? Container()
+                                    :  GlobalText(
+                                                  text: result.discount.toString(),
                                                   style: TextStyle(
                                                     decoration: TextDecoration
                                                         .lineThrough,

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+// import 'package:get/get.dart' as getx;
 import 'package:skill_grow/core/widgets/snackbar.dart';
+// import 'package:skill_grow/features/authentication/view/login_view.dart';
 
 class GlobalErrorHandler {
   // Method to handle different error types
@@ -34,6 +36,11 @@ class GlobalErrorHandler {
     try {
       if (response.data is Map<String, dynamic>) {
         var data = response.data;
+        print(response.statusCode);
+
+        // if (response.statusCode == 401) {
+        //   getx.Get.to(()=> LoginView());
+        // }
 
         // Check if the message is in the 'message' or 'error' field
         if (data.containsKey('message')) {

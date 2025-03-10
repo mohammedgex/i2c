@@ -99,7 +99,7 @@ class _ProfileViewState extends State<ProfileView> {
                           height: 120.sp,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.mainRedColor,
+                            color: AppColors.primaryColor,
                             image: DecorationImage(
                                 image: profileDataCotroller.userDataResponse
                                             .value?.data.image !=

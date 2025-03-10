@@ -38,93 +38,92 @@ class PopularCoursesSection extends StatelessWidget {
 
   Widget _buildShimmerEffect() {
     return Shimmer.fromColors(
-            baseColor: AppColors.nuralItemBackgroundColor,
-            highlightColor: AppColors.shimmerBackgroundColor,
-            child: SizedBox(
-              height: 171.sp,
-              child: ListView.builder(
-                  // shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(right: 10.sp),
-                      child: Column(
+      baseColor: AppColors.nuralItemBackgroundColor,
+      highlightColor: AppColors.shimmerBackgroundColor,
+      child: SizedBox(
+        height: 171.sp,
+        child: ListView.builder(
+            // shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.only(right: 10.sp),
+                child: Column(
+                    textDirection: multiLangualDataController.isLTR.value
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 101.sp,
+                        width: 159.sp,
+                        decoration: BoxDecoration(
+                          color: AppColors.nuralItemBackgroundColor,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                      ),
+                      verticalGap(5.sp),
+                      Container(
+                        height: 8.sp,
+                        width: 150.sp,
+                        decoration: BoxDecoration(
+                          color: AppColors.nuralItemBackgroundColor,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                      ),
+                      verticalGap(5.sp),
+                      Container(
+                        height: 8.sp,
+                        width: 100.sp,
+                        decoration: BoxDecoration(
+                          color: AppColors.nuralItemBackgroundColor,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                      ),
+                      verticalGap(7.sp),
+                      Container(
+                        height: 8.sp,
+                        width: 150.sp,
+                        decoration: BoxDecoration(
+                          color: AppColors.nuralItemBackgroundColor,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                      ),
+                      Spacer(),
+                      Row(
                           textDirection: multiLangualDataController.isLTR.value
                               ? TextDirection.ltr
                               : TextDirection.rtl,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              height: 101.sp,
-                              width: 159.sp,
-                              decoration: BoxDecoration(
-                                color: AppColors.nuralItemBackgroundColor,
-                                borderRadius: BorderRadius.circular(10.sp),
-                              ),
-                            ),
-                            verticalGap(5.sp),
-                            Container(
-                              height: 8.sp,
-                              width: 150.sp,
-                              decoration: BoxDecoration(
-                                color: AppColors.nuralItemBackgroundColor,
-                                borderRadius: BorderRadius.circular(10.sp),
-                              ),
-                            ),
-                            verticalGap(5.sp),
-                            Container(
-                              height: 8.sp,
+                              height: 20.sp,
                               width: 100.sp,
                               decoration: BoxDecoration(
                                 color: AppColors.nuralItemBackgroundColor,
                                 borderRadius: BorderRadius.circular(10.sp),
                               ),
                             ),
-                            verticalGap(7.sp),
+                            horizontalGap(5.sp),
                             Container(
-                              height: 8.sp,
-                              width: 150.sp,
+                              height: 20.sp,
+                              width: 50.sp,
                               decoration: BoxDecoration(
                                 color: AppColors.nuralItemBackgroundColor,
                                 borderRadius: BorderRadius.circular(10.sp),
                               ),
                             ),
-                            Spacer(),
-                            Row(
-                                textDirection:
-                                    multiLangualDataController.isLTR.value
-                                        ? TextDirection.ltr
-                                        : TextDirection.rtl,
-                                children: [
-                                  Container(
-                                    height: 20.sp,
-                                    width: 100.sp,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.nuralItemBackgroundColor,
-                                      borderRadius:
-                                          BorderRadius.circular(10.sp),
-                                    ),
-                                  ),
-                                  horizontalGap(5.sp),
-                                  Container(
-                                    height: 20.sp,
-                                    width: 50.sp,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.nuralItemBackgroundColor,
-                                      borderRadius:
-                                          BorderRadius.circular(10.sp),
-                                    ),
-                                  ),
-                                ])
-                          ]),
-                    );
-                  }),
-            ),
-          );
+                          ])
+                    ]),
+              );
+            }),
+      ),
+    );
   }
-  Widget _buildCourseList(MultiLangualDataController multiLangualDataController) {
+
+  Widget _buildCourseList(
+      MultiLangualDataController multiLangualDataController) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -138,7 +137,8 @@ class PopularCoursesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildCourseItem(int index, MultiLangualDataController multiLangualDataController) {
+  Widget _buildCourseItem(
+      int index, MultiLangualDataController multiLangualDataController) {
     final course = popularCourseItemController.courses[index];
 
     return Bounceable(
@@ -239,16 +239,18 @@ class PopularCoursesSection extends StatelessWidget {
         ),
         Row(
           children: [
-            GlobalText(
-              text: "${course.discount}",
-              style: TextStyle(
-                color: AppColors.smallTextColor,
-                fontSize: 11.sp,
-                fontWeight: FontWeight.w400,
-                decoration: TextDecoration.lineThrough,
-              ),
-              softWrap: true,
-            ),
+            course.discount == 0
+                ? Container()
+                : GlobalText(
+                    text: "${course.discount}",
+                    style: TextStyle(
+                      color: AppColors.smallTextColor,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w400,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                    softWrap: true,
+                  ),
             horizontalGap(5.sp),
             GlobalText(
               text: "${course.price}",

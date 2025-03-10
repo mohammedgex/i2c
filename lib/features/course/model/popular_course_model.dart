@@ -31,7 +31,7 @@ class CourseData {
   final String title;
   final String thumbnail;
   final String price;
-  final String discount;
+  final  discount;
   final Instructor instructor;
   final int students;
   final double averageRating;

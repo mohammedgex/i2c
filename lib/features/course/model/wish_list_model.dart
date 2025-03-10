@@ -26,7 +26,7 @@ WishListModel {
   final String title;
   final String thumbnail;
   final String price;
-  final String discount;
+  var discount;
   final Instructor instructor;
   final int students;
   final int averageRating;

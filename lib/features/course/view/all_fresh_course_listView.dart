@@ -247,23 +247,31 @@ class AllFreshCourseListview extends StatelessWidget {
                                                             ? TextDirection.ltr
                                                             : TextDirection.rtl,
                                                     children: [
-                                                      GlobalText(
-                                                        text:
-                                                            freshCourseConroller
-                                                                .courses[index]
-                                                                .discount
-                                                                .toString(),
-                                                        style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            fontSize: 10.sp,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .titleTextColor),
-                                                        softWrap: true,
-                                                      ),
+                                                      freshCourseConroller
+                                                                  .courses[
+                                                                      index]
+                                                                  .discount ==
+                                                              0
+                                                          ? Container()
+                                                          : GlobalText(
+                                                              text: freshCourseConroller
+                                                                  .courses[
+                                                                      index]
+                                                                  .discount
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough,
+                                                                  fontSize:
+                                                                      10.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppColors
+                                                                      .titleTextColor),
+                                                              softWrap: true,
+                                                            ),
                                                       horizontalGap(3.sp),
                                                       GlobalText(
                                                         text:
@@ -272,9 +280,6 @@ class AllFreshCourseListview extends StatelessWidget {
                                                                 .price
                                                                 .toString(),
                                                         style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
                                                             fontSize: 15.sp,
                                                             fontWeight:
                                                                 FontWeight.w600,

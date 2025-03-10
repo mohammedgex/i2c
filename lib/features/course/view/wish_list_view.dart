@@ -210,23 +210,28 @@ class WishListView extends StatelessWidget {
                                                         ? TextDirection.ltr
                                                         : TextDirection.rtl,
                                                 children: [
-                                                  Text(
-                                                    wishItem.discount
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true,
-                                                  ),
+                                                  wishItem.discount == 0
+                                                      ? Container()
+                                                      : GlobalText(
+                                                          text: wishItem
+                                                              .discount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              fontSize: 10.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColors
+                                                                  .titleTextColor),
+                                                          softWrap: true,
+                                                        ),
                                                   horizontalGap(3.sp),
-                                                  Text(
-                                                    wishItem.price.toString(),
+                                                  GlobalText(
+                                                    text: wishItem.price
+                                                        .toString(),
                                                     style: TextStyle(
                                                         fontSize: 15.sp,
                                                         fontWeight:

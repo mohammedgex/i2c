@@ -249,23 +249,31 @@ class AllPopularCourseListview extends StatelessWidget {
                                                             ? TextDirection.ltr
                                                             : TextDirection.rtl,
                                                     children: [
-                                                      GlobalText(
-                                                        text:
-                                                            popularCourseController
-                                                                .courses[index]
-                                                                .discount
-                                                                .toString(),
-                                                        style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
-                                                            fontSize: 10.sp,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color: AppColors
-                                                                .titleTextColor),
-                                                        softWrap: true,
-                                                      ),
+                                                      popularCourseController
+                                                                  .courses[
+                                                                      index]
+                                                                  .discount ==
+                                                              0
+                                                          ? Container()
+                                                          : GlobalText(
+                                                              text: popularCourseController
+                                                                  .courses[
+                                                                      index]
+                                                                  .discount
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .lineThrough,
+                                                                  fontSize:
+                                                                      10.sp,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  color: AppColors
+                                                                      .titleTextColor),
+                                                              softWrap: true,
+                                                            ),
                                                       horizontalGap(3.sp),
                                                       GlobalText(
                                                         text:
@@ -274,9 +282,6 @@ class AllPopularCourseListview extends StatelessWidget {
                                                                 .price
                                                                 .toString(),
                                                         style: TextStyle(
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .lineThrough,
                                                             fontSize: 15.sp,
                                                             fontWeight:
                                                                 FontWeight.w600,

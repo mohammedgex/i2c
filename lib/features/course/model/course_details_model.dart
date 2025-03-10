@@ -16,7 +16,7 @@ class CourseDetailsResponseModel {
   final int quizzesCount;
   final String languages;
   final String price;
-  final String discount;
+  var  discount;
   final String description;
   final List<Curriculum> curriculums;
 

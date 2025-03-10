@@ -217,22 +217,26 @@ class CartView extends StatelessWidget {
                                                         ? TextDirection.ltr
                                                         : TextDirection.rtl,
                                                 children: [
-                                                  Text(
-                                                    cart.discount.toString(),
-                                                    style: TextStyle(
-                                                        decoration:
-                                                            TextDecoration
-                                                                .lineThrough,
-                                                        fontSize: 10.sp,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: AppColors
-                                                            .titleTextColor),
-                                                    softWrap: true,
-                                                  ),
+                                                  cart.discount == 0
+                                                      ? Container()
+                                                      : GlobalText(
+                                                          text: cart.discount
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .lineThrough,
+                                                              fontSize: 10.sp,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: AppColors
+                                                                  .titleTextColor),
+                                                          softWrap: true,
+                                                        ),
                                                   horizontalGap(3.sp),
-                                                  Text(
-                                                    cart.price.toString(),
+                                                  GlobalText(
+                                                    text: cart.price.toString(),
                                                     style: TextStyle(
                                                         fontSize: 15.sp,
                                                         fontWeight:

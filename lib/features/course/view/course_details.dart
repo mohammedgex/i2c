@@ -345,7 +345,11 @@ class CourseDetailsView extends StatelessWidget {
                                     ),
                                     horizontalGap(5.sp),
                                     FittedBox(
-                                      child: GlobalText(
+                                      child:  courseDetalisController
+                                                .course.value?.discount ==
+                                        0
+                                    ? Container()
+                                    : GlobalText(
                                         text: courseDetalisController
                                                 .course.value?.discount ??
                                             "N/A",

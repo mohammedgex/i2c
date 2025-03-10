@@ -5,7 +5,6 @@ import '../../../core/Global/api_service.dart';
 import '../../../core/Global/sharedPref.dart';
 import '../model/category_list_model.dart';
 
-
 class MainCategoryController extends GetxController {
   final ApiService _apiService = ApiService();
 
@@ -19,13 +18,15 @@ class MainCategoryController extends GetxController {
     super.onInit();
     fetchCategories(langCode);
   }
+
   // Fetch Categories from API
   Future<void> fetchCategories(String languageCode) async {
     isLoading.value = true;
 
     try {
       final dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.courseMainCategoriesUrl(languageCode:  languageCode),
+        url: ApiEndpoint.courseMainCategoriesUrl(languageCode: languageCode),
+        requiresAuth: false,
       );
 
       if (response != null && response.statusCode == 200) {

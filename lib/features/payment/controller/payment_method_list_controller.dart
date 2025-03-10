@@ -53,7 +53,8 @@ class PaymentMethodsController extends GetxController {
 
   var isLoading = false.obs;
   var errorMessage = ''.obs;
-  var paymentMethods = <PaymentMethod>[].obs; // ✅ List instead of a fixed object
+  var paymentMethods =
+      <PaymentMethod>[].obs; // ✅ List instead of a fixed object
 
   @override
   void onInit() {
@@ -67,14 +68,16 @@ class PaymentMethodsController extends GetxController {
 
     try {
       dio.Response? response = await _apiService.getData(
-        url: ApiEndpoint.payemntMethodsListUrl, // ✅ Replace with actual API endpoint
+        url: ApiEndpoint
+            .payemntMethodsListUrl, // ✅ Replace with actual API endpoint
         requiresAuth: true,
       );
 
       if (response != null && response.statusCode == 200) {
         var jsonData = response.data;
         var paymentData = PaymentMethodResponseModel.fromJson(jsonData);
-        paymentMethods.value = paymentData.paymentMethods.values.toList(); // ✅ Convert map to list
+        paymentMethods.value =
+            paymentData.paymentMethods.values.toList(); // ✅ Convert map to list
       } else {
         errorMessage.value = 'Failed to load payment methods';
       }

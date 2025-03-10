@@ -240,7 +240,10 @@ class CategoryResultView extends StatelessWidget {
                                                       ? TextDirection.ltr
                                                       : TextDirection.rtl,
                                               children: [
-                                                GlobalText(
+                                               result.discount ==
+                                        0
+                                    ? Container()
+                                    : GlobalText(
                                                   text: result.discount,
                                                   style: TextStyle(
                                                     decoration: TextDecoration

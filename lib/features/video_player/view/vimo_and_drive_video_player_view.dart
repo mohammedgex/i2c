@@ -15,7 +15,7 @@ class _WebVideoPlayerState extends State<WebVideoPlayer> {
     return WebViewWidget(
       controller: WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        ..loadRequest(Uri.parse(widget.url)),
+        ..loadRequest(Uri.parse(widget.url)), 
     );
   }
 }

@@ -68,7 +68,8 @@ class PaymentMethodListView extends StatelessWidget {
 
                         return Bounceable(
                           onTap: () {
-                            paymentUrlController.initiatePayment(method.name);
+                            paymentUrlController.initiatePayment(method.key);
+                            print("Selected payment method: ${method.key}");
                           },
                           child: Obx(() {
                             // Check if the current method is loading

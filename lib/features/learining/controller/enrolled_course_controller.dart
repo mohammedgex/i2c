@@ -24,6 +24,7 @@ class EnrolledCourseController extends GetxController {
     try {
       dio.Response? response = await _apiService.getData(
         requiresAuth: true,
+        showSnackbar: false,
         url: ApiEndpoint.dashboardEnrolledCourseUrl(page: page, limit: 10),
       );
 
@@ -36,14 +37,15 @@ class EnrolledCourseController extends GetxController {
 
           // Update pagination state
           currentPage.value = page + 1; // Increment page for next request
-          isMoreDataAvailable.value = currentPage.value <= fetchedData.pagination.lastPage;
+          isMoreDataAvailable.value =
+              currentPage.value <= fetchedData.pagination.lastPage;
         } else {
           // No more data available
           isMoreDataAvailable.value = false;
         }
       } else {
         // Handle null response
-        errorMessage.value = 'Failed to fetch data. Please try again.';
+        errorMessage.value = 'No data found';
       }
     } catch (e) {
       // Handle errors

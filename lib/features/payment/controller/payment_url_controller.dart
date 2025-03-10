@@ -51,10 +51,15 @@ class PaymentUrlController extends GetxController {
       if ((response.statusCode == 200 || response.statusCode == 201) &&
           response.data != null) {
         var paymentData = PaymentUrlResponseModel.fromJson(response.data);
-        cartListController.cartData.value = CartData(totalQty: 0, totalAmount: '', cartCourses: []); // Assuming cartData is a List
+        cartListController.cartData.value = CartData(
+            totalQty: 0,
+            totalAmount: '',
+            cartCourses: []); // Assuming cartData is a List
         cartListController.cartData.close();
         _launchURL(paymentData.url);
         print("Payment URL: ${paymentData.url}");
+        print("Status Code: ${response.statusCode}");
+
         Get.offAll(() => CustomPersistentBottomNavBar());
       } else {
         _handleErrorResponse(response);
@@ -63,7 +68,7 @@ class PaymentUrlController extends GetxController {
       String errorMsg = e.response?.data['message'] ?? "Something went wrong";
       String? supportCurrency = e.response?.data['supportCurrency'];
       _handleErrorOrNavigate(errorMsg, supportCurrency);
-      print("Error: ${e.response?.data}");
+      print("Error mesage: ${e.response?.data}");
     } on SocketException {
       _handleErrorOrNavigate("No internet connection.",
           "Please check your connection and try again.");

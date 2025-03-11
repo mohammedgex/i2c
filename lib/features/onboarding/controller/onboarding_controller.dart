@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/Global/api_service.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:skill_grow/core/Global/sharedPref.dart';
 import 'package:skill_grow/features/authentication/view/login_view.dart';
 import 'package:skill_grow/features/onboarding/model/onboarding_model.dart';
 
@@ -37,6 +38,7 @@ class OnboardingController extends GetxController {
         curve: Curves.easeInOut,
       );
     } else {
+      SharedPrefUtil.put("isFirstTime", false);
       // Navigate to home or login screen
       Get.offAll(() => LoginView());
     }

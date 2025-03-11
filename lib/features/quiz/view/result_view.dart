@@ -14,7 +14,6 @@ import 'package:skill_grow/features/cart/view/cart_view.dart';
 import 'package:skill_grow/features/course/view/wish_list_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/quiz/controller/question_data_get_controller.dart';
-import 'package:skill_grow/features/quiz/controller/state_controller.dart';
 import 'package:skill_grow/features/quiz/model/quiz_result_model.dart';
 import 'package:skill_grow/features/quiz/widgets/circle_checkbox.dart';
 
@@ -167,7 +166,7 @@ class SubmittedAnswersView extends StatelessWidget {
                     width: double.infinity,
                     height: 100.sp,
                     decoration: BoxDecoration(
-                      color: quizResult.status == "failed"
+                      color: quizResult.data.status == "failed"
                           ? AppColors.failedSnackIconBackgroundColor
                           : AppColors.successSnackIconBackgroundColor,
                       borderRadius: BorderRadius.circular(10.sp),
@@ -181,7 +180,7 @@ class SubmittedAnswersView extends StatelessWidget {
                             : TextDirection.rtl,
                         children: [
                           SvgPicture.asset(
-                            quizResult.status == "failed"
+                            quizResult.data.status == "failed"
                                 ? AppIcon.failedIcon
                                 : AppIcon.successIcon,
                             width: 30.sp,
@@ -197,7 +196,7 @@ class SubmittedAnswersView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 GlobalText(
-                                  text: quizResult.status == "failed"
+                                  text: quizResult.data.status == "failed"
                                       ? "Sorry!"
                                       : "Congratulations!",
                                   style: TextStyle(
@@ -208,7 +207,7 @@ class SubmittedAnswersView extends StatelessWidget {
                                 ),
                                 verticalGap(5.sp),
                                 GlobalText(
-                                  text: quizResult.status == "failed"
+                                  text: quizResult.data.status == "failed"
                                       ? "You have failed the quiz."
                                       : "You have passed the quiz.",
                                   style: TextStyle(

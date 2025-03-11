@@ -159,36 +159,49 @@ class SubmittedAnswersView extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(16.sp),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GlobalText(
-                    text: 'Quiz Result',
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+                padding: EdgeInsets.all(16.sp),
+                child: Row(
+                  spacing: 5.sp,
+                  textDirection: multiLangualDataController.isLTR.value
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  children: [
+                    _buildStatCard(
+                      value: quizQuestionDataController
+                          .quizData.value!.data.quiz.passMark
+                          .toString(),
+                      total: quizQuestionDataController
+                          .quizData.value!.data.quiz.totalMark
+                          .toString(),
+                      label: "Minimum Marks",
+                      backgroundColor:
+                          AppColors.successSnackIconBackgroundColor,
                     ),
-                  ),
-                  Spacer(),
-                  GlobalText(
-                    text: 'Marks: ',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.titleTextColor,
+                    _buildStatCard(
+                      value: quizQuestionDataController
+                          .quizData.value!.data.attempt
+                          .toString(),
+                      total: quizQuestionDataController
+                          .quizData.value!.data.quiz.attempt
+                          .toString(),
+                      label: "Attempts",
+                      backgroundColor: AppColors.infoSnackIconBackgroundColor,
                     ),
-                  ),
-                  GlobalText(
-                    text: quizResult.data.userGrade.toString(),
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.titleTextColor,
+                    _buildStatCard(
+                      value: quizQuestionDataController
+                          .quizData.value!.data.quiz.totalQuestions
+                          .toString(),
+                      label: "Questions",
+                      backgroundColor:
+                          AppColors.warningSnackIconBackgroundColor,
                     ),
-                  ),
-                ],
-              ),
-            ),
+                    _buildStatCard(
+                      value: quizResult.data.userGrade.toString(),
+                      label: "Marks",
+                      backgroundColor: AppColors.failedSnackIconBackgroundColor,
+                    ),
+                  ],
+                )),
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.all(16.sp),
@@ -291,6 +304,63 @@ class SubmittedAnswersView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Flexible _buildStatCard({
+    required String value,
+    String? total,
+    required String label,
+    required Color backgroundColor,
+  }) {
+    return Flexible(
+      child: Container(
+        padding: EdgeInsets.all(5.sp),
+        height: 70.sp,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(10.sp),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(value, style: _statTextStyle()),
+                if (total != null) ...[
+                  GlobalText(
+                    text: "/",
+                    style: _statTextStyle(),
+                    softWrap: true,
+                  ),
+                  Text(total, style: _statTextStyle()),
+                ],
+              ],
+            ),
+            GlobalText(
+              softWrap: true,
+              text: label,
+              style: TextStyle(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+                height: 10.sp / 10.sp,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TextStyle _statTextStyle() {
+    return TextStyle(
+      fontSize: 17.sp,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
     );
   }
 }

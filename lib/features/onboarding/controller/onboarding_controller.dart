@@ -1,41 +1,53 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:skill_grow/features/navigation_bar/views/bottom_navigation_bar.dart';
-
-import '../../../core/images/app_image.dart';
-
+import 'package:skill_grow/core/Global/api_endpoint.dart';
+import 'package:skill_grow/core/Global/api_service.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:skill_grow/features/authentication/view/login_view.dart';
+import 'package:skill_grow/features/onboarding/model/onboarding_model.dart';
 
 class OnboardingController extends GetxController {
-  var currentPageIndex = 0.obs; // Track the current page index
+  final ApiService _apiService = ApiService();
+  Rx<OnboardingModel?> welcomeData = Rx<OnboardingModel?>(null);
+  RxBool isLoading = true.obs;
+  RxInt currentPage = 0.obs;
+  PageController pageController = PageController();
 
-  // List of onboarding data
-  List<Map> onboardingData = [
-    {
-      "title": "Welcome to SkillGrow",
-      "subtitle":
-          "Unlock your potential and embark on a transformative learning journey with us.",
-      "image": AppImage.onboardingImage1, // Replace with your actual image path
-    },
-    {
-      "title": "Learn at Your Pace",
-      "subtitle":
-          "Access courses anytime, anywhere, and track your progress as you grow.",
-      "image": AppImage.onboardingImage2, // Replace with your actual image path
-    },
-    {
-      "title": "Showcase Your Skills",
-      "subtitle":
-          "Complete courses to earn certificates and take your career to new heights.",
-      "image": AppImage.onboardingImage3, // Replace with your actual image path
-    },
-  ];
+  @override
+  void onInit() {
+    fetchOnboardingData();
+    super.onInit();
+  }
 
-  // Method to go to the next page
-   void goToNextPage() {
-    if (currentPageIndex.value < onboardingData.length - 1) {
-      currentPageIndex.value++;
+  void fetchOnboardingData() async {
+    isLoading.value = true;
+    dio.Response? response =
+        await _apiService.getData(url: ApiEndpoint.onboardingUrl);
+
+    if (response != null && response.statusCode == 200) {
+      welcomeData.value = OnboardingModel.fromJson(response.data);
+    }
+    isLoading.value = false;
+  }
+
+  void nextPage() {
+    if (currentPage.value < welcomeData.value!.data.length - 1) {
+      pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     } else {
-      // Navigate to HomeScreen
-      Get.off(() => CustomPersistentBottomNavBar());
+      // Navigate to home or login screen
+      Get.offAll(() => LoginView());
+    }
+  }
+
+  void previousPage() {
+    if (currentPage.value > 0) {
+      pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
     }
   }
 }

@@ -1,10 +1,18 @@
 import 'dart:async';
 import 'package:get/get.dart';
+import 'package:skill_grow/features/quiz/controller/submit_answer_controller.dart';
+
+  QuizSubmissionController quizSubmissionController =
+        Get.put(QuizSubmissionController());
 class CountdownController extends GetxController {
   var hours = 0.obs;
   var minutes = 0.obs;
   var seconds = 0.obs;
   Timer? _timer;
+
+  var questionId = "".obs;
+  var slug = ''.obs;
+ 
 
   // Function to initialize time from minutes input
   void setTimeFromMinutes(int totalMinutes) {
@@ -18,6 +26,11 @@ class CountdownController extends GetxController {
     stopCountdown(); // Stops any existing timer before starting a new one
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (hours.value == 0 && minutes.value == 0 && seconds.value == 0) {
+        print("Time's up!");
+         quizSubmissionController.submitAnswers(
+                        quizId: questionId.value,
+                        slug: slug.value,
+                      );
         timer.cancel();
       } else {
         if (seconds.value > 0) {

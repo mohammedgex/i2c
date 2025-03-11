@@ -34,6 +34,8 @@ class QuizQuestionView extends StatelessWidget {
         Get.put(CountdownController());
 
     quizQuestionDataController.fetchQuiz(course_slug: slug, id: questionId);
+    countdownController.questionId.value = questionId;
+    countdownController.slug.value = slug;
 
     return Scaffold(
       body: Obx(() {
@@ -131,6 +133,7 @@ class QuizQuestionView extends StatelessWidget {
                     width: 320.sp,
                     text: "Submint",
                     onTap: () {
+                      
                       quizSubmissionController.submitAnswers(
                         quizId: questionId,
                         slug: slug,

@@ -358,7 +358,7 @@ class _ProfileViewState extends State<ProfileView> {
                 verticalGap(10.sp),
                 Bounceable(
                   onTap: () {
-                    Get.to(() => LogoutPopupMenu());
+                    showLogoutDialog(context, false) ;
                   },
                   child: Container(
                     width: double.infinity,

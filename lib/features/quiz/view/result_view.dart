@@ -14,6 +14,7 @@ import 'package:skill_grow/features/cart/view/cart_view.dart';
 import 'package:skill_grow/features/course/view/wish_list_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
 import 'package:skill_grow/features/quiz/controller/question_data_get_controller.dart';
+import 'package:skill_grow/features/quiz/controller/state_controller.dart';
 import 'package:skill_grow/features/quiz/model/quiz_result_model.dart';
 import 'package:skill_grow/features/quiz/widgets/circle_checkbox.dart';
 
@@ -158,6 +159,70 @@ class SubmittedAnswersView extends StatelessWidget {
                 ],
               ),
             ),
+            verticalGap(10.sp),
+            Obx(() {
+              return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                  child: Container(
+                    width: double.infinity,
+                    height: 100.sp,
+                    decoration: BoxDecoration(
+                      color: quizResult.status == "failed"
+                          ? AppColors.failedSnackIconBackgroundColor
+                          : AppColors.successSnackIconBackgroundColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          SvgPicture.asset(
+                            quizResult.status == "failed"
+                                ? AppIcon.failedIcon
+                                : AppIcon.successIcon,
+                            width: 30.sp,
+                            height: 30.sp,
+                          ),
+                          horizontalGap(20.sp),
+                          Column(
+                              textDirection:
+                                  multiLangualDataController.isLTR.value
+                                      ? TextDirection.ltr
+                                      : TextDirection.rtl,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GlobalText(
+                                  text: quizResult.status == "failed"
+                                      ? "Sorry!"
+                                      : "Congratulations!",
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                verticalGap(5.sp),
+                                GlobalText(
+                                  text: quizResult.status == "failed"
+                                      ? "You have failed the quiz."
+                                      : "You have passed the quiz.",
+                                  style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ])
+                        ],
+                      ),
+                    ),
+                  ));
+            }),
             Padding(
                 padding: EdgeInsets.all(16.sp),
                 child: Row(
@@ -195,52 +260,47 @@ class SubmittedAnswersView extends StatelessWidget {
                       backgroundColor:
                           AppColors.warningSnackIconBackgroundColor,
                     ),
-                    _buildStatCard(
-                      value: quizResult.data.userGrade.toString(),
-                      label: "Marks",
-                      backgroundColor: AppColors.failedSnackIconBackgroundColor,
-                    ),
+                    // _buildStatCard(
+                    //   value: quizResult.data.userGrade.toString(),
+                    //   label: "Marks",
+                    //   backgroundColor: AppColors.failedSnackIconBackgroundColor,
+                    // ),
                   ],
                 )),
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.all(16.sp),
-                itemCount: quizQuestionDataController
-                    .quizData.value!.data.quiz.questions.length,
-                itemBuilder: (context, index) {
-                  final question = quizQuestionDataController
-                      .quizData.value!.data.quiz.questions[index];
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 10.sp),
-                    padding: EdgeInsets.all(15.sp),
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.r),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        Row(
-                          textDirection: multiLangualDataController.isLTR.value
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            GlobalText(
-                              text: "${index + 1}. ",
-                              softWrap: true,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.titleTextColor,
-                              ),
-                            ),
-                            Expanded(
-                              child: GlobalText(
-                                text: question.title,
+              child: Directionality(
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                child: ListView.builder(
+                  padding: EdgeInsets.all(16.sp),
+                  itemCount: quizQuestionDataController
+                      .quizData.value!.data.quiz.questions.length,
+                  itemBuilder: (context, index) {
+                    final question = quizQuestionDataController
+                        .quizData.value!.data.quiz.questions[index];
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 10.sp),
+                      padding: EdgeInsets.all(15.sp),
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          Row(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GlobalText(
+                                text: "${index + 1}. ",
                                 softWrap: true,
                                 style: TextStyle(
                                   fontSize: 14.sp,
@@ -248,57 +308,68 @@ class SubmittedAnswersView extends StatelessWidget {
                                   color: AppColors.titleTextColor,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        verticalGap(10.sp),
-                        ...question.answers.map((ans) {
-                          Color borderColor =
-                              AppColors.failedSnackIconBackgroundColor;
-                          if (ans.isCorrect) {
-                            borderColor =
-                                AppColors.successSnackIconBackgroundColor;
-                          }
-                          return Container(
-                            margin: EdgeInsets.only(bottom: 10.sp),
-                            width: double.infinity,
-                            padding: EdgeInsets.all(11.sp),
-                            decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: borderColor, width: 2.sp),
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Row(
-                              textDirection:
-                                  multiLangualDataController.isLTR.value
-                                      ? TextDirection.ltr
-                                      : TextDirection.rtl,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CustomCircleCheckbox(
-                                  questionId: question.id,
-                                  answerId: ans.id,
-                                ),
-                                horizontalGap(10.sp),
-                                Expanded(
-                                  child: GlobalText(
-                                    text: ans.title,
-                                    softWrap: true,
-                                    style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.titleTextColor,
-                                    ),
+                              Expanded(
+                                child: GlobalText(
+                                  text: question.title,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.titleTextColor,
                                   ),
                                 ),
-                              ],
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  );
-                },
+                              ),
+                            ],
+                          ),
+                          verticalGap(10.sp),
+                          ...question.answers.map((ans) {
+                            Color borderColor =
+                                AppColors.failedSnackIconBackgroundColor;
+                            if (ans.isCorrect) {
+                              borderColor =
+                                  AppColors.successSnackIconBackgroundColor;
+                            }
+                            return Container(
+                              margin: EdgeInsets.only(bottom: 10.sp),
+                              width: double.infinity,
+                              padding: EdgeInsets.all(11.sp),
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: borderColor, width: 1.sp),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Row(
+                                textDirection:
+                                    multiLangualDataController.isLTR.value
+                                        ? TextDirection.ltr
+                                        : TextDirection.rtl,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  CustomCircleCheckbox(
+                                    questionId: question.id,
+                                    answerId: ans.id,
+                                  ),
+                                  horizontalGap(10.sp),
+                                  Expanded(
+                                    child: GlobalText(
+                                      text: ans.title,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 13.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.titleTextColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
           ],

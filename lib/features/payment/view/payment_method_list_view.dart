@@ -17,12 +17,12 @@ class PaymentMethodListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MultiLangualDataController multiLangualDataController =
+    final MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
-    PaymentMethodsController paymentMethodsController =
+    final PaymentMethodsController paymentMethodsController =
         Get.put(PaymentMethodsController());
-
-    PaymentUrlController paymentUrlController = Get.put(PaymentUrlController());
+    final PaymentUrlController paymentUrlController =
+        Get.put(PaymentUrlController());
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -30,110 +30,123 @@ class PaymentMethodListView extends StatelessWidget {
         color: AppColors.scaffoldBackgroundColor,
         child: Obx(() {
           if (paymentMethodsController.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (paymentMethodsController.paymentMethods.isEmpty) {
-            return Center(child: Text("No payment methods available"));
+            return const Center(child: Text("No payment methods available"));
           } else {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.sp),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  textDirection: multiLangualDataController.isLTR.value
-                      ? TextDirection.ltr
-                      : TextDirection.rtl,
-                  children: [
-                    MyCustomAppBar(
-                      verticalPadding: 0,
-                      horizontalPadding: 0,
-                      isShowbackButton: true,
-                    ),
-                    verticalGap(10.sp),
-                    GlobalText(
-                      text: "Payment Methods",
-                      softWrap: true,
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: AppColors.titleTextColor,
-                      ),
-                    ),
-                    verticalGap(10.sp),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: paymentMethodsController.paymentMethods.length,
-                      itemBuilder: (context, index) {
-                        PaymentMethod method =
-                            paymentMethodsController.paymentMethods[index];
-
-                        return Bounceable(
-                          onTap: () {
-                            paymentUrlController.initiatePayment(method.key);
-                            print("Selected payment method: ${method.key}");
-                          },
-                          child: Obx(() {
-                            // Check if the current method is loading
-                            bool isLoading = paymentUrlController
-                                    .isLoadingMap[method.name] ??
-                                false;
-
-                            return Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(10.sp),
-                              margin: EdgeInsets.only(bottom: 10.sp),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.sp),
-                                color: AppColors.nuralItemBackgroundColor,
-                              ),
-                              child: Row(
-                                textDirection:
-                                    multiLangualDataController.isLTR.value
-                                        ? TextDirection.ltr
-                                        : TextDirection.rtl,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                    child: Image.network(
-                                      method.logo,
-                                      height: 50.sp,
-                                      width: 100.sp,
-                                    ),
-                                  ),
-                                  horizontalGap(10.sp),
-                                  GlobalText(
-                                    text: method.name,
-                                    style: TextStyle(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.titleTextColor,
-                                    ),
-                                    softWrap: true,
-                                  ),
-                                  Spacer(),
-                                  // Show loading indicator only for the clicked item
-                                  isLoading
-                                      ? CircularProgressIndicator(
-                                          color: AppColors.primaryColor,
-                                        )
-                                      : Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 15.sp,
-                                          color: AppColors.titleTextColor,
-                                        ),
-                                ],
-                              ),
-                            );
-                          }),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return _buildPaymentMethodList(
+                multiLangualDataController, paymentMethodsController, paymentUrlController);
           }
         }),
       ),
+    );
+  }
+
+  Widget _buildPaymentMethodList(
+    MultiLangualDataController multiLangualDataController,
+    PaymentMethodsController paymentMethodsController,
+    PaymentUrlController paymentUrlController,
+  ) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.sp),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          textDirection: multiLangualDataController.isLTR.value
+              ? TextDirection.ltr
+              : TextDirection.rtl,
+          children: [
+            MyCustomAppBar(
+              verticalPadding: 0,
+              horizontalPadding: 0,
+              isShowbackButton: true,
+            ),
+            verticalGap(10.sp),
+            GlobalText(
+              text: "Payment Methods",
+              softWrap: true,
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: AppColors.titleTextColor,
+              ),
+            ),
+            verticalGap(10.sp),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: paymentMethodsController.paymentMethods.length,
+              itemBuilder: (context, index) {
+                final PaymentMethod method =
+                    paymentMethodsController.paymentMethods[index];
+                return _buildPaymentMethodItem(
+                    method, multiLangualDataController, paymentUrlController);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPaymentMethodItem(
+    PaymentMethod method,
+    MultiLangualDataController multiLangualDataController,
+    PaymentUrlController paymentUrlController,
+  ) {
+    return Bounceable(
+      onTap: () {
+        paymentUrlController.initiatePayment(method.key);
+        print("Selected payment method: ${method.key}");
+      },
+      child: Obx(() {
+        final bool isLoading =
+            paymentUrlController.isLoading(method.key);
+
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.all(10.sp),
+          margin: EdgeInsets.only(bottom: 10.sp),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.sp),
+            color: AppColors.nuralItemBackgroundColor,
+          ),
+          child: Row(
+            textDirection: multiLangualDataController.isLTR.value
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.sp),
+                child: Image.network(
+                  method.logo,
+                  height: 50.sp,
+                  width: 100.sp,
+                ),
+              ),
+              horizontalGap(10.sp),
+              GlobalText(
+                text: method.name,
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.titleTextColor,
+                ),
+                softWrap: true,
+              ),
+              const Spacer(),
+              isLoading
+                  ? CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    )
+                  : Icon(
+                      Icons.arrow_forward_ios,
+                      size: 15.sp,
+                      color: AppColors.titleTextColor,
+                    ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

@@ -45,7 +45,11 @@ class AccountSettingLandingView extends StatelessWidget {
                   : TextDirection.rtl,
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.sp),
+                  padding: EdgeInsets.only(
+                    left: 15.sp,
+                    right: 15.sp,
+                    top: 15.sp,
+                  ),
                   child: Row(
                     textDirection: multiLangualDataController.isLTR.value
                         ? TextDirection.ltr
@@ -157,13 +161,15 @@ class AccountSettingLandingView extends StatelessWidget {
                               .userDataResponse.value?.data.jobTitle ??
                           'No Job Title',
                       softWrap: true,
-                      style:
-                          const TextStyle(fontSize: 16, color: Colors.white70),
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
                     )),
                 verticalGap(20.sp),
                 Expanded(
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.only(
+                      left: 16.sp,
+                      right: 16.sp,
+                    ),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: const BorderRadius.only(
@@ -239,7 +245,7 @@ class AccountSettingLandingView extends StatelessWidget {
 
   Widget _buildInfoRow(IconData icon, String title, String value) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.only(top: 7.sp),
       child: Row(
         textDirection: multiLangualDataController.isLTR.value
             ? TextDirection.ltr

@@ -103,7 +103,7 @@ class LearingView extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(5.sp),
                                         child: Image.network(
-                                          ApiEndpoint.imageUrl + data.thumbnail,
+                                          ApiEndpoint.BASE_URL + data.thumbnail,
                                           fit: BoxFit.cover,
                                         ),
                                       ),

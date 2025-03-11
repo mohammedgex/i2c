@@ -115,7 +115,7 @@ class CartView extends StatelessWidget {
                                             BorderRadius.circular(10.sp),
                                       ),
                                       child: Image.network(
-                                        ApiEndpoint.imageUrl + cart.thumbnail,
+                                        ApiEndpoint.BASE_URL + cart.thumbnail,
                                         // fit: BoxFit.cover,
                                       ),
                                     ),

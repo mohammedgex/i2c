@@ -325,10 +325,9 @@ class ToggleWidget extends StatelessWidget {
                                           height: 17.sp,
                                           width: 17.sp,
                                           child: SvgPicture.asset(
-                                                  AppIcon.lockIcon,
-                                                  color:
-                                                      AppColors.activeIconColor,
-                                                ),
+                                            AppIcon.lockIcon,
+                                            color: AppColors.activeIconColor,
+                                          ),
                                         )),
                                   );
                                 } else {
@@ -489,7 +488,7 @@ class ToggleWidget extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 25.r,
                                   backgroundImage: NetworkImage(
-                                      ApiEndpoint.imageUrl +
+                                      ApiEndpoint.BASE_URL +
                                           courseReviewController
                                               .course.value!.data[0].avatar),
                                 ),

@@ -21,7 +21,7 @@ class ReviewItem extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 25.r,
-            backgroundImage: NetworkImage(ApiEndpoint.imageUrl + review.avatar),
+            backgroundImage: NetworkImage(ApiEndpoint.BASE_URL + review.avatar),
           ),
           horizontalGap(10.sp),
           Column(

@@ -129,7 +129,6 @@ class CategoryAllItemView extends StatelessWidget {
           return Bounceable(
             onTap: () {
               Get.to(() => CategoryResultView(main_category: category.slug));
-           
             },
             child: Column(
               children: [
@@ -144,7 +143,7 @@ class CategoryAllItemView extends StatelessWidget {
                   ),
                   child: Center(
                     child: Image.network(
-                      ApiEndpoint.imageUrl + category.icon,
+                      ApiEndpoint.BASE_URL + category.icon,
                       errorBuilder: (context, error, stackTrace) => Icon(
                         Icons.image_not_supported,
                         color: AppColors.smallTextColor,

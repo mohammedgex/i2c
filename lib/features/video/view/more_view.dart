@@ -85,7 +85,7 @@ class MoreView extends StatelessWidget {
             ),
             Bounceable(
               onTap: () {
-                Share.share('${ApiEndpoint.imageUrl}course/$slug');
+                Share.share('${ApiEndpoint.BASE_URL}course/$slug');
               },
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value

@@ -30,7 +30,7 @@ class InitialTumbnailUI extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(10.sp),
           child: Image.network(
-            ApiEndpoint.imageUrl + thumbnailImage,
+            ApiEndpoint.BASE_URL + thumbnailImage,
             fit: BoxFit.cover,
           ),
         ),

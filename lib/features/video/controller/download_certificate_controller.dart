@@ -35,7 +35,7 @@ class DownloadCertificateController extends GetxController {
             CheckCertificateForDownloadResponseModel.fromJson(response.data);
         if (responsedData.value!.data.toDouble() == 100.toDouble()) {
           launchUrl(Uri.parse(
-              "${ApiEndpoint.baseUrl}/download-certificate/$slug?bearer_token=$token"));
+              "${ApiEndpoint.API_BASE_URL}/download-certificate/$slug?bearer_token=$token"));
         } else {
           customSnackbar(
               title: "Error",

@@ -274,7 +274,7 @@ class QNAView extends StatelessWidget {
                 CircleAvatar(
                   radius: 25.sp,
                   backgroundImage:
-                      NetworkImage(ApiEndpoint.imageUrl + qna.user.image),
+                      NetworkImage(ApiEndpoint.BASE_URL + qna.user.image),
                 ),
                 horizontalGap(15.sp),
                 Column(

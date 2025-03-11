@@ -23,9 +23,11 @@ class RepliesOfQuestionView extends StatelessWidget {
   final int questionId;
   RepliesOfQuestionView({Key? key, required this.questionId});
   ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
- CreateReplyController createReplyController = Get.put(CreateReplyController());
+  CreateReplyController createReplyController =
+      Get.put(CreateReplyController());
   final QnaDataController qnaDataController = Get.put(QnaDataController());
-  DeleteQuestionAndReplyController deleteQuestionAndReplyController = Get.put(DeleteQuestionAndReplyController());
+  DeleteQuestionAndReplyController deleteQuestionAndReplyController =
+      Get.put(DeleteQuestionAndReplyController());
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +87,7 @@ class RepliesOfQuestionView extends StatelessWidget {
                             CircleAvatar(
                               radius: 25.sp,
                               backgroundImage: NetworkImage(
-                                  ApiEndpoint.imageUrl +
+                                  ApiEndpoint.BASE_URL +
                                       qnaQuestion.user.image),
                             ),
                             horizontalGap(15.sp),
@@ -217,7 +219,7 @@ class RepliesOfQuestionView extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 25.sp,
                                   backgroundImage: NetworkImage(
-                                      ApiEndpoint.imageUrl + reply.user.image),
+                                      ApiEndpoint.BASE_URL + reply.user.image),
                                 ),
                                 horizontalGap(15.sp),
                                 Column(
@@ -248,7 +250,13 @@ class RepliesOfQuestionView extends StatelessWidget {
                                   IconButton(
                                     onPressed: () {
                                       // Add delete functionality if needed
-                                      deleteQuestionAndReplyController.deleteReplay(replyId: reply.id.toString(), lessonId: createReplyController.lessonId!, slug: createReplyController.slug!);
+                                      deleteQuestionAndReplyController
+                                          .deleteReplay(
+                                              replyId: reply.id.toString(),
+                                              lessonId: createReplyController
+                                                  .lessonId!,
+                                              slug:
+                                                  createReplyController.slug!);
                                     },
                                     icon: SvgPicture.asset(
                                       AppIcon.binIcon,

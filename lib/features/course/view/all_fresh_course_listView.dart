@@ -180,7 +180,7 @@ class AllFreshCourseListview extends StatelessWidget {
                                                   BorderRadius.circular(7.sp),
                                               image: DecorationImage(
                                                   image: NetworkImage(
-                                                      ApiEndpoint.imageUrl +
+                                                      ApiEndpoint.BASE_URL +
                                                           freshCourseConroller
                                                               .courses[index]
                                                               .thumbnail),

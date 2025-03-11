@@ -14,7 +14,6 @@ import '../../../core/constant/constant.dart';
 import '../../../core/widgets/texts.dart';
 import '../../mulit_langual_data/controller/multi_langual_data_controller.dart';
 
-
 class CategoryResultView extends StatelessWidget {
   final String search;
   final String main_category;
@@ -26,13 +25,13 @@ class CategoryResultView extends StatelessWidget {
 
   const CategoryResultView({
     super.key,
-     this.search = "",
+    this.search = "",
     required this.main_category,
-     this.sub_category= "",
-     this.price= "",
-     this.languages_code= "",
-     this.levels= "",
-     this.rating= "",
+    this.sub_category = "",
+    this.price = "",
+    this.languages_code = "",
+    this.levels = "",
+    this.rating = "",
   });
 
   @override
@@ -177,7 +176,7 @@ class CategoryResultView extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5.r),
                                       child: Image.network(
-                                        ApiEndpoint.imageUrl + result.thumbnail,
+                                        ApiEndpoint.BASE_URL + result.thumbnail,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -240,21 +239,22 @@ class CategoryResultView extends StatelessWidget {
                                                       ? TextDirection.ltr
                                                       : TextDirection.rtl,
                                               children: [
-                                               result.discount ==
-                                        0
-                                    ? Container()
-                                    : GlobalText(
-                                                  text: result.discount,
-                                                  style: TextStyle(
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                    fontSize: 10.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColors
-                                                        .titleTextColor,
-                                                  ),
-                                                  softWrap: true,
-                                                ),
+                                                result.discount == 0
+                                                    ? Container()
+                                                    : GlobalText(
+                                                        text: result.discount,
+                                                        style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          fontSize: 10.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: AppColors
+                                                              .titleTextColor,
+                                                        ),
+                                                        softWrap: true,
+                                                      ),
                                                 horizontalGap(3.sp),
                                                 GlobalText(
                                                   text: result.price,

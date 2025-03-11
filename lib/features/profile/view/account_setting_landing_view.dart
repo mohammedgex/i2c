@@ -82,7 +82,7 @@ class AccountSettingLandingView extends StatelessWidget {
                                 imagePickerController.profileImage.value != null
                                     ? FileImage(imagePickerController
                                         .profileImage.value!) as ImageProvider
-                                    : NetworkImage(ApiEndpoint.imageUrl +
+                                    : NetworkImage(ApiEndpoint.BASE_URL +
                                         (profileDataCotroller.userDataResponse
                                                 .value?.data.image ??
                                             '')) as ImageProvider,

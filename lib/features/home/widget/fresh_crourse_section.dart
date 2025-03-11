@@ -155,7 +155,7 @@ class FreshCourseSection extends StatelessWidget {
                             child: Container(
                               constraints: BoxConstraints(minHeight: 80.sp),
                               child: Image.network(
-                                ApiEndpoint.imageUrl +
+                                ApiEndpoint.BASE_URL +
                                     freshCourseController
                                         .courses[index].thumbnail,
                                 fit: BoxFit.cover,

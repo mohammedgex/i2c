@@ -104,7 +104,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 image: profileDataCotroller.userDataResponse
                                             .value?.data.image !=
                                         null
-                                    ? NetworkImage(ApiEndpoint.imageUrl +
+                                    ? NetworkImage(ApiEndpoint.BASE_URL +
                                         profileDataCotroller
                                             .userDataResponse.value!.data.image)
                                     : AssetImage(AppImage.profile),
@@ -235,7 +235,7 @@ class _ProfileViewState extends State<ProfileView> {
                 verticalGap(10.sp),
                 Bounceable(
                   onTap: () {
-                    launchUrl(Uri.parse("${ApiEndpoint.imageUrl}about-us"));
+                    launchUrl(Uri.parse("${ApiEndpoint.BASE_URL}about-us"));
                   },
                   child: Container(
                     width: double.infinity,
@@ -358,7 +358,7 @@ class _ProfileViewState extends State<ProfileView> {
                 verticalGap(10.sp),
                 Bounceable(
                   onTap: () {
-                    showLogoutDialog(context, false) ;
+                    showLogoutDialog(context, false);
                   },
                   child: Container(
                     width: double.infinity,

@@ -19,7 +19,6 @@ class CategorySection extends StatelessWidget {
       Get.put(MainCategoryController());
   @override
   Widget build(BuildContext context) {
-
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     return Padding(
@@ -77,8 +76,9 @@ class CategorySection extends StatelessWidget {
             itemBuilder: (context, index) {
               return Bounceable(
                 onTap: () {
-                  Get.to(() => CategoryResultView(main_category: categoryItmeController.categories[index].slug));
-                  
+                  Get.to(() => CategoryResultView(
+                      main_category:
+                          categoryItmeController.categories[index].slug));
                 },
                 child: Column(
                   textDirection: multiLangualDataController.isLTR.value
@@ -99,7 +99,7 @@ class CategorySection extends StatelessWidget {
                       ),
                       child: Center(
                         child: Image.network(
-                          ApiEndpoint.imageUrl +
+                          ApiEndpoint.BASE_URL +
                               categoryItmeController.categories[index].icon,
                         ),
                       ),

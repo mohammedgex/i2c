@@ -171,7 +171,7 @@ class PopularCoursesSection extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.sp),
       child: Image.network(
-        ApiEndpoint.imageUrl + thumbnail,
+        ApiEndpoint.BASE_URL + thumbnail,
         fit: BoxFit.cover,
       ),
     );

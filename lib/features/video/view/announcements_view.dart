@@ -101,7 +101,7 @@ class AnnouncementsView extends StatelessWidget {
                                     CircleAvatar(
                                       radius: 20.sp,
                                       backgroundImage: NetworkImage(
-                                        ApiEndpoint.imageUrl +
+                                        ApiEndpoint.BASE_URL +
                                             announcement.instructor.image,
                                       ),
                                     ),

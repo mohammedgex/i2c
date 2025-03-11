@@ -105,7 +105,7 @@ class WishListView extends StatelessWidget {
                                             BorderRadius.circular(10.sp),
                                       ),
                                       child: Image.network(
-                                        ApiEndpoint.imageUrl +
+                                        ApiEndpoint.BASE_URL +
                                             wishItem.thumbnail,
                                         // fit: BoxFit.cover,
                                       ),

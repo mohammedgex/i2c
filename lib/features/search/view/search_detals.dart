@@ -176,7 +176,7 @@ class SearchDetalsView extends StatelessWidget {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5.r),
                                       child: Image.network(
-                                        ApiEndpoint.imageUrl + result.thumbnail,
+                                        ApiEndpoint.BASE_URL + result.thumbnail,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -239,21 +239,23 @@ class SearchDetalsView extends StatelessWidget {
                                                       ? TextDirection.ltr
                                                       : TextDirection.rtl,
                                               children: [
-                                               result.discount ==
-                                        0
-                                    ? Container()
-                                    :  GlobalText(
-                                                  text: result.discount.toString(),
-                                                  style: TextStyle(
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                    fontSize: 10.sp,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColors
-                                                        .titleTextColor,
-                                                  ),
-                                                  softWrap: true,
-                                                ),
+                                                result.discount == 0
+                                                    ? Container()
+                                                    : GlobalText(
+                                                        text: result.discount
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          fontSize: 10.sp,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: AppColors
+                                                              .titleTextColor,
+                                                        ),
+                                                        softWrap: true,
+                                                      ),
                                                 horizontalGap(3.sp),
                                                 GlobalText(
                                                   text: result.price,

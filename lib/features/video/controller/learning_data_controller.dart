@@ -12,8 +12,8 @@ class LearningDataController extends GetxController {
   var course = Rxn<LearningCourseDetailsModel>(); // Stores course data
   var isLoading = false.obs; // Tracks loading state
   var errorMessage = ''.obs; // Stores error messages
-  var alreadyWatchedLectures = <String>[].obs; // Tracks watched lectures
-  var alreadyCompletedQuiz = <String>[].obs; // Tracks completed quizzes
+  var alreadyWatchedLectures = <int>[].obs; // Tracks watched lectures
+  var alreadyCompletedQuiz = <int>[].obs; // Tracks completed quizzes
 
   final ApiService _apiService = ApiService();
 
@@ -64,14 +64,14 @@ class LearningDataController extends GetxController {
   // Mark a lecture as watched
   void markLectureAsWatched(String lectureId) {
     if (!alreadyWatchedLectures.contains(lectureId)) {
-      alreadyWatchedLectures.add(lectureId);
+      alreadyWatchedLectures.add(int.parse(lectureId));
     }
   }
 
   // Mark a quiz as completed
   void markQuizAsCompleted(int quizId) {
     if (!alreadyCompletedQuiz.contains(quizId)) {
-      alreadyCompletedQuiz.add(quizId.toString());
+      alreadyCompletedQuiz.add(quizId);
     }
   }
 }

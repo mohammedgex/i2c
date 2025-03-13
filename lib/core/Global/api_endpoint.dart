@@ -2,7 +2,8 @@
 
 class ApiEndpoint {
   
-  static const String BASE_URL = "https://test.shakilahmeed.com/";
+  static const String BASE_URL = "https://skillgrotest.websolutionus.com/";
+
 
   static const String API_BASE_URL = '${BASE_URL}api';
 

@@ -251,7 +251,7 @@ class _ProfileViewState extends State<ProfileView> {
                             : TextDirection.rtl,
                         children: [
                           horizontalGap(10.sp),
-                          GlobalText(text: "About Skillgrow", softWrap: true),
+                          GlobalText(text: "About Skillgro", softWrap: true),
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios,

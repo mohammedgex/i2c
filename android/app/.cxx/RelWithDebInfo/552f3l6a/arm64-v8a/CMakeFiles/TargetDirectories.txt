@@ -1,0 +1,2 @@
+/Users/meharabislam/development/skillgro/android/app/.cxx/RelWithDebInfo/552f3l6a/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/meharabislam/development/skillgro/android/app/.cxx/RelWithDebInfo/552f3l6a/arm64-v8a/CMakeFiles/rebuild_cache.dir

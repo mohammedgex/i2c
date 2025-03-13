@@ -42,7 +42,8 @@ class DownloadController extends GetxController {
 
       // Extract file extension from the URL
       String fileExtension = _getFileExtensionFromUrl(url);
-      String fileName = "${DateTime.now().millisecondsSinceEpoch} ${name.replaceAll(' ', '_')}$fileExtension"; // Include file extension in the name
+      String fileName =
+          "${DateTime.now().millisecondsSinceEpoch} ${name.replaceAll(' ', '_')}$fileExtension"; // Include file extension in the name
       String savePath = join(downloadsDir.path, fileName);
 
       print('DEBUG: Saving to -> $savePath');
@@ -70,7 +71,8 @@ class DownloadController extends GetxController {
       print('File downloaded and saved to: $savePath');
     } on DioException catch (e) {
       isDownloading.value = false;
-      errorMessage.value = 'Failed to download file: ${e.response?.statusCode ?? ''} ${e.message}';
+      errorMessage.value =
+          'Failed to download file: ${e.response?.statusCode ?? ''} ${e.message}';
       print('Dio Error: ${e.response?.statusCode ?? ''} ${e.message}');
     } on SocketException catch (e) {
       isDownloading.value = false;
@@ -108,7 +110,8 @@ class DownloadController extends GetxController {
         Permission.manageExternalStorage, // For Android 10+
       ].request();
 
-      return statuses[Permission.storage]!.isGranted || statuses[Permission.manageExternalStorage]!.isGranted;
+      return statuses[Permission.storage]!.isGranted ||
+          statuses[Permission.manageExternalStorage]!.isGranted;
     }
     return true; // No permission needed for iOS
   }
@@ -116,10 +119,13 @@ class DownloadController extends GetxController {
   // Get the internal storage directory path
   Future<Directory?> _getDownloadDirectory() async {
     if (Platform.isAndroid) {
-      String appPackageName = "com.websolutionus.skillgrow"; // Replace with your actual app package name
-      Directory appDocDir = Directory('/storage/emulated/0/Android/media/$appPackageName/');
+      String appPackageName =
+          "com.websolutionus.skillgro"; // Replace with your actual app package name
+      Directory appDocDir =
+          Directory('/storage/emulated/0/Android/media/$appPackageName/');
       if (!await appDocDir.exists()) {
-        await appDocDir.create(recursive: true); // Create the directory if it doesn't exist
+        await appDocDir.create(
+            recursive: true); // Create the directory if it doesn't exist
       }
       return appDocDir; // Return the internal storage path
     } else {

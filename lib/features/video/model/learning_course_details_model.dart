@@ -21,8 +21,8 @@ class CourseData {
   final Instructor instructor;
   final List<Curriculum> curriculums;
   final CurrentProgress currentProgress;
-  late final List<String> alreadyWatchedLectures;
-  final List<String> alreadyCompletedQuiz;
+  late final List<int> alreadyWatchedLectures;
+  final List<int> alreadyCompletedQuiz;
 
   CourseData({
     required this.thumbnail,
@@ -46,8 +46,8 @@ class CourseData {
           .toList(),
       currentProgress: CurrentProgress.fromJson(json['current_progress']),
       alreadyWatchedLectures:
-          List<String>.from(json['already_watched_lectures']),
-      alreadyCompletedQuiz: List<String>.from(json['already_completed_quiz']),
+          List<int>.from(json['already_watched_lectures']),
+      alreadyCompletedQuiz: List<int>.from(json['already_completed_quiz']),
     );
   }
 }

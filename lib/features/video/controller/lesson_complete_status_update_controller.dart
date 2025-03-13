@@ -30,7 +30,7 @@ class LessonCompleteStatusUpdateController extends GetxController {
           watchedLectures.remove(lessonIntId);
           print("❌ Lesson ID $lessonIntId marked as incomplete.");
         } else {
-          watchedLectures.add(lessonIntId);
+          watchedLectures.add(int.parse(lessonIntId));
           print("✅ Lesson ID $lessonIntId marked as complete.");
         }
 
@@ -76,7 +76,7 @@ class QuizCompleteStatusUpdateController extends GetxController {
           completedQuizzes.remove(quizIntId);
           print("❌ Quiz ID $quizIntId marked as incomplete.");
         } else {
-          completedQuizzes.add(quizIntId);
+          completedQuizzes.add(int.parse(quizIntId));
           print("✅ Quiz ID $quizIntId marked as complete.");
         }
 

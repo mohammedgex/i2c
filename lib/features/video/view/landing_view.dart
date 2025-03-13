@@ -28,7 +28,8 @@ class LandingViewForVideo extends StatelessWidget {
   Widget build(BuildContext context) {
     final CreateQuestionController createQuestionController =
         Get.put(CreateQuestionController());
-       CreateReplyController createReplyController = Get.put(CreateReplyController());
+    CreateReplyController createReplyController =
+        Get.put(CreateReplyController());
     final QnaDataController qnaDataController = Get.put(QnaDataController());
     void fetchQNA(lesson_id, slug) {
       createQuestionController.lessonId = lesson_id.toString();
@@ -111,8 +112,8 @@ class LandingViewForVideo extends StatelessWidget {
                           } else {
                             return InitialTumbnailUI(
                                 isShowWishIcon: false,
-                                thumbnailImage: learningDataController
-                                    .course.value!.data.thumbnail,
+                                thumbnailImage: learningDataController.course.value?.data.thumbnail ?? 'https://images.pexels.com/photos/1630049/pexels-photo-1630049.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+,
                                 wishOntap: () {},
                                 playOntap: () {
                                   videoPlayController.fetchVideoFile(
@@ -136,14 +137,16 @@ class LandingViewForVideo extends StatelessWidget {
                       })),
                   verticalGap(5.sp),
                   GlobalText(
-                    text: learningDataController.course.value?.data.title ?? "title",
+                    text: learningDataController.course.value?.data.title ??
+                        "title",
                     softWrap: true,
                     style:
                         TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
                   ),
                   GlobalText(
                     text: learningDataController
-                        .course.value?.data.instructor.name ?? "name",
+                            .course.value?.data.instructor.name ??
+                        "name",
                     softWrap: true,
                     style: TextStyle(
                         fontSize: 12.sp,

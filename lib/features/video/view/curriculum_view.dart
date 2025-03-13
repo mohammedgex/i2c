@@ -201,7 +201,7 @@ class _CurriculumViewState extends State<CurriculumView> {
                                 if (widget.learningDataController.course.value!
                                     .data.alreadyWatchedLectures
                                     .contains(
-                                  chapter.item.id.toString(),
+                                  chapter.item.id,
                                 )) {
                                   return Bounceable(
                                     onTap: () {
@@ -302,7 +302,7 @@ class _CurriculumViewState extends State<CurriculumView> {
                           builder: (controller) {
                             if (widget.learningDataController.course.value!.data
                                 .alreadyCompletedQuiz
-                                .contains(chapter.item.id.toString())) {
+                                .contains(chapter.item.id)) {
                               return Bounceable(
                                 onTap: () {
                                   quizCompleteStatusUpdateController.sendStatus(

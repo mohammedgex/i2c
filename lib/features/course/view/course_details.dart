@@ -281,7 +281,7 @@ class CourseDetailsView extends StatelessWidget {
                     verticalGap(15.sp),
                     CourseInfo(
                         courseDetalisController: courseDetalisController),
-                    verticalGap(15.sp),
+                    // verticalGap(10.sp),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -345,22 +345,22 @@ class CourseDetailsView extends StatelessWidget {
                                     ),
                                     horizontalGap(5.sp),
                                     FittedBox(
-                                      child:  courseDetalisController
-                                                .course.value?.discount ==
-                                        0
-                                    ? Container()
-                                    : GlobalText(
-                                        text: courseDetalisController
-                                                .course.value?.discount ??
-                                            "N/A",
-                                        softWrap: true,
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          fontWeight: FontWeight.w400,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                        ),
-                                      ),
+                                      child: courseDetalisController
+                                                  .course.value?.discount ==
+                                              0
+                                          ? Container()
+                                          : GlobalText(
+                                              text: courseDetalisController
+                                                      .course.value?.discount ??
+                                                  "N/A",
+                                              softWrap: true,
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.w400,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                              ),
+                                            ),
                                     ),
                                   ],
                                 )

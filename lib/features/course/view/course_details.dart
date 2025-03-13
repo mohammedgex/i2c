@@ -406,7 +406,7 @@ class CourseDetailsView extends StatelessWidget {
                             }
                           }),
                         ),
-                        horizontalGap(10.sp),
+                        // horizontalGap(10.sp),
                       ],
                     ),
                     ToggleWidget(

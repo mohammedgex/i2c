@@ -3,6 +3,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/learining/view/learing_view.dart';
 import 'package:skill_grow/features/mulit_langual_data/controller/multi_langual_data_controller.dart';
@@ -93,7 +94,7 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
               height: iconSize,
               color: iconColor, // Change color based on selection
             ),
-            SizedBox(height: 4.h),
+            verticalGap(4.h),
             GlobalText(
               softWrap: false,
               text: label,

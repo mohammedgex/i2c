@@ -130,7 +130,7 @@ class GlobalText extends StatelessWidget {
     required this.text,
     this.style,
     this.textAlign,
-     this.softWrap = true,
+    this.softWrap = true,
     this.overflow = TextOverflow.fade,
     this.maxLines,
     this.locale,
@@ -210,6 +210,9 @@ class HtmlGlobalText extends StatelessWidget {
       data: translatedText,
       style: {
         "body": Style(
+          direction: multiLangualDataController.isLTR.value
+              ? TextDirection.ltr
+              : TextDirection.rtl,
           fontSize: FontSize(style?.fontSize ?? 12),
           fontWeight: style?.fontWeight,
           color: style?.color,

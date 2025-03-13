@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:skill_grow/core/Global/api_endpoint.dart';
 import 'package:skill_grow/core/widgets/snackbar.dart';
+import 'package:skill_grow/features/profile/controller/profile_data_cotroller.dart';
 import '../../../core/Global/api_service.dart';
 
 class ImagePickerController extends GetxController {
@@ -11,6 +12,7 @@ class ImagePickerController extends GetxController {
   final Rx<File?> profileImage = Rx<File?>(null);
   final RxBool isUploading = false.obs; // Observe upload state
   final RxBool isImageSelected = false.obs;
+  ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
 
   Future<void> pickImage() async {
     try {
@@ -55,6 +57,8 @@ class ImagePickerController extends GetxController {
             title: 'Success',
             message: 'Profile picture updated successfully',
             type: CustomSnackbarType.success);
+
+        profileDataCotroller.fetchData();
 
         // Check if the response status is success
       } else {

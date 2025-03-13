@@ -65,337 +65,340 @@ class _ProfileViewState extends State<ProfileView> {
       body: ColorfulSafeArea(
         bottom: false,
         color: AppColors.scaffoldBackgroundColor,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              textDirection: multiLangualDataController.isLTR.value
-                  ? TextDirection.ltr
-                  : TextDirection.rtl,
-              children: [
-                MyCustomAppBar(
-                  horizontalPadding: 0,
-                  verticalPadding: 0.sp,
-                  isShowbackButton: false,
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 200.sp,
-                  decoration: BoxDecoration(
-                    // color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(10.sp),
+        child: Obx(() {
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                textDirection: multiLangualDataController.isLTR.value
+                    ? TextDirection.ltr
+                    : TextDirection.rtl,
+                children: [
+                  MyCustomAppBar(
+                    horizontalPadding: 0,
+                    verticalPadding: 0.sp,
+                    isShowbackButton: false,
                   ),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Column(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: 120.sp,
-                          height: 120.sp,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.primaryColor,
-                            image: DecorationImage(
-                                image: profileDataCotroller.userDataResponse
-                                            .value?.data.image !=
-                                        null
-                                    ? NetworkImage(ApiEndpoint.BASE_URL +
-                                        profileDataCotroller
-                                            .userDataResponse.value!.data.image)
-                                    : AssetImage(AppImage.profile),
-                                fit: BoxFit.cover),
+                  Container(
+                    width: double.infinity,
+                    height: 200.sp,
+                    decoration: BoxDecoration(
+                      // color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(10.sp),
+                    ),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 120.sp,
+                            height: 120.sp,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.primaryColor,
+                              image: DecorationImage(
+                                  image: profileDataCotroller.userDataResponse
+                                              .value?.data.image !=
+                                          null
+                                      ? NetworkImage(ApiEndpoint.BASE_URL +
+                                          profileDataCotroller.userDataResponse
+                                              .value!.data.image)
+                                      : AssetImage(AppImage.profile),
+                                  fit: BoxFit.cover),
+                            ),
                           ),
-                        ),
-                        verticalGap(5.sp),
-                        GlobalText(
-                          text: profileDataCotroller
-                                  .userDataResponse.value?.data.name ??
-                              "No data found",
-                          style: TextStyle(
-                              fontSize: 20.sp, fontWeight: FontWeight.bold),
-                          softWrap: true,
-                        ),
-                        GlobalText(
-                          text: profileDataCotroller
-                                  .userDataResponse.value?.data.email ??
-                              "No data found",
-                          style: TextStyle(
-                              fontSize: 15.sp, fontWeight: FontWeight.w300),
-                          softWrap: true,
-                        ),
-                      ],
+                          verticalGap(5.sp),
+                          GlobalText(
+                            text: profileDataCotroller
+                                    .userDataResponse.value?.data.name ??
+                                "No data found",
+                            style: TextStyle(
+                                fontSize: 20.sp, fontWeight: FontWeight.bold),
+                            softWrap: true,
+                          ),
+                          GlobalText(
+                            text: profileDataCotroller
+                                    .userDataResponse.value?.data.email ??
+                                "No data found",
+                            style: TextStyle(
+                                fontSize: 15.sp, fontWeight: FontWeight.w300),
+                            softWrap: true,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                verticalGap(20.sp),
-                GlobalText(text: "Language and Currency", softWrap: true),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    Get.to(() => LanguageListView());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(text: "Language", softWrap: true),
-                        horizontalGap(10.sp),
-                        Obx(() => Text("( ${language.value} )")),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
-                    ),
-                  ),
-                ),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    Get.to(() => CurrencyListView());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(text: "Currency", softWrap: true),
-                        horizontalGap(10.sp),
-                        Obx(() => Text("( ${currencyCode.value} )")),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
+                  verticalGap(20.sp),
+                  GlobalText(text: "Language and Currency", softWrap: true),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      Get.to(() => LanguageListView());
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(text: "Language", softWrap: true),
+                          horizontalGap(10.sp),
+                          Obx(() => Text("( ${language.value} )")),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                verticalGap(20.sp),
-                GlobalText(text: "Account", softWrap: true),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    Get.to(() => AccountSettingLandingView());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(text: "Account Setting", softWrap: true),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
-                    ),
-                  ),
-                ),
-                verticalGap(20.sp),
-                GlobalText(text: "Help and Support", softWrap: true),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    launchUrl(Uri.parse("${ApiEndpoint.BASE_URL}about-us"));
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(text: "About Skillgrow", softWrap: true),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      Get.to(() => CurrencyListView());
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(text: "Currency", softWrap: true),
+                          horizontalGap(10.sp),
+                          Obx(() => Text("( ${currencyCode.value} )")),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    Get.to(() => FAQView());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(
-                            text: "Frequently Asked Questions", softWrap: true),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
-                    ),
-                  ),
-                ),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    Get.to(() => TermsAndConditionView());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(
-                            text: "Terms and Conditions", softWrap: true),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
+                  verticalGap(20.sp),
+                  GlobalText(text: "Account", softWrap: true),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      Get.to(() => AccountSettingLandingView());
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(text: "Account Setting", softWrap: true),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    Get.to(() => PrivecyPolicyView());
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(text: "Privacy Policy", softWrap: true),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.titleTextColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
-                    ),
-                  ),
-                ),
-                verticalGap(10.sp),
-                verticalGap(10.sp),
-                Bounceable(
-                  onTap: () {
-                    showLogoutDialog(context, false);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50.sp,
-                    decoration: BoxDecoration(
-                      color: AppColors.nuralItemBackgroundColor,
-                      border: Border.all(
-                          color: AppColors.mainRedColor, width: 0.5.sp),
-                      borderRadius: BorderRadius.circular(10.sp),
-                    ),
-                    child: Row(
-                      textDirection: multiLangualDataController.isLTR.value
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
-                      children: [
-                        horizontalGap(10.sp),
-                        GlobalText(
-                          text: "Logout",
-                          softWrap: true,
-                          style: TextStyle(color: AppColors.mainRedColor),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          color: AppColors.mainRedColor,
-                          size: 15.sp,
-                        ),
-                        horizontalGap(10.sp),
-                      ],
+                  verticalGap(20.sp),
+                  GlobalText(text: "Help and Support", softWrap: true),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      launchUrl(Uri.parse("${ApiEndpoint.BASE_URL}about-us"));
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(text: "About Skillgrow", softWrap: true),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                verticalGap(10.sp),
-              ],
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      Get.to(() => FAQView());
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(
+                              text: "Frequently Asked Questions",
+                              softWrap: true),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
+                    ),
+                  ),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      Get.to(() => TermsAndConditionView());
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(
+                              text: "Terms and Conditions", softWrap: true),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
+                    ),
+                  ),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      Get.to(() => PrivecyPolicyView());
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(text: "Privacy Policy", softWrap: true),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.titleTextColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
+                    ),
+                  ),
+                  verticalGap(10.sp),
+                  verticalGap(10.sp),
+                  Bounceable(
+                    onTap: () {
+                      showLogoutDialog(context, false);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      height: 50.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.nuralItemBackgroundColor,
+                        border: Border.all(
+                            color: AppColors.mainRedColor, width: 0.5.sp),
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Row(
+                        textDirection: multiLangualDataController.isLTR.value
+                            ? TextDirection.ltr
+                            : TextDirection.rtl,
+                        children: [
+                          horizontalGap(10.sp),
+                          GlobalText(
+                            text: "Logout",
+                            softWrap: true,
+                            style: TextStyle(color: AppColors.mainRedColor),
+                          ),
+                          Spacer(),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: AppColors.mainRedColor,
+                            size: 15.sp,
+                          ),
+                          horizontalGap(10.sp),
+                        ],
+                      ),
+                    ),
+                  ),
+                  verticalGap(10.sp),
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

@@ -70,3 +70,75 @@ class VideoData {
 // Example usage:
 // final videoFile = VideoFile.fromJson(jsonDecode(responseBody));
 // print(videoFile.data.title);
+class FreeVideoFileResponseModel {
+  final String status;
+  final VideoData data;
+
+  FreeVideoFileResponseModel({required this.status, required this.data});
+
+  factory FreeVideoFileResponseModel.fromJson(Map<String, dynamic> json) {
+    return FreeVideoFileResponseModel(
+      status: json['status'],
+      data: VideoData.fromJson(json['data']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'status': status,
+      'data': data.toJson(),
+    };
+  }
+}
+
+class FreeVideoData {
+  final int id;
+  final String title;
+  final String description;
+  final String filePath;
+  final String storage;
+  final String fileType;
+  final String duration;
+  final bool isDownloadable;
+
+  FreeVideoData({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.filePath,
+    required this.storage,
+    required this.fileType,
+    required this.duration,
+    required this.isDownloadable,
+  });
+
+  factory FreeVideoData.fromJson(Map<String, dynamic> json) {
+    return FreeVideoData(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      filePath: json['file_path'],
+      storage: json['storage'],
+      fileType: json['file_type'],
+      duration: json['duration'],
+      isDownloadable: json['is_downloadable'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'file_path': filePath,
+      'storage': storage,
+      'file_type': fileType,
+      'duration': duration,
+      'is_downloadable': isDownloadable,
+    };
+  }
+}
+
+// Example usage:
+// final videoFile = VideoFile.fromJson(jsonDecode(responseBody));
+// print(videoFile.data.title);

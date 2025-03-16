@@ -65,6 +65,8 @@ class CartListController extends GetxController {
           cart?.cartCourses.removeWhere((course) => course.slug == slug);
         });
 
+        fetchCartData();  
+
         customSnackbar(
           title: "Success",
           message: cartResponse.message,

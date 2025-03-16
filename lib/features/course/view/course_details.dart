@@ -37,7 +37,7 @@ class CourseDetailsView extends StatelessWidget {
             profileDataCotroller.userDataResponse.value!.data.id.toString()));
 
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
-    VideoPlayController videoPlayController = Get.put(VideoPlayController());
+    FreeVideoPlayController freevideoPlayController = Get.put(FreeVideoPlayController());
     RxBool isShowVideo = false.obs;
 
     return Scaffold(
@@ -81,34 +81,25 @@ class CourseDetailsView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.sp),
                         ),
                         child: Obx(() {
-                          if (videoPlayController.isLoading.value) {
+                          if (freevideoPlayController.isLoading.value) {
                             return InitialTumbnailUI(
                                 isShowWishIcon: true,
                                 thumbnailImage: courseDetalisController
                                     .course.value!.thumbnail,
                                 wishOntap: () {},
                                 playOntap: () {
-                                  videoPlayController.fetchVideoFile(
-                                      slug: videoPlayController
-                                          .initialVideoDetails['slug']
-                                          .toString(),
-                                      type: courseDetalisController
-                                          .course
-                                          .value!
-                                          .curriculums[0]
-                                          .chapters[0]
-                                          .type
-                                          .toString(),
+                                  freevideoPlayController.fetchVideoFile(
+                                     
                                       id: courseDetalisController.course.value!
                                           .curriculums[0].chapters[0].lesson!.id
                                           .toString());
                                 });
                           } else {
-                            if (videoPlayController.videoFile.value != null) {
+                            if (freevideoPlayController.videoFile.value != null) {
                               return VideoScreen(
-                                  videoSource: videoPlayController
+                                  videoSource: freevideoPlayController
                                       .videoFile.value!.data.storage,
-                                  videoUrl: videoPlayController
+                                  videoUrl: freevideoPlayController
                                       .videoFile.value!.data.filePath);
                             } else {
                               return InitialTumbnailUI(
@@ -140,7 +131,7 @@ class CourseDetailsView extends StatelessWidget {
                                                 .chapters[j]
                                                 .type ==
                                             "lesson") {
-                                          videoPlayController
+                                          freevideoPlayController
                                               .initialVideoDetails.value = {
                                             "id": courseDetalisController
                                                 .course
@@ -154,9 +145,8 @@ class CourseDetailsView extends StatelessWidget {
                                                 courseDetalisController.slug,
                                             "type": "lesson"
                                           };
-                                          videoPlayController.fetchVideoFile(
-                                            slug: courseDetalisController.slug,
-                                            type: "lesson",
+                                          freevideoPlayController.fetchVideoFile(
+                                          
                                             id: courseDetalisController
                                                 .course
                                                 .value!
@@ -172,7 +162,7 @@ class CourseDetailsView extends StatelessWidget {
                                         }
                                       }
                                       // If you want to break the outer loop as well once a lesson is found, you can add a flag and break here.
-                                      if (videoPlayController
+                                      if (freevideoPlayController
                                               .initialVideoDetails
                                               .value["type"] ==
                                           "lesson") {

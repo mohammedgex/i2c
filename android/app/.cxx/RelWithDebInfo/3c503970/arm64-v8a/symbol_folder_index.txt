@@ -1,1 +1,0 @@
-/Users/meharabislam/development/skill_grow/build/app/intermediates/cxx/RelWithDebInfo/3c503970/obj/arm64-v8a

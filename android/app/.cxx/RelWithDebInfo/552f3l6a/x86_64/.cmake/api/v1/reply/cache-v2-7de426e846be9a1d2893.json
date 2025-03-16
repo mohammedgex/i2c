@@ -151,7 +151,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/meharabislam/development/skillgro/android/app/.cxx/RelWithDebInfo/552f3l6a/x86_64"
+			"value" : "/Users/meharabislam/development/skillgrow/android/app/.cxx/RelWithDebInfo/552f3l6a/x86_64"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -763,7 +763,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/meharabislam/development/skillgro/build/app/intermediates/cxx/RelWithDebInfo/552f3l6a/obj/x86_64"
+			"value" : "/Users/meharabislam/development/skillgrow/build/app/intermediates/cxx/RelWithDebInfo/552f3l6a/obj/x86_64"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -1035,7 +1035,7 @@
 				}
 			],
 			"type" : "UNINITIALIZED",
-			"value" : "/Users/meharabislam/development/skillgro/build/app/intermediates/cxx/RelWithDebInfo/552f3l6a/obj/x86_64"
+			"value" : "/Users/meharabislam/development/skillgrow/build/app/intermediates/cxx/RelWithDebInfo/552f3l6a/obj/x86_64"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1355,7 +1355,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/meharabislam/development/skillgro/android/app/.cxx/RelWithDebInfo/552f3l6a/x86_64"
+			"value" : "/Users/meharabislam/development/skillgrow/android/app/.cxx/RelWithDebInfo/552f3l6a/x86_64"
 		},
 		{
 			"name" : "Project_IS_TOP_LEVEL",

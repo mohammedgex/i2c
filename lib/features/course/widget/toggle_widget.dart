@@ -23,8 +23,8 @@ class ToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final VideoPlayController videoPlayController =
-        Get.put(VideoPlayController());
+    final FreeVideoPlayController freevideoPlayController =
+        Get.put(FreeVideoPlayController());
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     ToggleController toggleController = ToggleController();
@@ -244,15 +244,14 @@ class ToggleWidget extends StatelessWidget {
                                   if (chapter.lesson!.isFree == true) {
                                     return Bounceable(
                                       onTap: () {
-                                        videoPlayController
+                                        freevideoPlayController
                                             .initialVideoDetails.value = {
                                           "id": chapter.lesson!.id.toString(),
                                           "slug": courseDetalisController.slug,
                                           "type": "lesson"
                                         };
-                                        videoPlayController.fetchVideoFile(
-                                          slug: courseDetalisController.slug,
-                                          type: "lesson",
+                                        freevideoPlayController.fetchVideoFile(
+                                       
                                           id: chapter.lesson!.id.toString(),
                                         );
                                       },

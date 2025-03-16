@@ -32,7 +32,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/meharabislam/development/skillgro/android/app/.cxx/RelWithDebInfo/552f3l6a/x86_64",
+		"build" : "/Users/meharabislam/development/skillgrow/android/app/.cxx/RelWithDebInfo/552f3l6a/x86_64",
 		"source" : "/Users/meharabislam/development/flutter/packages/flutter_tools/gradle/src/main/groovy"
 	},
 	"version" : 

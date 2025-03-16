@@ -81,7 +81,7 @@ class ApiEndpoint {
   }
 
   static String freeLessonInfoUrl({required String lesson_id}) {
-    return '$API_BASE_URL/course/free-lesson-info/:$lesson_id';
+    return '$API_BASE_URL/course/free-lesson-info/$lesson_id';
   }
 
   static String courseReviewUrl(

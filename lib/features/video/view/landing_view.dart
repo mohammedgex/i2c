@@ -185,7 +185,7 @@ class LandingViewForVideo extends StatelessWidget {
                                           BorderRadius.circular(7.sp)),
                                   child: Center(
                                     child: GlobalText(
-                                      text: "Curriculum",
+                                      text: "المنهج",
                                       softWrap: false,
                                       style: TextStyle(
                                           fontSize: 15.sp,
@@ -223,7 +223,7 @@ class LandingViewForVideo extends StatelessWidget {
                                           BorderRadius.circular(7.sp)),
                                   child: Center(
                                     child: GlobalText(
-                                      text: "QNA",
+                                      text: "الأسئلة",
                                       softWrap: false,
                                       style: TextStyle(
                                           fontSize: 15.sp,
@@ -261,7 +261,7 @@ class LandingViewForVideo extends StatelessWidget {
                                           BorderRadius.circular(7.sp)),
                                   child: Center(
                                     child: GlobalText(
-                                      text: "More",
+                                      text: "المزيد",
                                       softWrap: false,
                                       style: TextStyle(
                                           fontSize: 15.sp,

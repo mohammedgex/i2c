@@ -63,10 +63,9 @@ class ForgetPasswordView extends StatelessWidget {
                 TextButton(
                   onPressed: () {
                     Get.back();
-                   
                   },
                   child: GlobalText(
-                    text: "Back To Login",
+                    text: "العودة لتسجيل الدخول",
                     softWrap: true,
                     style: TextStyle(color: AppColors.primaryColor),
                   ),

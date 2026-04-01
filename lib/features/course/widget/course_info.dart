@@ -34,38 +34,27 @@ class CourseInfo extends StatelessWidget {
             : TextDirection.rtl,
         children: [
           OverviewItem(
-            title: "Last Update",
+            title: "آخر تحديث",
             value: courseDetalisController.course.value!.lastUpdated,
             icon: AppIcon.date,
           ),
           OverviewItem(
-            title: "Duration",
+            title: "مدة الكورس",
             value: courseDetalisController.course.value!.duration,
             icon: AppIcon.duration,
           ),
           OverviewItem(
-            title: "Certificate",
+            title: "شهادة إتمام",
             value: courseDetalisController.course.value!.certificate
-                ? "Yes"
-                : "No",
+                ? "نعم"
+                : "لا",
             icon: AppIcon.certificate,
           ),
           OverviewItem(
-            title: "Total Lectures",
+            title: "عدد الدروس",
             value:
                 courseDetalisController.course.value!.lessonsCount.toString(),
             icon: AppIcon.lecture,
-          ),
-          OverviewItem(
-            title: "Quizzes",
-            value:
-                courseDetalisController.course.value!.quizzesCount.toString(),
-            icon: AppIcon.quiz,
-          ),
-          OverviewItem(
-            title: "",
-            value: courseDetalisController.course.value!.languages.toString(),
-            icon: AppIcon.language,
           ),
         ],
       ),

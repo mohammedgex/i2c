@@ -38,11 +38,13 @@ class PaymentUrlController extends GetxController {
     _errorMessage.value = '';
 
     try {
-      final String currencyCode = await SharedPrefUtil.get('currency_code', 'USD');
+      final String currencyCode =
+          await SharedPrefUtil.get('currency_code', 'EGP');
       final String token = await SharedPrefUtil.get('token', '');
 
       final response = await _dio.get(
-        ApiEndpoint.paymentApiUrl(method: paymentMethod.toLowerCase(), currency: currencyCode),
+        ApiEndpoint.paymentApiUrl(
+            method: paymentMethod.toLowerCase(), currency: currencyCode),
         options: dio.Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -55,7 +57,8 @@ class PaymentUrlController extends GetxController {
     } on dio.DioException catch (e) {
       _handleDioError(e);
     } on SocketException {
-      _handleError('No internet connection.', 'Please check your connection and try again.');
+      _handleError('No internet connection.',
+          'Please check your connection and try again.');
     } catch (e) {
       _handleError('An unexpected error occurred.', 'Please try again later.');
     } finally {
@@ -65,7 +68,8 @@ class PaymentUrlController extends GetxController {
   }
 
   void _handlePaymentResponse(dio.Response response) {
-    if ((response.statusCode == 200 || response.statusCode == 201) && response.data != null) {
+    if ((response.statusCode == 200 || response.statusCode == 201) &&
+        response.data != null) {
       final paymentData = PaymentUrlResponseModel.fromJson(response.data);
       _clearCartData();
       _launchPaymentUrl(paymentData.url);
@@ -88,18 +92,20 @@ class PaymentUrlController extends GetxController {
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     } else {
-      _handleError('Failed to launch payment URL.', 'Try using a different payment method.');
+      _handleError('Failed to launch payment URL.',
+          'Try using a different payment method.');
     }
   }
 
   void _navigateToHome() {
-  try {
-    Get.offAll(() => CustomPersistentBottomNavBar());
-  } catch (e) {
-    print("Navigation error: $e");
-    // Handle the error (e.g., show a snackbar or navigate to an error page)
+    try {
+      Get.offAll(() => CustomPersistentBottomNavBar());
+    } catch (e) {
+      print("Navigation error: $e");
+      // Handle the error (e.g., show a snackbar or navigate to an error page)
+    }
   }
-}
+
   void _handleErrorResponse(dio.Response response) {
     final errorData = PaymentErrorResponseModel.fromJson(response.data ?? {});
     _handleError(errorData.message, errorData.supportCurrency);

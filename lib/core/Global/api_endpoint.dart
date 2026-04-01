@@ -1,9 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, constant_identifier_names
 
 class ApiEndpoint {
-  
-  static const String BASE_URL = "https://skillgrotest.websolutionus.com/";
-
+  static const String BASE_URL = "https://i2cteam.com/";
 
   static const String API_BASE_URL = '${BASE_URL}api';
 
@@ -28,21 +26,21 @@ class ApiEndpoint {
 
   static String courseMainCategoriesUrl(
       {required String languageCode, int? limit}) {
-    return '$API_BASE_URL/course-main-categories?language=$languageCode&limit=$limit';
+    return '$API_BASE_URL/course-main-categories?language=ar&limit=$limit';
   }
 
   static String courseSubCategoriesUrl({
     required String main_category_slug,
     required String languageCode,
   }) {
-    return '$API_BASE_URL/course-sub-categories/$main_category_slug?language=$languageCode';
+    return '$API_BASE_URL/course-sub-categories/$main_category_slug?language=ar';
   }
 
   static String courseLevelsUrl({
     int? limit,
     required String languageCode,
   }) {
-    return '$API_BASE_URL/course-levels?limit=$limit&language=$languageCode';
+    return '$API_BASE_URL/course-levels?limit=$limit&language=ar';
   }
 
   // Courses URLs
@@ -91,11 +89,11 @@ class ApiEndpoint {
 
   // Frontend URLs
   static String privecyPolicyUrl({required String languageCode}) {
-    return '$API_BASE_URL/privacy-policy?language=$languageCode';
+    return '$API_BASE_URL/privacy-policy?language=ar';
   }
 
   static String termsAndConditionsUrl({required String languageCode}) {
-    return '$API_BASE_URL/terms-and-conditions?language=$languageCode';
+    return '$API_BASE_URL/terms-and-conditions?language=ar';
   }
 
   static String faqUrl({
@@ -103,9 +101,9 @@ class ApiEndpoint {
     int? limit,
   }) {
     if (limit == null) {
-      return '$API_BASE_URL/faqs?language=$languageCode';
+      return '$API_BASE_URL/faqs?language=ar';
     } else {
-      return '$API_BASE_URL/faqs?language=$languageCode&limit=$limit';
+      return '$API_BASE_URL/faqs?language=ar&limit=$limit';
     }
   }
 

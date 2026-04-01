@@ -31,7 +31,7 @@ class ResetPasswordInfoView extends StatelessWidget {
               GlobalButton(
                 height: 50.h, // Responsive height
                 width: 320.w, // Responsive width
-                text: "Back to login",
+                text: "العودة لتسجيل الدخول",
                 onTap: () {
                   Get.offAll(() => LoginView());
                 },

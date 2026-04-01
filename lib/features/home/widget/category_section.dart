@@ -86,16 +86,26 @@ class CategorySection extends StatelessWidget {
                       : TextDirection.rtl,
                   children: [
                     Container(
-                      height: 45.sp,
-                      width: 45.sp,
-                      padding: EdgeInsets.all(10.sp),
+                      height: 60.sp,
+                      width: 60.sp,
+                      padding: EdgeInsets.all(12.sp),
                       decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1.sp,
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColors.primaryColor.withOpacity(0.1),
+                            AppColors.secondaryColor.withOpacity(0.05),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.shadowColorLight,
+                            blurRadius: 8.sp,
+                            offset: Offset(0, 4.sp),
+                          ),
+                        ],
                       ),
                       child: Center(
                         child: Image.network(
@@ -104,14 +114,15 @@ class CategorySection extends StatelessWidget {
                         ),
                       ),
                     ),
-                    verticalGap(3.sp),
+                    verticalGap(6.sp),
                     GlobalText(
                       softWrap: false,
                       text: categoryItmeController.categories[index].name,
                       style: TextStyle(
                         color: AppColors.smallTextColor,
-                        fontSize: 11.sp,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
+                        height: 1.3,
                       ),
                     ),
                   ],

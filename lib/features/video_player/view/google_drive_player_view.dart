@@ -55,10 +55,16 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Video Player
-            SizedBox(
-              height: 200.0, // Fixed height for the video player
-              width: double.infinity, // Stretch width
-              child: FlickVideoPlayer(
+            Container(
+              height: 400.0, // Increased fixed height for better visibility
+              width: MediaQuery.of(context).size.width * 0.9,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: FlickVideoPlayer(
                 flickManager: _flickManager,
                 flickVideoWithControls: FlickVideoWithControls(
                   iconThemeData: IconThemeData(
@@ -82,6 +88,7 @@ class _DriveVideoPlayerState extends State<DriveVideoPlayer> {
                     fontSize: 12, // Optional: Adjust font size
                   ),
                 ),
+              ),
               ),
             ),
           ],

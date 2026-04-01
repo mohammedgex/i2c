@@ -74,15 +74,36 @@ class CustomTextField extends StatelessWidget {
                 ? TextDirection.ltr
                 : TextDirection.rtl,
             hintText: translatedText,
-            hintStyle: TextStyle(color: Colors.grey, fontSize: 15.sp),
-            fillColor: AppColors.primaryColor, // Optional: Background color
+            hintStyle: TextStyle(
+              color: AppColors.hintTextColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+            ),
+            filled: true,
+            fillColor: AppColors.cardBackgroundColor,
             border: OutlineInputBorder(
-              borderSide:
-                  BorderSide(color: AppColors.primaryColor), // Border color
-              borderRadius: BorderRadius.circular(12.sp),
+              borderSide: BorderSide(
+                color: AppColors.textFieldBorderColor,
+                width: 1.5,
+              ),
+              borderRadius: BorderRadius.circular(20.sp),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: AppColors.textFieldBorderColor,
+                width: 1.5,
+              ),
+              borderRadius: BorderRadius.circular(20.sp),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: AppColors.primaryColor,
+                width: 2.5,
+              ),
+              borderRadius: BorderRadius.circular(20.sp),
             ),
             contentPadding:
-                EdgeInsets.symmetric(vertical: 15.sp, horizontal: 15.sp),
+                EdgeInsets.symmetric(vertical: 20.sp, horizontal: 20.sp),
           ),
           controller: controller,
           keyboardType: inputType,

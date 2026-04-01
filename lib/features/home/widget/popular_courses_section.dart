@@ -146,20 +146,28 @@ class PopularCoursesSection extends StatelessWidget {
       child: Container(
         width: 200.sp,
         margin: EdgeInsets.symmetric(horizontal: 7.5.sp),
-        padding: EdgeInsets.all(5.sp),
+        padding: EdgeInsets.all(12.sp),
         decoration: BoxDecoration(
-          color: AppColors.nuralItemBackgroundColor,
-          borderRadius: BorderRadius.circular(10.sp),
+          color: AppColors.cardBackgroundColor,
+          borderRadius: BorderRadius.circular(24.sp),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadowColorLight,
+              blurRadius: 16.sp,
+              offset: Offset(0, 4.sp),
+              spreadRadius: 0,
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildCourseImage(course.thumbnail),
-            verticalGap(3.sp),
+            verticalGap(12.sp),
             _buildCourseTitle(course.title),
-            verticalGap(5.sp),
+            verticalGap(10.sp),
             _buildInstructorInfo(course),
-            verticalGap(5.sp),
+            verticalGap(10.sp),
             _buildCourseRatingAndPrice(course),
           ],
         ),
@@ -169,10 +177,23 @@ class PopularCoursesSection extends StatelessWidget {
 
   Widget _buildCourseImage(String thumbnail) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10.sp),
-      child: Image.network(
-        ApiEndpoint.BASE_URL + thumbnail,
-        fit: BoxFit.cover,
+      borderRadius: BorderRadius.circular(16.sp),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadowColorLight,
+              blurRadius: 8.sp,
+              offset: Offset(0, 4.sp),
+            ),
+          ],
+        ),
+        child: Image.network(
+          ApiEndpoint.BASE_URL + thumbnail,
+          fit: BoxFit.cover,
+          height: 120.sp,
+          width: double.infinity,
+        ),
       ),
     );
   }
@@ -182,44 +203,58 @@ class PopularCoursesSection extends StatelessWidget {
       text: title,
       style: TextStyle(
         color: AppColors.titleTextColor,
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w600,
+        fontSize: 17.sp,
+        fontWeight: FontWeight.w700,
+        height: 1.4,
+        letterSpacing: 0.2,
       ),
       softWrap: true,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
     );
   }
 
   Widget _buildInstructorInfo(dynamic course) {
     return Row(
       children: [
+        Expanded(
+          flex: 2,
+          child: GlobalText(
+            text: course.instructor.name,
+            style: TextStyle(
+              color: AppColors.smallTextColor,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
+              height: 1.3,
+            ),
+            softWrap: true,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
         GlobalText(
-          text: course.instructor.name,
+          text: " | ",
           style: TextStyle(
-            color: AppColors.smallTextColor,
-            fontSize: 11.sp,
+            color: AppColors.smallTextColor.withOpacity(0.5),
+            fontSize: 10.sp,
             fontWeight: FontWeight.w500,
           ),
           softWrap: true,
         ),
-        horizontalGap(2.sp),
-        GlobalText(
-          text: "|",
-          style: TextStyle(
-            color: AppColors.smallTextColor,
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w500,
+        Expanded(
+          flex: 1,
+          child: GlobalText(
+            text: "${course.students} Students",
+            style: TextStyle(
+              color: AppColors.smallTextColor,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
+              height: 1.3,
+            ),
+            softWrap: true,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          softWrap: true,
-        ),
-        horizontalGap(2.sp),
-        GlobalText(
-          text: "${course.students} Students",
-          style: TextStyle(
-            color: AppColors.smallTextColor,
-            fontSize: 11.sp,
-            fontWeight: FontWeight.w500,
-          ),
-          softWrap: true,
         ),
       ],
     );
@@ -233,7 +268,7 @@ class PopularCoursesSection extends StatelessWidget {
         CustomRatingBar(
           rating: course.averageRating.toDouble(),
           maxRating: 5,
-          iconSize: 15.sp,
+          iconSize: 13.sp,
           filledColor: AppColors.activeIconColor,
           unfilledColor: AppColors.activeIconColor,
         ),
@@ -244,20 +279,22 @@ class PopularCoursesSection extends StatelessWidget {
                 : GlobalText(
                     text: "${course.discount}",
                     style: TextStyle(
-                      color: AppColors.smallTextColor,
-                      fontSize: 11.sp,
+                      color: AppColors.smallTextColor.withOpacity(0.6),
+                      fontSize: 10.sp,
                       fontWeight: FontWeight.w400,
                       decoration: TextDecoration.lineThrough,
+                      height: 1.3,
                     ),
                     softWrap: true,
                   ),
-            horizontalGap(5.sp),
+            horizontalGap(6.sp),
             GlobalText(
               text: "${course.price}",
               style: TextStyle(
-                color: AppColors.smallTextColor,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w600,
+                color: AppColors.primaryColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                height: 1.3,
               ),
               softWrap: true,
             ),

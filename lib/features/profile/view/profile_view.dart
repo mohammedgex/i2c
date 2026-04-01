@@ -31,12 +31,14 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   RxString currencyCode = "".obs;
   RxString language = "".obs;
+  // Toggle to show/hide the Language & Currency selection in profile
+  final bool showLanguageCurrency = true;
 
   Future<void> loadPreferences() async {
     try {
       // Fetch preferences using SharedPrefUtil
-      currencyCode.value = await SharedPrefUtil.get('currency_code', "USD");
-      language.value = await SharedPrefUtil.get('language', "English");
+      currencyCode.value = await SharedPrefUtil.get('currency_code', "ُEGP");
+      language.value = await SharedPrefUtil.get('language', "Arabic");
 
       // Print the fetched values
       print('Currency Code: $currencyCode');
@@ -45,8 +47,8 @@ class _ProfileViewState extends State<ProfileView> {
       // Handle any errors that occur during preference loading
       print('Error loading preferences: $e');
       // Fallback to default values in case of an error
-      currencyCode.value = 'USD';
-      language.value = 'English';
+      currencyCode.value = 'EGP';
+      language.value = 'Arabic';
     }
   }
 
@@ -133,73 +135,75 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                   ),
-                  verticalGap(20.sp),
-                  GlobalText(text: "Language and Currency", softWrap: true),
-                  verticalGap(10.sp),
-                  Bounceable(
-                    onTap: () {
-                      Get.to(() => LanguageListView());
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 50.sp,
-                      decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
-                      child: Row(
-                        textDirection: multiLangualDataController.isLTR.value
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
-                        children: [
-                          horizontalGap(10.sp),
-                          GlobalText(text: "Language", softWrap: true),
-                          horizontalGap(10.sp),
-                          Obx(() => Text("( ${language.value} )")),
-                          Spacer(),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.titleTextColor,
-                            size: 15.sp,
-                          ),
-                          horizontalGap(10.sp),
-                        ],
-                      ),
-                    ),
-                  ),
-                  verticalGap(10.sp),
-                  Bounceable(
-                    onTap: () {
-                      Get.to(() => CurrencyListView());
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 50.sp,
-                      decoration: BoxDecoration(
-                        color: AppColors.nuralItemBackgroundColor,
-                        borderRadius: BorderRadius.circular(10.sp),
-                      ),
-                      child: Row(
-                        textDirection: multiLangualDataController.isLTR.value
-                            ? TextDirection.ltr
-                            : TextDirection.rtl,
-                        children: [
-                          horizontalGap(10.sp),
-                          GlobalText(text: "Currency", softWrap: true),
-                          horizontalGap(10.sp),
-                          Obx(() => Text("( ${currencyCode.value} )")),
-                          Spacer(),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: AppColors.titleTextColor,
-                            size: 15.sp,
-                          ),
-                          horizontalGap(10.sp),
-                        ],
+                  if (showLanguageCurrency) ...[
+                    verticalGap(20.sp),
+                    GlobalText(text: "Language and Currency", softWrap: true),
+                    verticalGap(10.sp),
+                    Bounceable(
+                      onTap: () {
+                        Get.to(() => LanguageListView());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 50.sp,
+                        decoration: BoxDecoration(
+                          color: AppColors.nuralItemBackgroundColor,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          children: [
+                            horizontalGap(10.sp),
+                            GlobalText(text: "Language", softWrap: true),
+                            horizontalGap(10.sp),
+                            Obx(() => Text("( ${language.value} )")),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColors.titleTextColor,
+                              size: 15.sp,
+                            ),
+                            horizontalGap(10.sp),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  verticalGap(20.sp),
+                    verticalGap(10.sp),
+                    Bounceable(
+                      onTap: () {
+                        Get.to(() => CurrencyListView());
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 50.sp,
+                        decoration: BoxDecoration(
+                          color: AppColors.nuralItemBackgroundColor,
+                          borderRadius: BorderRadius.circular(10.sp),
+                        ),
+                        child: Row(
+                          textDirection: multiLangualDataController.isLTR.value
+                              ? TextDirection.ltr
+                              : TextDirection.rtl,
+                          children: [
+                            horizontalGap(10.sp),
+                            GlobalText(text: "Currency", softWrap: true),
+                            horizontalGap(10.sp),
+                            Obx(() => Text("( ${currencyCode.value} )")),
+                            Spacer(),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: AppColors.titleTextColor,
+                              size: 15.sp,
+                            ),
+                            horizontalGap(10.sp),
+                          ],
+                        ),
+                      ),
+                    ),
+                    verticalGap(20.sp),
+                  ],
                   GlobalText(text: "Account", softWrap: true),
                   verticalGap(10.sp),
                   Bounceable(
@@ -219,7 +223,7 @@ class _ProfileViewState extends State<ProfileView> {
                             : TextDirection.rtl,
                         children: [
                           horizontalGap(10.sp),
-                          GlobalText(text: "Account Setting", softWrap: true),
+                          GlobalText(text: "اعدادات الحساب", softWrap: true),
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios,
@@ -251,7 +255,7 @@ class _ProfileViewState extends State<ProfileView> {
                             : TextDirection.rtl,
                         children: [
                           horizontalGap(10.sp),
-                          GlobalText(text: "About Skillgro", softWrap: true),
+                          GlobalText(text: "معلومات عنا", softWrap: true),
                           Spacer(),
                           Icon(
                             Icons.arrow_forward_ios,

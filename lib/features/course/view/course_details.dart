@@ -31,13 +31,14 @@ class CourseDetailsView extends StatelessWidget {
     MultiLangualDataController multiLangualDataController =
         Get.put(MultiLangualDataController());
     AddToCartController addToCartController = Get.put(AddToCartController());
-    ProfileDataCotroller profileDataCotroller = Get.put(ProfileDataCotroller());
-    CourseDetalisController courseDetalisController = Get.put(
-        CourseDetalisController(slug,
-            profileDataCotroller.userDataResponse.value!.data.id.toString()));
+    ProfileDataCotroller profileDataCotroller =
+        Get.isRegistered<ProfileDataCotroller>()
+            ? Get.find<ProfileDataCotroller>()
+            : Get.put(ProfileDataCotroller());
 
     ToggleWishController toggleWishController = Get.put(ToggleWishController());
-    FreeVideoPlayController freevideoPlayController = Get.put(FreeVideoPlayController());
+    FreeVideoPlayController freevideoPlayController =
+        Get.put(FreeVideoPlayController());
     RxBool isShowVideo = false.obs;
 
     return Scaffold(
@@ -47,12 +48,27 @@ class CourseDetailsView extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.sp),
           child: Obx(() {
+            if (profileDataCotroller.isLoading.value ||
+                profileDataCotroller.userDataResponse.value == null) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            final userId =
+                profileDataCotroller.userDataResponse.value!.data.id.toString();
+            final courseDetalisController =
+                Get.isRegistered<CourseDetalisController>(tag: slug)
+                    ? Get.find<CourseDetalisController>(tag: slug)
+                    : Get.put(
+                        CourseDetalisController(slug, userId),
+                        tag: slug,
+                      );
+
             if (courseDetalisController.isLoading.value) {
               return CourserDetailsLoading();
             } else if (courseDetalisController.course.value == null) {
               return Center(
                 child: GlobalText(
-                  text: "Course details not available",
+                  text: "جاري تحميل تفاصيل الدورة...",
                   softWrap: true,
                 ),
               );
@@ -74,105 +90,151 @@ class CourseDetailsView extends StatelessWidget {
                     ),
                     verticalGap(10.sp),
                     Container(
-                        width: double.infinity,
-                        height: 200.sp,
-                        decoration: BoxDecoration(
-                          color: AppColors.primaryColor,
-                          borderRadius: BorderRadius.circular(10.sp),
-                        ),
-                        child: Obx(() {
-                          if (freevideoPlayController.isLoading.value) {
-                            return InitialTumbnailUI(
-                                isShowWishIcon: true,
-                                thumbnailImage: courseDetalisController
-                                    .course.value!.thumbnail,
-                                wishOntap: () {},
-                                playOntap: () {
-                                  freevideoPlayController.fetchVideoFile(
-                                     
-                                      id: courseDetalisController.course.value!
-                                          .curriculums[0].chapters[0].lesson!.id
-                                          .toString());
-                                });
-                          } else {
-                            if (freevideoPlayController.videoFile.value != null) {
-                              return VideoScreen(
-                                  videoSource: freevideoPlayController
-                                      .videoFile.value!.data.storage,
-                                  videoUrl: freevideoPlayController
-                                      .videoFile.value!.data.filePath);
-                            } else {
+                      width: double.infinity,
+                      height: 200.sp,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.circular(10.sp),
+                      ),
+                      child: Stack(
+                        children: [
+                          Obx(() {
+                            if (freevideoPlayController.isLoading.value) {
                               return InitialTumbnailUI(
                                   isShowWishIcon: true,
                                   thumbnailImage: courseDetalisController
                                       .course.value!.thumbnail,
-                                  wishOntap: () {
-                                    toggleWishController.sendStatus(slug: slug);
-                                  },
+                                  wishOntap: () {},
                                   playOntap: () {
-                                    for (int i = 0;
-                                        i <
-                                            courseDetalisController.course
-                                                .value!.curriculums.length;
-                                        i++) {
-                                      for (int j = 0;
-                                          j <
-                                              courseDetalisController
+                                    freevideoPlayController.fetchVideoFile(
+                                        id: courseDetalisController
+                                            .course
+                                            .value!
+                                            .curriculums[0]
+                                            .chapters[0]
+                                            .lesson!
+                                            .id
+                                            .toString());
+                                  });
+                            } else {
+                              if (freevideoPlayController.videoFile.value !=
+                                  null) {
+                                return VideoScreen(
+                                    videoSource: freevideoPlayController
+                                        .videoFile.value!.data.storage,
+                                    videoUrl: freevideoPlayController
+                                        .videoFile.value!.data.filePath);
+                              } else {
+                                return InitialTumbnailUI(
+                                    isShowWishIcon: true,
+                                    thumbnailImage: courseDetalisController
+                                        .course.value!.thumbnail,
+                                    wishOntap: () {
+                                      toggleWishController.sendStatus(
+                                          slug: slug);
+                                    },
+                                    playOntap: () {
+                                      for (int i = 0;
+                                          i <
+                                              courseDetalisController.course
+                                                  .value!.curriculums.length;
+                                          i++) {
+                                        for (int j = 0;
+                                            j <
+                                                courseDetalisController
+                                                    .course
+                                                    .value!
+                                                    .curriculums[i]
+                                                    .chapters
+                                                    .length;
+                                            j++) {
+                                          if (courseDetalisController
                                                   .course
                                                   .value!
                                                   .curriculums[i]
-                                                  .chapters
-                                                  .length;
-                                          j++) {
-                                        if (courseDetalisController
-                                                .course
-                                                .value!
-                                                .curriculums[i]
-                                                .chapters[j]
-                                                .type ==
+                                                  .chapters[j]
+                                                  .type ==
+                                              "lesson") {
+                                            freevideoPlayController
+                                                .initialVideoDetails.value = {
+                                              "id": courseDetalisController
+                                                  .course
+                                                  .value!
+                                                  .curriculums[i]
+                                                  .chapters[j]
+                                                  .lesson!
+                                                  .id
+                                                  .toString(),
+                                              "slug":
+                                                  courseDetalisController.slug,
+                                              "type": "lesson"
+                                            };
+                                            freevideoPlayController
+                                                .fetchVideoFile(
+                                              id: courseDetalisController
+                                                  .course
+                                                  .value!
+                                                  .curriculums[i]
+                                                  .chapters[j]
+                                                  .lesson!
+                                                  .id
+                                                  .toString(),
+                                            );
+                                            break;
+                                          } else {
+                                            print("not lesson");
+                                          }
+                                        }
+                                        if (freevideoPlayController
+                                                .initialVideoDetails
+                                                .value["type"] ==
                                             "lesson") {
-                                          freevideoPlayController
-                                              .initialVideoDetails.value = {
-                                            "id": courseDetalisController
-                                                .course
-                                                .value!
-                                                .curriculums[i]
-                                                .chapters[j]
-                                                .lesson!
-                                                .id
-                                                .toString(),
-                                            "slug":
-                                                courseDetalisController.slug,
-                                            "type": "lesson"
-                                          };
-                                          freevideoPlayController.fetchVideoFile(
-                                          
-                                            id: courseDetalisController
-                                                .course
-                                                .value!
-                                                .curriculums[i]
-                                                .chapters[j]
-                                                .lesson!
-                                                .id
-                                                .toString(),
-                                          );
-                                          break; // Exit the inner loop once a lesson of type "lesson" is found
-                                        } else {
-                                          print("not lesson");
+                                          break;
                                         }
                                       }
-                                      // If you want to break the outer loop as well once a lesson is found, you can add a flag and break here.
-                                      if (freevideoPlayController
-                                              .initialVideoDetails
-                                              .value["type"] ==
-                                          "lesson") {
-                                        break; // Exit the outer loop once a lesson of type "lesson" is found
-                                      }
-                                    }
-                                  });
+                                    });
+                              }
                             }
-                          }
-                        })),
+                          }),
+                          Positioned(
+                            top: 8.sp,
+                            right: multiLangualDataController.isLTR.value
+                                ? 8.sp
+                                : null,
+                            left: multiLangualDataController.isLTR.value
+                                ? null
+                                : 8.sp,
+                            child: Obx(() {
+                              if (freevideoPlayController.videoFile.value ==
+                                  null) {
+                                return const SizedBox.shrink();
+                              }
+                              final video =
+                                  freevideoPlayController.videoFile.value!;
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.4),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.screen_rotation,
+                                    color: Colors.white,
+                                    size: 20.sp,
+                                  ),
+                                  onPressed: () {
+                                    Get.to(() => FullScreenVideoScreen(
+                                          videoSource: video.data.storage,
+                                          videoUrl: video.data.filePath,
+                                        ));
+                                  },
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    ),
                     verticalGap(10.sp),
                     GlobalText(
                       text: courseDetalisController.course.value?.title ??
@@ -184,28 +246,22 @@ class CourseDetailsView extends StatelessWidget {
                     verticalGap(5.sp),
                     RichText(
                       text: TextSpan(
-                        text: translatedText("Created by"),
+                        text: "بواسطة ",
                         style: TextStyle(
                           fontSize: 12.sp,
+                          fontFamily: 'balooBhaijaan2',
                           fontWeight: FontWeight.w500,
                           color: AppColors.smallTextColor,
                         ),
                         children: [
                           TextSpan(
-                            text: " ",
-                            style: TextStyle(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                          TextSpan(
                             text: translatedText(courseDetalisController
                                     .course.value?.instructor.name ??
-                                "Unknown"),
+                                "مُدرّس غير معروف"),
                             style: TextStyle(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w500,
+                              fontFamily: 'balooBhaijaan2',
                               color: AppColors.primaryColor,
                             ),
                           ),
@@ -258,7 +314,7 @@ class CourseDetailsView extends StatelessWidget {
                           softWrap: true,
                         ),
                         GlobalText(
-                          text: " Students",
+                          text: " طالب",
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
@@ -296,15 +352,16 @@ class CourseDetailsView extends StatelessWidget {
                               children: [
                                 RichText(
                                   text: TextSpan(
-                                    text: translatedText("Price"),
+                                    text: "السعر",
                                     style: TextStyle(
                                       fontSize: 13.sp,
+                                      fontFamily: 'balooBhaijaan2',
                                       fontWeight: FontWeight.w400,
                                       color: AppColors.smallTextColor,
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: ":",
+                                        text: " :",
                                         style: TextStyle(
                                           fontSize: 15.sp,
                                           fontWeight: FontWeight.w700,
@@ -382,7 +439,7 @@ class CourseDetailsView extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: GlobalText(
-                                      text: "Add to Cart",
+                                      text: "إضافة إلى السلة",
                                       softWrap: true,
                                       style: TextStyle(
                                         fontSize: 13.sp,

@@ -251,108 +251,133 @@ class ToggleWidget extends StatelessWidget {
                                           "type": "lesson"
                                         };
                                         freevideoPlayController.fetchVideoFile(
-                                       
                                           id: chapter.lesson!.id.toString(),
                                         );
                                       },
                                       child: Container(
-                                        height: 50.sp,
                                         margin: EdgeInsets.symmetric(
                                             vertical: 5.sp),
                                         child: ListTile(
-                                            title: GlobalText(
-                                              text: chapter.lesson!.title
-                                                  .toString(),
-                                              softWrap: true,
-                                            ),
-                                            subtitle: GlobalText(
-                                              text: chapter.lesson!.duration
-                                                  .toString(),
-                                              softWrap: true,
-                                              style: TextStyle(fontSize: 10.sp),
-                                            ),
-                                            trailing: SvgPicture.asset(
-                                              AppIcon.playIcon,
-                                              color: AppColors.activeIconColor,
-                                            )),
-                                      ),
-                                    );
-                                  } else {
-                                    return Container(
-                                      height: 50.sp,
-                                      margin:
-                                          EdgeInsets.symmetric(vertical: 5.sp),
-                                      child: ListTile(
+                                          contentPadding: EdgeInsets.zero,
+                                          minVerticalPadding: 0,
                                           title: GlobalText(
                                             text: chapter.lesson!.title
                                                 .toString(),
                                             softWrap: true,
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(fontSize: 12.sp),
                                           ),
                                           subtitle: GlobalText(
                                             text: chapter.lesson!.duration
                                                 .toString(),
                                             softWrap: true,
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                             style: TextStyle(fontSize: 10.sp),
                                           ),
-                                          trailing: SizedBox(
-                                            height: 17.sp,
-                                            width: 17.sp,
-                                            child: SvgPicture.asset(
-                                              AppIcon.lockIcon,
-                                              color: AppColors.activeIconColor,
-                                            ),
-                                          )),
+                                          trailing: SvgPicture.asset(
+                                            AppIcon.playIcon,
+                                            color: AppColors.activeIconColor,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 5.sp),
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        minVerticalPadding: 0,
+                                        title: GlobalText(
+                                          text:
+                                              chapter.lesson!.title.toString(),
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 12.sp),
+                                        ),
+                                        subtitle: GlobalText(
+                                          text: chapter.lesson!.duration
+                                              .toString(),
+                                          softWrap: true,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
+                                        trailing: SizedBox(
+                                          height: 17.sp,
+                                          width: 17.sp,
+                                          child: SvgPicture.asset(
+                                            AppIcon.lockIcon,
+                                            color: AppColors.activeIconColor,
+                                          ),
+                                        ),
+                                      ),
                                     );
                                   }
                                 } else if (chapter.type == "quiz") {
                                   return Container(
-                                    height: 50.sp,
                                     margin:
                                         EdgeInsets.symmetric(vertical: 5.sp),
                                     child: ListTile(
-                                        title: GlobalText(
-                                          text: chapter.quiz!.title,
-                                          softWrap: true,
-                                          style: TextStyle(fontSize: 13.sp),
+                                      contentPadding: EdgeInsets.zero,
+                                      minVerticalPadding: 0,
+                                      title: GlobalText(
+                                        text: chapter.quiz!.title,
+                                        softWrap: true,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 12.sp),
+                                      ),
+                                      subtitle: GlobalText(
+                                        text: '',
+                                        softWrap: true,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 10.sp),
+                                      ),
+                                      trailing: SizedBox(
+                                        height: 17.sp,
+                                        width: 17.sp,
+                                        child: SvgPicture.asset(
+                                          AppIcon.lockIcon,
+                                          color: AppColors.activeIconColor,
                                         ),
-                                        subtitle: GlobalText(
-                                          text: '',
-                                          softWrap: true,
-                                          style: TextStyle(fontSize: 10.sp),
-                                        ),
-                                        trailing: SizedBox(
-                                          height: 17.sp,
-                                          width: 17.sp,
-                                          child: SvgPicture.asset(
-                                            AppIcon.lockIcon,
-                                            color: AppColors.activeIconColor,
-                                          ),
-                                        )),
+                                      ),
+                                    ),
                                   );
                                 } else {
                                   return Container(
-                                    height: 50.sp,
                                     margin:
                                         EdgeInsets.symmetric(vertical: 5.sp),
                                     child: ListTile(
-                                        title: GlobalText(
-                                          text: chapter.lesson!.title,
-                                          softWrap: true,
-                                          style: TextStyle(fontSize: 13.sp),
+                                      contentPadding: EdgeInsets.zero,
+                                      minVerticalPadding: 0,
+                                      title: GlobalText(
+                                        text: chapter.lesson!.title,
+                                        softWrap: true,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 12.sp),
+                                      ),
+                                      subtitle: GlobalText(
+                                        text: '',
+                                        softWrap: true,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 10.sp),
+                                      ),
+                                      trailing: SizedBox(
+                                        height: 17.sp,
+                                        width: 17.sp,
+                                        child: SvgPicture.asset(
+                                          AppIcon.lockIcon,
+                                          color: AppColors.activeIconColor,
                                         ),
-                                        subtitle: GlobalText(
-                                          text: '',
-                                          softWrap: true,
-                                          style: TextStyle(fontSize: 10.sp),
-                                        ),
-                                        trailing: SizedBox(
-                                          height: 17.sp,
-                                          width: 17.sp,
-                                          child: SvgPicture.asset(
-                                            AppIcon.lockIcon,
-                                            color: AppColors.activeIconColor,
-                                          ),
-                                        )),
+                                      ),
+                                    ),
                                   );
                                 }
                               }),

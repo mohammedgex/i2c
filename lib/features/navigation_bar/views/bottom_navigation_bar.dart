@@ -3,6 +3,8 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:skill_grow/core/constant/constant.dart';
 import 'package:skill_grow/core/widgets/texts.dart';
 import 'package:skill_grow/features/learining/view/learing_view.dart';
@@ -25,16 +27,15 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
   final List<Widget> _screens = [
     HomeScreen(),
     SearchView(),
-    LearingView(
-      isShowbackButton: false,
-    ),
+    LearingView(isShowbackButton: false),
     ProfileView(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    MultiLangualDataController multiLangualDataController =
-        Get.put(MultiLangualDataController());
+    MultiLangualDataController multiLangualDataController = Get.put(
+      MultiLangualDataController(),
+    );
     return Obx(() {
       return Directionality(
         textDirection: multiLangualDataController.isLTR.value
@@ -43,6 +44,30 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
         child: Scaffold(
           body: _screens[
               _controller.currentIndex.value], // Display current screen
+          floatingActionButton: Padding(
+            padding: EdgeInsets.only(bottom: 10.h, right: 16.sp),
+            child: FloatingActionButton(
+              onPressed: () async {
+                const whatsappNumber = '201013770998';
+                final whatsappUrl = 'https://wa.me/$whatsappNumber';
+                if (await canLaunchUrlString(whatsappUrl)) {
+                  await launchUrlString(whatsappUrl);
+                } else {
+                  Get.snackbar(
+                    'Error',
+                    'Unable to open WhatsApp.',
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                }
+              },
+              backgroundColor: const Color.fromARGB(255, 20, 171, 75),
+              child: const FaIcon(
+                FontAwesomeIcons.whatsapp,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           bottomNavigationBar: Container(
             height: 70.h, // Set the height of the nav bar
             decoration: BoxDecoration(
@@ -63,7 +88,7 @@ class CustomPersistentBottomNavBar extends StatelessWidget {
               children: [
                 _buildNavItem(0, AppIcon.homeIcon, "Home"),
                 _buildNavItem(1, AppIcon.searchIcon, "Search"),
-                _buildNavItem(2, AppIcon.playIcon, "Learning"),
+                _buildNavItem(2, AppIcon.playIcon, "كورساتي"),
                 _buildNavItem(3, AppIcon.userIcon, "Profile"),
               ],
             ),

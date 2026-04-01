@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209336982411",
+    "project_id": "i2c-academy",
+    "storage_bucket": "i2c-academy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209336982411:android:d459d9fda8e0e6b7222d8e",
+        "android_client_info": {
+          "package_name": "com.i2cacademy.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe8C68zsNwqw7IAMrkRkQnmUnOmFBuD9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

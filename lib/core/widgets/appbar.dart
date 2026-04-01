@@ -18,12 +18,15 @@ class MyCustomAppBar extends StatelessWidget {
   final double? verticalPadding;
   final bool isShowbackButton;
   final bool? isShowNotification;
+  final bool isShowMenu;
+
   MyCustomAppBar(
       {super.key,
       this.horizontalPadding,
       this.verticalPadding,
       this.isShowbackButton = false,
-      this.isShowNotification = true});
+      this.isShowNotification = true,
+      this.isShowMenu = false});
   MultiLangualDataController multiLangualDataController =
       Get.put(MultiLangualDataController());
 
@@ -31,10 +34,27 @@ class MyCustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: EdgeInsets.symmetric(
           horizontal: horizontalPadding ?? 15.sp,
-          vertical: verticalPadding ?? 0.sp),
+          vertical: (verticalPadding ?? 0.sp) + 8.sp),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            AppColors.scaffoldBackgroundColor,
+            AppColors.scaffoldBackgroundColor.withOpacity(0.95),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadowColorLight,
+            blurRadius: 8.sp,
+            offset: Offset(0, 2.sp),
+          ),
+        ],
+      ),
       child: Row(
         textDirection: multiLangualDataController.isLTR.value
             ? TextDirection.ltr
@@ -42,18 +62,61 @@ class MyCustomAppBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          if (isShowMenu)
+            Builder(
+              builder: (context) => Bounceable(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                child: Container(
+                  height: 48.sp,
+                  width: 48.sp,
+                  decoration: BoxDecoration(
+                      // color: AppColors.cardBackgroundColor,
+                      // shape: BoxShape.circle,
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: AppColors.shadowColorLight,
+                      //     blurRadius: 8.sp,
+                      //     offset: Offset(0, 2.sp),
+                      //   ),
+                      // ],
+                      ),
+                  child: Center(
+                    child: Icon(
+                      Icons.menu,
+                      size: 30,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (isShowMenu) horizontalGap(10.sp),
           if (isShowbackButton)
             Bounceable(
               onTap: () {
                 Get.back();
               },
               child: Container(
-                // padding: EdgeInsets.all(12.sp),
-                height: 50.sp,
-                width: 25.sp,
-                decoration: BoxDecoration(color: Colors.transparent),
-                child: SvgPicture.asset(
-                  AppIcon.arrowBackIcon,
+                height: 44.sp,
+                width: 44.sp,
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackgroundColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadowColorLight,
+                      blurRadius: 8.sp,
+                      offset: Offset(0, 2.sp),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    AppIcon.arrowBackIcon,
+                    color: AppColors.primaryColor,
+                  ),
                 ),
               ),
             ),
@@ -61,22 +124,34 @@ class MyCustomAppBar extends StatelessWidget {
           if (isShowNotification == false) horizontalGap(100.sp),
           Image.asset(
             AppImage.logo,
-            width: 80.53.sp,
-            height: 20.98.sp,
+            width: 110.sp,
+            height: 40.98.sp,
           ),
           Spacer(),
           if (isShowNotification == true)
-            SizedBox(
-              child: Bounceable(
-                onTap: () {
-                  Get.to(() => WishListView());
-                },
-                child: SizedBox(
-                  height: 40.sp,
+            Bounceable(
+              onTap: () {
+                Get.to(() => WishListView());
+              },
+              child: Container(
+                height: 44.sp,
+                width: 44.sp,
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackgroundColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadowColorLight,
+                      blurRadius: 8.sp,
+                      offset: Offset(0, 2.sp),
+                    ),
+                  ],
+                ),
+                child: Center(
                   child: SvgPicture.asset(
                     AppIcon.addwishIcon,
                     color: AppColors.primaryColor,
-                    width: 19.98.sp,
+                    width: 20.sp,
                     height: 20.sp,
                   ),
                 ),
@@ -84,63 +159,82 @@ class MyCustomAppBar extends StatelessWidget {
             ),
           if (isShowNotification == true) horizontalGap(10.sp),
           if (isShowNotification == true)
-            SizedBox(
-              child: Bounceable(
-                onTap: () {
-                  Get.to(() => CartView());
-                },
+            Bounceable(
+              onTap: () {
+                Get.to(() => CartView());
+              },
+              child: Container(
+                height: 44.sp,
+                width: 44.sp,
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackgroundColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadowColorLight,
+                      blurRadius: 8.sp,
+                      offset: Offset(0, 2.sp),
+                    ),
+                  ],
+                ),
                 child: Stack(
                   children: [
-                    SizedBox(
-                      height: 40.sp,
-                      // width: 40.sp,
+                    Center(
                       child: SvgPicture.asset(
                         AppIcon.cartIcon,
-                        width: 19.98.sp,
+                        width: 20.sp,
+                        color: AppColors.primaryColor,
                         height: 20.sp,
                       ),
                     ),
                     Positioned(
-                      top: 5.sp,
-                      right: 3.sp,
+                      top: 6.sp,
+                      right: 6.sp,
                       child: Container(
-                        height: 12.sp,
-                        width: 12.sp,
+                        height: 16.sp,
+                        width: 16.sp,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.mainRedColor,
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.mainRedColor,
+                              AppColors.secondRedColor,
+                            ],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.mainRedColor.withOpacity(0.5),
+                              blurRadius: 4.sp,
+                            ),
+                          ],
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.all(0.3.sp),
+                        child: Center(
                           child: Obx(() {
                             if (cartListController.isLoading.value) {
                               return SizedBox();
                             } else {
                               if (cartListController
                                   .cartData.value.cartCourses.isEmpty) {
-                                return Center(
-                                    child: FittedBox(
+                                return FittedBox(
                                   child: Text(
                                     "0",
                                     style: TextStyle(
-                                        color:
-                                            AppColors.scaffoldBackgroundColor,
-                                        fontWeight: FontWeight.w900),
-                                    softWrap: false,
+                                      color: AppColors.cardBackgroundColor,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 9.sp,
+                                    ),
                                   ),
-                                ));
+                                );
                               } else {
-                                return Center(
-                                  child: FittedBox(
-                                    child: Text(
-                                      cartListController
-                                          .cartData.value.cartCourses.length
-                                          .toString(),
-                                      style: TextStyle(
-                                          color:
-                                              AppColors.scaffoldBackgroundColor,
-                                          fontWeight: FontWeight.w900),
-                                      softWrap: false,
+                                return FittedBox(
+                                  child: Text(
+                                    cartListController
+                                        .cartData.value.cartCourses.length
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: AppColors.cardBackgroundColor,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 9.sp,
                                     ),
                                   ),
                                 );

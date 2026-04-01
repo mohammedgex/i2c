@@ -13,7 +13,7 @@ class SelectedCurrencyController extends GetxController {
 
   // Method to load the selected language from SharedPreferences
   void _loadSelectedLanguage() async {
-    String? language = await SharedPrefUtil.get('currency', '');
+    String? language = await SharedPrefUtil.get('currency', 'USD');
     int? index = await SharedPrefUtil.get('selected_index',
         0); // Assuming you're saving the index in SharedPreferences
     if (language != null && language.isNotEmpty) {
@@ -32,8 +32,6 @@ class SelectedCurrencyController extends GetxController {
     required String status,
     required String is_default,
   }) async {
-
-
     // Save language settings to shared preferences
     await SharedPrefUtil.put('currency_icon', currency_icon);
     await SharedPrefUtil.put('currency_name', currency_name);

@@ -44,31 +44,50 @@ class WelcomeSction extends StatelessWidget {
           return Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: AppColors.nuralItemBackgroundColor,
-              borderRadius: BorderRadius.circular(10.sp),
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.primaryColor.withOpacity(0.08),
+                  AppColors.secondaryColor.withOpacity(0.04),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(24.sp),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.shadowColorLight,
+                  blurRadius: 10.sp,
+                  offset: Offset(0, 3.sp),
+                ),
+              ],
             ),
             child: Padding(
-              padding: EdgeInsets.all(20.sp),
+              padding: EdgeInsets.all(24.sp),
               child: Row(
                 textDirection: multiLangualDataController.isLTR.value
                     ? TextDirection.ltr
                     : TextDirection.rtl,
                 children: [
-                  Column(
+                  Expanded(
+                    child: Column(
                       textDirection: multiLangualDataController.isLTR.value
                           ? TextDirection.ltr
                           : TextDirection.rtl,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hi,${profileDataCotroller.userDataResponse.value?.data.name} 👋",
+                          "مرحباً,${profileDataCotroller.userDataResponse.value?.data.name} 👋",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: AppColors.titleTextColor,
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            height: 16.sp / 15.sp,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            height: 1.4,
+                            letterSpacing: 0.3,
                           ),
                         ),
+                        verticalGap(4.sp),
                         GlobalText(
                           softWrap: true,
                           text: "Let’s start learning!",
@@ -76,10 +95,12 @@ class WelcomeSction extends StatelessWidget {
                             color: AppColors.smallTextColor,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
-                            height: 12.sp / 5.sp,
+                            height: 1.4,
                           ),
                         ),
-                      ]),
+                      ],
+                    ),
+                  ),
                   Spacer(),
                   FittedBox(
                     child: Bounceable(
@@ -88,26 +109,48 @@ class WelcomeSction extends StatelessWidget {
                                 isShowbackButton: true,
                               ));
                         },
-                        child: Row(
-                          textDirection: multiLangualDataController.isLTR.value
-                              ? TextDirection.ltr
-                              : TextDirection.rtl,
-                          children: [
-                            GlobalText(
-                              softWrap: false,
-                              text: "Continue Learning",
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: AppColors.primaryColor,
-                                  fontWeight: FontWeight.w600),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.sp,
+                            vertical: 8.sp,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: AppColors.primaryGradient,
                             ),
-                            horizontalGap(2.sp),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColors.primaryColor,
-                              size: 9.sp,
-                            )
-                          ],
+                            borderRadius: BorderRadius.circular(12.sp),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primaryColor.withOpacity(0.3),
+                                blurRadius: 8.sp,
+                                offset: Offset(0, 4.sp),
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            textDirection:
+                                multiLangualDataController.isLTR.value
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            children: [
+                              GlobalText(
+                                softWrap: false,
+                                text: "Continue Learning",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  letterSpacing: 0.2,
+                                ),
+                              ),
+                              horizontalGap(6.sp),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                                size: 12.sp,
+                              )
+                            ],
+                          ),
                         )),
                   )
                 ],

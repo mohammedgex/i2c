@@ -8,6 +8,7 @@ class LanguageSelectionController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _ensureDefaultLanguage(); // Ensure default language is set on first launch
     _loadSelectedLanguage(); // Load the selected language when the controller is initialized
   }
 
@@ -42,5 +43,19 @@ class LanguageSelectionController extends GetxController {
     await Get.deleteAll(force: true); //deleting all controllers
     Phoenix.rebirth(Get.context!); // Restarting app
     Get.reset(); // resetting getx
+  }
+
+  /// Ensures the app has a default language saved on first launch.
+  /// If no language is saved, sets Arabic (ar) and RTL direction.
+  void _ensureDefaultLanguage() async {
+    String? language = await SharedPrefUtil.get('language', '');
+    if (language == null || language.isEmpty) {
+      await SharedPrefUtil.put('language', 'ar');
+      await SharedPrefUtil.put('language_code', 'ar');
+      await SharedPrefUtil.put('text_direction', 'rtl');
+      await SharedPrefUtil.put('is_default', true);
+      await SharedPrefUtil.put('selected_index', 0);
+      selectedIndex.value = 0;
+    }
   }
 }
